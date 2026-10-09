@@ -15,26 +15,26 @@ The employer describes coding, data structures, algorithms, design, maintainable
 **Now published:**
 - `complexity-analysis` — asymptotic costs.
 - `arrays-and-strings` — indexing, mutation, Unicode, dynamic growth.
+- `recursion-call-stack` — termination proofs, frames and divide-and-conquer recurrences.
 - `linked-lists` — pointer manipulation, cycle detection.
 - `stacks-queues` — LIFO/FIFO, deques and BFS.
 - `binary-trees-bst` — binary trees, traversal, BST invariants.
+- `sorting-algorithms` — insertion/merge/quick/heap algorithms, stability and bounds.
+- `two-pointers-prefix-sums` — pair search, cumulative sums and subarray counting.
 - `hash-tables`, `heaps-priority-queues`, `tries-prefix-search`, `disjoint-set-union` — specialized ADTs.
 
 **Next required chapters, in sequence:**
-1. `recursion-call-stack` — calls, base cases, termination, recursion trees, stack depth.
-2. `sorting-algorithms` — insertion, mergesort, quicksort, heap sort, stability and lower bounds.
-3. `two-pointers-prefix-sums` — pointer invariants, prefix differences, subarray sums.
-4. `greedy-intervals` — exchanges, sorting intervals, scheduling, counterexamples.
-5. `monotonic-stacks` — next-greater, histogram, sliding-window invariants.
-6. `tree-algorithms` — level order, LCA, diameter, subtree recursion, balancing overview.
+1. `greedy-intervals` — exchanges, sorting intervals, scheduling, counterexamples.
+2. `monotonic-stacks` — next-greater, histogram, sliding-window invariants.
+3. `tree-algorithms` — level order, LCA, diameter, subtree recursion, balancing overview.
 
-These **are pending**, even where existing chapters briefly mention one of their ideas.
+These **are pending**, even where existing chapters briefly mention one of their ideas. Recursion, sorting and two pointers/prefix sums have independent chapters now, but remain subjects for practice and technical review.
 
 ## P1 — Problem-solving and coding competency
 
-Already published: `binary-search`, `sliding-window`, `dynamic-programming`, `backtracking-search`, `graph-traversal`, `shortest-paths`, `strongly-connected-components`, `maximum-flow-matching`.
+Already published: `recursion-call-stack`, `sorting-algorithms`, `two-pointers-prefix-sums`, `binary-search`, `sliding-window`, `dynamic-programming`, `backtracking-search`, `graph-traversal`, `shortest-paths`, `strongly-connected-components`, `maximum-flow-matching`.
 
-Still required: recursion and sorting before advanced graph work; rigorous tests over empty input, duplicates, overflow, boundaries and adversarial complexity; language-specific collections, reference semantics and mutation; clear explanation of correctness without pseudocode-only solutions.
+Still required: additional greedy, intervals, monotonic-stack and tree algorithms; rigorous tests over empty input, duplicates, overflow, boundaries and adversarial complexity; language-specific collections, reference semantics and mutation; clear explanation of correctness without pseudocode-only solutions.
 
 **Chapter contract:** describe input/output, invariant, an algorithm, proof or correctness argument, worst-case and memory, counterexample and executable tests in EN/PT.
 
