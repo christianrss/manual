@@ -27,7 +27,11 @@ Open `http://localhost:8000/`. Index at `/en/` and `/pt/`.
 GitHub Pages through `.github/workflows/pages.yml`. Set Pages source to GitHub Actions. Configure `manual.christiansoftware.org` as custom domain and DNS CNAME `manual -> <user>.github.io` if using GitHub Pages. DNS record changes happen at your DNS provider and are **not** performed by the repository build.
 
 ## Security and privacy
-No analytics, no account, no cookies. Track progress is only browser `localStorage`. Browser-side search does not send queries anywhere.
+Google Analytics 4 (`G-J3Y670EV88`) is installed on all generated HTML pages, including the root language gateway, via the shared template and static root page. It loads `gtag.js` from Google and may use cookies and collect usage information under Google's policies. No user account is required. Track progress is stored only in browser `localStorage`; browser-side search does not submit queries to this site's servers. Review privacy and consent obligations for your audience before relying on analytics data.
+
+## Analytics
+
+The Google tag is managed in `templates/base.html` (all localized documentation, search and track pages) and the generated root page in `scripts/build.py`. Its measurement ID is `G-J3Y670EV88`. Edit both integration points if the ID changes; `tests/test_static.py` enforces their presence exactly once in every generated HTML page. Google Analytics data is viewed in the GA4 property, not in the GitHub repository. See [Google's privacy information](https://policies.google.com/technologies/partner-sites) for third-party data processing details.
 
 ## Scope
 Initial chapters are the foundation, not a claim to a complete interview syllabus. The named interview path includes disclosed coverage gaps. This site is independently produced and unaffiliated with employers.

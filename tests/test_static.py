@@ -37,5 +37,17 @@ class SiteTests(unittest.TestCase):
    self.assertIn(text,html)
   self.assertTrue((ROOT/'dist'/'CNAME').is_file())
   self.assertIn('sitemap.xml',(ROOT/'dist'/'robots.txt').read_text())
+ def test_analytics_on_all_generated_pages(self):
+  pages=list((ROOT/'dist').rglob('*.html'))
+  self.assertGreaterEqual(len(pages), 45)
+  for page in pages:
+   with self.subTest(page=str(page.relative_to(ROOT/'dist'))):
+    html=page.read_text(encoding='utf-8')
+    soup=BeautifulSoup(html,'html.parser')
+    gtag_scripts=soup.find_all('script',src='https://www.googletagmanager.com/gtag/js?id=G-J3Y670EV88')
+    self.assertEqual(len(gtag_scripts),1)
+    self.assertTrue(gtag_scripts[0].has_attr('async'))
+    self.assertEqual(html.count("gtag('config', 'G-J3Y670EV88')"),1)
+    self.assertIn('window.dataLayer = window.dataLayer || []',html)
 
 if __name__=='__main__':unittest.main()

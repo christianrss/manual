@@ -9,7 +9,7 @@
 - **Diagrams:** committed local SVG preferred for essential figures, source included; fenced `mermaid` as optional enhancement only, with code fallback. No externally hosted images required.
 - **SEO:** prerendered HTML, robots, sitemap, canonical, hreflang, Article or CollectionPage JSON-LD, descriptive titles and descriptions, internal links and source references, llms.txt.
 - **Performance and accessibility:** low JS, responsive CSS, keyboard-navigation, semantic headings, no proprietary fonts, WCAG-conscious contrast, reduced motion.
-- **Safety:** generator escapes article content except author-controlled safe Markdown; no user content or tracking. Progress is local only.
+- **Safety:** generator escapes article content except author-controlled safe Markdown; no user content is submitted to the application backend. The site integrates Google Analytics 4 (`G-J3Y670EV88`) as a third-party pageview analytics service; local study progress remains in the browser. Visitor privacy, external processing and consent requirements must be considered.
 - **Design system:** old-school academic/Unix manuals, white background, blue/purple anchors, monochrome rules, compact tables, restrained monospace metadata; modern HTML/CSS internals.
 - **Deployment:** GitHub Actions validation and Pages publishing; custom domain CNAME needs DNS configuration and repository settings.
 - **Constraint:** builder favors reproducible minimal dependencies over a large front-end framework. If future exercise sandbox needs isolated compilation, build it as a separate application/API, not inside the static manual.
