@@ -28,3 +28,9 @@ This is a public, bilingual, referenced technical manual. The repository is the 
 - `updated` is the date of meaningful review, not a manufactured recency signal.
 - Cite every externally sourced factual or quantitative claim within the article and list its sources.
 - When content cannot be verified, omit or flag it rather than speculate.
+
+## Rewriting existing chapters
+- Retain public semantic ID and canonical slug; avoid breaking indexed URLs or study-track references.
+- Revisit correctness and examples, not just append more words. Name hidden assumptions, explain intermediate derivations, and include at least one nontrivial counterexample.
+- Follow Edition 2 rules in EDITORIAL.md and run *all* Python code fences, in both EN and PT, through tests/test_all_code_examples.py.
+- Never mark material as comprehensively complete merely because chapter count or build checks pass.

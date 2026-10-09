@@ -85,8 +85,8 @@ Se outra thread altera a coleção durante a busca, até invariantes de índices
 from bisect import bisect_left, bisect_right
 for xs in ([], [2], [2,2,2], [1,3,4,8]):
     for key in (-1,0,1,2,3,5,9):
-        assert lower_bound(xs,key) == bisect_left(xs,key)
-        assert upper_bound(xs,key) == bisect_right(xs,key)
+        assert limite_inferior(xs,key) == bisect_left(xs,key)
+        assert limite_superior(xs,key) == bisect_right(xs,key)
 ```
 
 Esses testes **complementam as funções definidas anteriormente no capítulo**: execute os dois blocos na mesma sessão Python. Cubra duplicatas, valores ausentes, entrada vazia e limites externos. Se o vetor não está ordenado, não atribua a resposta incorreta ao código: o contrato da entrada foi violado.

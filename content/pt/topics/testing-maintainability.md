@@ -62,7 +62,7 @@ def coberto(intervalos, ponto):
     return any(inicio <= ponto <= fim for inicio,fim in intervalos)
 
 for entrada in ([], [(1,3)], [(1,3),(3,5)], [(1,10),(2,4)], [(8,9),(1,2)]):
-    saida = merge_closed_intervals(entrada)
+    saida = mesclar_intervalos(entrada)
     assert all(a <= b for a,b in saida)
     assert all(saida[i][1] < saida[i+1][0] for i in range(len(saida)-1))
     assert all(coberto(entrada,p) == coberto(saida,p) for p in range(-1,12))
