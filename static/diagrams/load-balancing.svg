@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 230" role="img" aria-labelledby="title desc">
+<title id="title">HTTP load balancing across three application instances</title>
+<desc id="desc">Requests move from clients to a load balancer, then to three application instances that access a shared data tier.</desc>
+<style>text{font:14px monospace;fill:#18222e}.box{fill:#fff;stroke:#243748;stroke-width:1.5}.edge{fill:none;stroke:#32516b;stroke-width:2}</style>
+<rect x="16" y="82" width="125" height="58" class="box"/><text x="45" y="116">Clients</text>
+<rect x="216" y="82" width="162" height="58" class="box"/><text x="237" y="108">Load balancer</text><text x="255" y="127">routing</text>
+<rect x="463" y="20" width="130" height="44" class="box"/><text x="484" y="47">App A</text>
+<rect x="463" y="93" width="130" height="44" class="box"/><text x="484" y="120">App B</text>
+<rect x="463" y="166" width="130" height="44" class="box"/><text x="484" y="193">App C</text>
+<path d="M141 111 H216 M378 111 H412 V42 H463 M412 111 H463 M412 111 V188 H463" class="edge"/>
+<text x="634" y="104">Shared</text><text x="634" y="124">data tier</text>
+<path d="M593 42 H615 V115 H630 M593 115 H630 M593 188 H615 V115" class="edge"/>
+</svg>

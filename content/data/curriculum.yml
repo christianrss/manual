@@ -12,13 +12,13 @@ tracks:
       - https://amazon.jobs/content/en/how-we-hire/interview-prep/software-development-topics
     sections:
       - title: {en: Mathematical foundations & data structures, pt: Fundamentos matemáticos e estruturas de dados}
-        articles: [complexity-analysis, hash-tables, graph-traversal]
+        articles: [complexity-analysis, hash-tables, heaps-priority-queues, graph-traversal]
       - title: {en: Algorithmic problem solving, pt: Resolução de problemas algorítmicos}
-        articles: [sliding-window, dynamic-programming]
+        articles: [binary-search, sliding-window, dynamic-programming]
       - title: {en: System design & distributed architecture, pt: Projeto de sistemas e arquitetura distribuída}
-        articles: [capacity-estimation, caching, database-consistency, asynchronous-messaging, url-shortener]
+        articles: [capacity-estimation, caching, database-consistency, asynchronous-messaging, load-balancing, rate-limiting, url-shortener]
       - title: {en: Engineering judgment & communication, pt: Julgamento técnico e comunicação}
         articles: [testing-maintainability, evidence-based-interviews]
     planned_topics:
-      en: Binary search, heaps, tries, union-find, shortest paths, backtracking, load balancing, rate limiting, security, consensus, operating systems and concurrency. These are not yet published.
-      pt: Busca binária, heaps, tries, union-find, caminhos mínimos, backtracking, balanceamento, rate limiting, segurança, consenso, sistemas operacionais e concorrência. Esses capítulos ainda não foram publicados.
+      en: Tries, union-find, shortest paths, backtracking, security, consensus, operating systems and concurrency remain unpublished in this edition.
+      pt: Tries, union-find, caminhos mínimos, backtracking, segurança, consenso, sistemas operacionais e concorrência ainda não foram publicados nesta edição.
