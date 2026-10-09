@@ -108,7 +108,7 @@ Um grafo bipartido possui lados L e R, com arestas apenas entre eles. Um emparel
 
 Um emparelhamento **maximal** (sem aresta imediata adicional) não é necessariamente **máximo**. Caminhos alternantes podem mudar parceiros para liberar capacidade, analogamente a usar arestas residuais inversas [2].
 
-## Contraexemplos e exercícios
+## Exercícios e verificação
 
 Não trate aresta dirigida como conexão não dirigida única: capacidade u→v independe de v→u. Uma escolha gulosa que atribui ao trabalhador capaz de executar A e B a tarefa A pode produzir um único par, enquanto realocá-lo para B e dar A ao outro trabalhador permite dois. DSU comum não representa capacidades dirigidas. Autolaços não contribuem para fluxo origem-destino, por isso o exemplo os ignora.
 

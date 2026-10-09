@@ -108,7 +108,7 @@ A bipartite graph splits vertices into left L and right R with edges only betwee
 
 An arbitrary matching can be **maximal** (no immediate edge can be added) without being **maximum**. Alternating augmenting paths can move previously selected partners to free capacity; this is the matching analogue of flow residual reversals [2].
 
-## Counterexamples and exercises
+## Exercises and verification
 
 Do not confuse a graph edge with a unique undirected connection: for directed flow, capacity u→v is independent of v→u. A greedy choice that assigns the only worker capable of job B to job A can produce matching size 1 where reassigning job A to another worker permits 2 matches. An ordinary DSU does not capture directed capacities. Be careful when interpreting self-loops: they cannot increase source-to-sink flow, so the demonstration ignores them.
 
