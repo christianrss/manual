@@ -23,18 +23,18 @@ The employer describes coding, data structures, algorithms, design, maintainable
 - `two-pointers-prefix-sums` — pair search, cumulative sums and subarray counting.
 - `hash-tables`, `heaps-priority-queues`, `tries-prefix-search`, `disjoint-set-union` — specialized ADTs.
 
-**Next required chapters, in sequence:**
-1. `greedy-intervals` — exchanges, sorting intervals, scheduling, counterexamples.
-2. `monotonic-stacks` — next-greater, histogram, sliding-window invariants.
-3. `tree-algorithms` — level order, LCA, diameter, subtree recursion, balancing overview.
+**Additional core chapters now published:**
+- `greedy-intervals` — earliest-finish schedule, exchange proof and weighted counterexample.
+- `monotonic-stacks` — next greater, daily temperatures, histogram and amortized analysis.
+- `tree-algorithms` — BFS levels, LCA, diameter and ancestor-bound BST validation.
 
-These **are pending**, even where existing chapters briefly mention one of their ideas. Recursion, sorting and two pointers/prefix sums have independent chapters now, but remain subjects for practice and technical review.
+**Next priority:** complete object-oriented design, SOLID, testing and software engineering coverage, followed by the system-design process and end-to-end design exercises. Published fundamentals still require sustained problem-solving practice and technical review.
 
 ## P1 — Problem-solving and coding competency
 
-Already published: `recursion-call-stack`, `sorting-algorithms`, `two-pointers-prefix-sums`, `binary-search`, `sliding-window`, `dynamic-programming`, `backtracking-search`, `graph-traversal`, `shortest-paths`, `strongly-connected-components`, `maximum-flow-matching`.
+Already published: `recursion-call-stack`, `sorting-algorithms`, `two-pointers-prefix-sums`, `greedy-intervals`, `monotonic-stacks`, `tree-algorithms`, `binary-search`, `sliding-window`, `dynamic-programming`, `backtracking-search`, `graph-traversal`, `shortest-paths`, `strongly-connected-components`, `maximum-flow-matching`.
 
-Still required: additional greedy, intervals, monotonic-stack and tree algorithms; rigorous tests over empty input, duplicates, overflow, boundaries and adversarial complexity; language-specific collections, reference semantics and mutation; clear explanation of correctness without pseudocode-only solutions.
+Still required: deliberate practice with greedy, monotonic-stack and tree algorithms; rigorous tests over empty input, duplicates, overflow, boundaries and adversarial complexity; language-specific collections, reference semantics and mutation; clear explanation of correctness without pseudocode-only solutions.
 
 **Chapter contract:** describe input/output, invariant, an algorithm, proof or correctness argument, worst-case and memory, counterexample and executable tests in EN/PT.
 

@@ -14,7 +14,7 @@ tracks:
       - title: {en: Mathematical foundations & data structures, pt: Fundamentos matemáticos e estruturas de dados}
         articles: [complexity-analysis, arrays-and-strings, stacks-queues, recursion-call-stack, linked-lists, hash-tables, binary-trees-bst, heaps-priority-queues, tries-prefix-search, graph-traversal, disjoint-set-union]
       - title: {en: Algorithmic problem solving, pt: Resolução de problemas algorítmicos}
-        articles: [sorting-algorithms, two-pointers-prefix-sums, binary-search, sliding-window, dynamic-programming, backtracking-search, shortest-paths, strongly-connected-components, maximum-flow-matching]
+        articles: [sorting-algorithms, two-pointers-prefix-sums, binary-search, sliding-window, greedy-intervals, monotonic-stacks, tree-algorithms, dynamic-programming, backtracking-search, shortest-paths, strongly-connected-components, maximum-flow-matching]
       - title: {en: Runtime, operating systems & correctness, pt: Runtime, sistemas operacionais e correção}
         articles: [testing-maintainability, processes-virtual-memory, concurrency-synchronization, memory-ordering-atomics]
       - title: {en: System design & distributed architecture, pt: Projeto de sistemas e arquitetura distribuída}
@@ -23,6 +23,6 @@ tracks:
         articles: [low-level-design, formal-model-checking, production-incident-response, evidence-based-interviews]
     planned_topics:
       en: >-
-        Priority gaps for this SDE II study track: greedy and interval scheduling, monotonic stacks and advanced tree problems, OOP and SOLID, API design, service boundaries, sharding and partitioning, full design walkthroughs, debugging, testing strategies, CI/CD and project lifecycle. Advanced policy engines, filesystem isolation and formal proofs are enrichment, not prerequisites.
+        Priority gaps for this SDE II study track: OOP and SOLID, API design, service boundaries, sharding and partitioning, full design walkthroughs, debugging, testing strategies, CI/CD and project lifecycle. Algorithmic reinforcement exercises and advanced data structures remain ongoing. Advanced policy engines, filesystem isolation and formal proofs are enrichment, not prerequisites.
       pt: >-
-        Lacunas prioritárias desta trilha SDE II: greedy e intervalos, pilha monotônica e problemas avançados de árvores, POO e SOLID, projeto de APIs, fronteiras de serviços, sharding e particionamento, projetos arquiteturais completos, debugging, estratégias de testes, CI/CD e ciclo de vida. Motores avançados de políticas, isolamento de sistemas de arquivos e provas formais são aprofundamentos, não pré-requisitos.
+        Lacunas prioritárias desta trilha SDE II: POO e SOLID, projeto de APIs, fronteiras de serviços, sharding e particionamento, projetos arquiteturais completos, debugging, estratégias de testes, CI/CD e ciclo de vida. Prática algorítmica e estruturas avançadas continuam em desenvolvimento. Motores avançados de políticas, isolamento de sistemas de arquivos e provas formais são aprofundamentos, não pré-requisitos.
