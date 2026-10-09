@@ -1,0 +1,24 @@
+version: 1
+updated: 2026-10-09
+tracks:
+  - id: amazon-sde-ii
+    title: {en: Amazon Software Development Engineer II, pt: Amazon Software Development Engineer II}
+    description:
+      en: A targeted study itinerary mapped to publicly documented competencies; it does not imply endorsement or guaranteed outcomes.
+      pt: Itinerário de estudos baseado em competências documentadas publicamente; não implica endosso nem aprovação garantida.
+    reference_urls:
+      - https://amazon.jobs/content/en/how-we-hire/sde-ii-interview-prep
+      - https://amazon.jobs/content/en/how-we-hire/sde-ii-oa-prep
+      - https://amazon.jobs/content/en/how-we-hire/interview-prep/software-development-topics
+    sections:
+      - title: {en: Mathematical foundations & data structures, pt: Fundamentos matemáticos e estruturas de dados}
+        articles: [complexity-analysis, hash-tables, graph-traversal]
+      - title: {en: Algorithmic problem solving, pt: Resolução de problemas algorítmicos}
+        articles: [sliding-window, dynamic-programming]
+      - title: {en: System design & distributed architecture, pt: Projeto de sistemas e arquitetura distribuída}
+        articles: [capacity-estimation, caching, database-consistency, asynchronous-messaging, url-shortener]
+      - title: {en: Engineering judgment & communication, pt: Julgamento técnico e comunicação}
+        articles: [testing-maintainability, evidence-based-interviews]
+    planned_topics:
+      en: Binary search, heaps, tries, union-find, shortest paths, backtracking, load balancing, rate limiting, security, consensus, operating systems and concurrency. These are not yet published.
+      pt: Busca binária, heaps, tries, union-find, caminhos mínimos, backtracking, balanceamento, rate limiting, segurança, consenso, sistemas operacionais e concorrência. Esses capítulos ainda não foram publicados.

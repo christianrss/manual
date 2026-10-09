@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="breadcrumb">{{tr.homepage}} / {{tr.index}}</div>
+<h1>{{tr.site}}</h1>
+<p class="lead">{{tr.intro}}</p>
+<div class="quick-search"><form action="/{{lang}}/search/" method="get" role="search"><label for="q-home">{{tr.search}}</label><div class="search-inline"><input id="q-home" name="q" type="search" placeholder="{{tr.search_hint}}" autocomplete="off"><button type="submit">{{tr.search}} →</button></div></form></div>
+<div class="text-note"><strong>{{'Reading model' if lang=='en' else 'Modelo de leitura'}}:</strong> {{'Each chapter explains assumptions, formal reasoning, worked examples, failure modes and original references. Tracks select chapters without copying them.' if lang=='en' else 'Cada capítulo apresenta hipóteses, raciocínio formal, exemplos, falhas e fontes originais. As trilhas selecionam capítulos sem duplicá-los.'}}</div>
+<h2 id="chapters">{{tr.browse}}</h2>
+<div class="catalog">
+{% for c in categories %}<section class="category"><h3 id="{{c.category.id}}">{{c.category.title[lang]}} <small>({{c["items"]|length}})</small></h3><p>{{c.category.description[lang]}}</p><ul class="chapter-list">{% for item in c["items"] %}<li><a href="{{item.url}}">{{item.title}}</a><span>{{item.description}}</span></li>{% endfor %}</ul></section>{% endfor %}
+</div>
+<h2>{{tr.tracks}}</h2><ul class="chapter-list">{% for track in tracks %}<li><a href="/{{lang}}/tracks/{{track.id}}/">{{track.title[lang]}}</a><span>{{track.description[lang]}}</span></li>{%endfor%}</ul>
+{% endblock %}

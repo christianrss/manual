@@ -1,0 +1,20 @@
+- id: foundations
+  order: 10
+  title: {en: Foundations, pt: Fundamentos}
+  description: {en: Mathematical and computational foundations., pt: Fundamentos matemáticos e computacionais.}
+- id: algorithms
+  order: 20
+  title: {en: Data Structures & Algorithms, pt: Estruturas de Dados e Algoritmos}
+  description: {en: Algorithms, invariants, proofs and complexity., pt: Algoritmos, invariantes, provas e complexidade.}
+- id: system-design
+  order: 30
+  title: {en: System Design, pt: Projeto de Sistemas}
+  description: {en: Distributed systems, scale and operational trade-offs., pt: Sistemas distribuídos, escala e decisões operacionais.}
+- id: engineering
+  order: 40
+  title: {en: Software Engineering, pt: Engenharia de Software}
+  description: {en: Code quality, validation and operational correctness., pt: Qualidade, validação e correção operacional.}
+- id: communication
+  order: 50
+  title: {en: Engineering Communication, pt: Comunicação em Engenharia}
+  description: {en: Explaining decisions and evidence precisely., pt: Comunicação de decisões e evidências com precisão.}

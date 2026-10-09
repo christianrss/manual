@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="breadcrumb"><a href="/{{lang}}/">{{tr.homepage}}</a> / <a href="/{{lang}}/#{{article.category}}">{{category.title[lang]}}</a> / {{article.title}}</div>
+<article class="technical-article">
+<header class="article-header"><h1>{{article.title}}</h1><p class="lead">{{article.description}}</p><div class="article-meta"><span>{{tr.updated}}: {{article.updated}}</span><span>{{tr.difficulty}}: {{article.difficulty}}</span><span>{{category.title[lang]}}</span><span><a href="{{alternate}}" lang="{{'pt-BR' if lang=='en' else 'en'}}">{{'Português' if lang=='en' else 'English'}} ↗</a></span></div></header>
+{% if article.prereq %}<div class="prerequisites"><strong>{{tr.prerequisites}}:</strong> {% for pre in article.prereq %}<a href="{{pre.url}}">{{pre.title}}</a>{% if not loop.last %} · {%endif%}{%endfor%}</div>{%endif%}
+<div class="article-body">{{article.html|safe}}</div>
+<section id="references" class="references"><h2>{{tr.sources}}</h2><ol>{%for source in article.sources%}<li id="source-{{loop.index}}"><a href="{{source.url}}" rel="noopener noreferrer">{{source.title}}</a> <small>({{source.kind}})</small></li>{%endfor%}</ol></section>
+{% if article.backlinks %}<section class="related"><h2>{{tr.related}}</h2><ul>{%for r in article.backlinks%}<li><a href="{{r.url}}">{{r.title}}</a></li>{%endfor%}</ul></section>{%endif%}
+</article>
+{% endblock %}
+{% block toc %}<aside class="toc" aria-label="{{tr.onthispage}}"><p class="toc-heading">{{tr.onthispage}}</p><nav><ol>{% for h in article.toc %}<li class="toc-level-{{h.level}}"><a href="#{{h.id}}">{{h.title}}</a></li>{%endfor%}<li><a href="#references">{{tr.sources}}</a></li></ol></nav><p class="toc-muted">{{tr.updated}} {{article.updated}}</p></aside>{%endblock%}
