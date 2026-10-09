@@ -67,6 +67,30 @@ Para achar a menor capacidade viável, defina P(capacidade) como a existência d
 
 Dados desordenados, predicado não monótono, mudança concorrente da sequência, comparador inconsistente e tratamento indefinido de duplicatas quebram o raciocínio. Tabelas hash podem ser melhores para diversas consultas independentes por chave; em vetor minúsculo desordenado, varredura pode custar menos que ordenar. A própria documentação de bisect alerta contra alterações simultâneas durante a busca [2].
 
+## Invariante completo do laço
+
+Interprete a resposta como fronteira numa sequência booleana `P(0),...,P(n-1)`, com todos os valores falsos antes dos verdadeiros. Mantenha `[lo,hi)` com `0≤lo≤hi≤n`, de modo que todo índice abaixo de `lo` já seja conhecido como falso e todo índice a partir de `hi` seja conhecido como verdadeiro (`n` é uma sentinela verdadeira virtual). Inicialmente `lo=0,hi=n`, sem índices excluídos. Para `mid`, se `P(mid)` é falso, monotonicidade elimina `0..mid`, então `lo=mid+1`. Caso contrário, `mid..n-1` é verdadeiro e `hi=mid`. Ao terminar, a fronteira só pode estar em `lo=hi` [1]. Essa é a prova de correção parcial; a redução estrita de `hi-lo` demonstra término.
+
+## Busca em predicados sem decorar modelos
+
+Para 'menor capacidade viável', procure num domínio inteiro **finito e ordenado** cuja viabilidade seja monotônica. Seja `P(C)` a afirmação de que todo o trabalho cabe em no máximo D dias com capacidade C. Se C é viável, qualquer capacidade superior também o é; capacidades menores talvez não sejam. É necessário ter limites corretos, uma fronteira inviável/viável e um verificador de viabilidade correto. Se a viabilidade custa `O(n)` e existem `R` capacidades possíveis, o custo é `O(n log R)`. Um erro dentro de `P` não é consertado pela busca externa.
+
+## Aritmética e restrições reais
+
+Se outra thread altera a coleção durante a busca, até invariantes de índices impecáveis podem falhar: a hipótese de monotonicidade desaparece durante a execução. Em linguagens com inteiros de largura fixa, use `mid=lo+(hi-lo)//2` para evitar overflow de `lo+hi`. Python evita esse overflow nos índices, mas não torna as operações gratuitas. Encontrar a posição em `O(log n)` num vetor não implica inserir em tempo logarítmico: o deslocamento custa `O(n)` [2].
+
+## Testes adicionais de borda
+
+```python
+from bisect import bisect_left, bisect_right
+for xs in ([], [2], [2,2,2], [1,3,4,8]):
+    for key in (-1,0,1,2,3,5,9):
+        assert lower_bound(xs,key) == bisect_left(xs,key)
+        assert upper_bound(xs,key) == bisect_right(xs,key)
+```
+
+Esses testes **complementam as funções definidas anteriormente no capítulo**: execute os dois blocos na mesma sessão Python. Cubra duplicatas, valores ausentes, entrada vazia e limites externos. Se o vetor não está ordenado, não atribua a resposta incorreta ao código: o contrato da entrada foi violado.
+
 ## Exercícios e verificação
 
 1. Rastreie limite inferior de 4 em [1,2,2,5]: avalie índice 2 (valor 2) e depois índice 3 (valor 5); resposta 3.

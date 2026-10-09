@@ -67,6 +67,30 @@ For a minimum-feasible-capacity question, define P(capacity) as whether a soluti
 
 Unsorted data, nonmonotone predicates, concurrently modified sequences, inconsistent comparators, and unspecified duplicate handling invalidate the reasoning. A hash table can be preferable for many independent key lookups; for a tiny unsorted list, linear scan can be cheaper than sorting. The Python bisect documentation also warns against concurrent mutations during bisection [2].
 
+## A fully explicit loop invariant
+
+Think of the answer as a boundary in a boolean sequence `P(0),...,P(n-1)`, with all false values before all true values. Maintain `[lo,hi)` with `0≤lo≤hi≤n`, where every index below `lo` is already known false and every index at or above `hi` is known true (with `n` a virtual true sentinel). Initially `lo=0,hi=n`; there are no excluded indices. For midpoint `mid`, if `P(mid)` is false, monotonicity excludes `0..mid`, so `lo=mid+1`. Otherwise `mid..n-1` is true and `hi=mid`. At termination the boundary must equal `lo=hi` [1]. This proves partial correctness; strict shrinking of `hi-lo` proves termination.
+
+## Predicate search instead of memorized templates
+
+For 'smallest feasible capacity', search over a **closed, finite and ordered** integer domain where feasibility is monotone. Let `P(C)` mean 'all work fits into at most D days using capacity C'. If capacity C is feasible, any larger capacity is feasible; lowering capacity may not be. A binary search needs an infeasible/feasible boundary, correct numeric bounds and a sound feasibility implementation. If feasibility costs `O(n)` and integer capacity varies over `R` possibilities, runtime is `O(n log R)`. A correctness failure inside `P` is not repaired by the outer binary search.
+
+## Arithmetic and real-world constraints
+
+When an indexed collection changes concurrently, even perfectly written loop bounds cannot guarantee results: the monotonic premise may disappear during the search. In fixed-width languages, compute `mid=lo+(hi-lo)//2` to avoid overflow from `lo+hi`. In Python, indices are arbitrary precision but list operations still have costs. An insertion index located in `O(log n)` on an array does not make inserting an element logarithmic: shifting elements may cost `O(n)` [2].
+
+## Additional edge-case tests
+
+```python
+from bisect import bisect_left, bisect_right
+for xs in ([], [2], [2,2,2], [1,3,4,8]):
+    for key in (-1,0,1,2,3,5,9):
+        assert lower_bound(xs,key) == bisect_left(xs,key)
+        assert upper_bound(xs,key) == bisect_right(xs,key)
+```
+
+The tests above **extend the earlier definitions in this chapter**; execute both code blocks in the same Python session. Include duplicates, missing keys, the empty input and values outside both extremes. For an unsorted array, do not blame the implementation when it produces a wrong answer: the input violated the contract.
+
 ## Exercises and verification
 
 1. Trace lower bound of 4 in [1,2,2,5]: examine index 2 (value 2), then index 3 (value 5); the answer is 3.

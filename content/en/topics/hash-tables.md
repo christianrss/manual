@@ -52,6 +52,33 @@ A sorted array plus binary search supports `O(log n)` lookup, but maintaining so
 
 A duplicate-finding algorithm based on a set also assumes the input elements are hashable. If inputs are nested mutable structures, choose an explicit immutable key representation or another algorithm. Do not silently stringify complex objects: distinct values may stringify identically.
 
+## From the hash function to the table index
+
+A hash table maps a key `k` through a function `h(k)` to one of `m` buckets, usually after a reduction such as `h(k) mod m`. It must resolve **collisions** because the key universe is larger than the finite set of buckets. A hash function that always produces the same bucket remains correct if collisions are handled, but performance degenerates. A good empirical distribution is not a proof that adversarial inputs are safe [1].
+
+Let `n` be stored entries and `α=n/m` the **load factor**. Under uniform hashing assumptions, separate chaining has expected unsuccessful-search cost `Θ(1+α)` because a bucket holds approximately `α` entries on average. Under worst-case collisions, search is `Θ(n)`. The expectation refers to a model of key dispersion; no universal constant-time guarantee follows merely from using a dictionary [2].
+
+## Chaining versus open addressing
+
+**Separate chaining** places multiple entries in a bucket, often in a list or another collection. Deletion removes the matching entry without disturbing other buckets. **Open addressing** stores keys in table slots and probes a sequence until it finds the key or an eligible empty slot. Linear probing is cache-friendly but can create clusters; quadratic probing and double hashing change the probe sequence and must be configured to reach slots correctly. Open-addressed deletion may require a tombstone: clearing a slot to 'never used' could terminate a search before reaching a key inserted later along the same probe chain.
+
+| Property | Chaining | Open addressing |
+| --- | --- | --- |
+| Storage | Bucket heads plus entries | Preallocated slots |
+| Load factor | May exceed one | Must stay below one to admit new keys |
+| Deletion | Remove matching entry | Tombstones or probe-preserving repair |
+| Worst-case lookup | Linear | Linear |
+
+## Resizing and equality correctness
+
+When load exceeds a chosen threshold, allocating a larger table and **rehashing** entries often preserves expected constant-time operations over a long sequence. The resize itself is linear, so the claim is amortized rather than a per-operation worst-case bound. For mutable keys, a crucial invariant is: **keys considered equal must hash equally while stored**. Changing fields that determine a key's hash after insertion may make it unreachable under the new hash. Hash function choice, equality semantics and normalization must agree; for text keys, specify Unicode normalization and case sensitivity.
+
+## Security, trade-offs and reproducible checks
+
+Attackers may intentionally generate many colliding keys if hashing is predictable, causing CPU exhaustion. Runtime-specific collision hardening mitigates some attacks but does not eliminate the need to bound request sizes and distinct keys. Tables work well for exact membership and key lookup; they are not an ordered range index. A balanced tree may be preferable for predecessor/successor queries or deterministic logarithmic worst-case bounds.
+
+**Worked reasoning:** put `n=24` keys into `m=8` buckets. Here `α=3`; under a uniform assumption, an unsuccessful chained search visits about three entries on average, plus bucket access. If all 24 keys collide, it may examine 24. For verification, deliberately substitute a constant hash, insert keys with distinct values, then test updates and deletions. Correct results must survive; runtime may increase sharply.
+
 ## Exercises and verification
 1. What happens when all keys hash into one bucket? With naive chaining, unsuccessful lookup can inspect all `n` entries: `Θ(n)`.
 2. Why can `α=0.9` be more troublesome for open addressing than for chaining? Probe sequences lengthen as free slots disappear.
