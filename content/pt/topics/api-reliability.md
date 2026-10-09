@@ -91,6 +91,8 @@ Crie matriz de teste: falha antes de transação; queda após commit mas antes d
 | Falha regional parcial | Quais operações suportam failover? |
 | Dependência envia erro malformado | Como classificar incerteza do resultado? |
 
+**Capítulos relacionados:** [Filas e idempotência](/pt/topics/asynchronous-messaging/) tratam efeitos atrasados; [rate limiting](/pt/topics/rate-limiting/) define admissão; [redes](/pt/topics/network-protocols/) explica ambiguidades de transporte.
+
 ## Exercícios e verificação
 
 1. Com prazo inicial de 500 ms e 200 ms já consumidos, por que uma chamada nova não pode receber 500 ms independentes?

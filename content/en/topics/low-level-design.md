@@ -105,6 +105,8 @@ Unit tests should enumerate all state/event pairs, not just a happy path: confir
 
 A design review should ask what observable behavior changes if a provider is replaced, if persistence fails halfway through a workflow, and if a call is repeated with the same idempotency key. Google engineering guidelines emphasize improving the overall health of the code rather than requiring theoretical perfection before every change [2].
 
+**Related chapters:** [Testing and maintainability](/en/topics/testing-maintainability/) develops contracts and test boundaries; [database consistency](/en/topics/database-consistency/) explains why local object invariants do not suffice for distributed state.
+
 ## Exercises and verification
 
 1. Build a transition matrix with current state as rows and confirm/cancel as columns. Compare each entry with the executable code.

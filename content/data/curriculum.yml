@@ -18,9 +18,9 @@ tracks:
       - title: {en: Runtime, operating systems & correctness, pt: Runtime, sistemas operacionais e correção}
         articles: [testing-maintainability, processes-virtual-memory, concurrency-synchronization]
       - title: {en: System design & distributed architecture, pt: Projeto de sistemas e arquitetura distribuída}
-        articles: [capacity-estimation, caching, database-consistency, asynchronous-messaging, load-balancing, rate-limiting, url-shortener]
+        articles: [capacity-estimation, caching, database-consistency, asynchronous-messaging, load-balancing, rate-limiting, network-protocols, api-security, api-reliability, raft-consensus, url-shortener]
       - title: {en: Engineering judgment & communication, pt: Julgamento técnico e comunicação}
-        articles: [evidence-based-interviews]
+        articles: [low-level-design, evidence-based-interviews]
     planned_topics:
-      en: Security engineering, distributed consensus, networking protocols, advanced graph algorithms, API reliability and low-level design remain planned for later editions.
-      pt: Engenharia de segurança, consenso distribuído, protocolos de redes, grafos avançados, confiabilidade de APIs e low-level design permanecem planejados.
+      en: Advanced graph algorithms, advanced database internals, low-level networking internals, system observability and deeper security mechanisms remain planned for later editions.
+      pt: Algoritmos avançados de grafos, internals de bancos, detalhes de redes, observabilidade e mecanismos avançados de segurança permanecem planejados.

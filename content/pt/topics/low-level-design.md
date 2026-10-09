@@ -105,6 +105,8 @@ Teste todas as combinações de estado/evento, não apenas o caminho feliz: conf
 
 A revisão de projeto deve perguntar o que muda para clientes ao trocar provedor, o que ocorre se persistência cai no meio e como responder a chamada repetida com a mesma chave idempotente. Práticas de revisão do Google destacam melhorar a saúde geral do código, em vez de exigir perfeição teórica antes de qualquer alteração [2].
 
+**Capítulos relacionados:** [Testes e manutenção](/pt/topics/testing-maintainability/) trata contratos e limites dos testes; [consistência de bancos](/pt/topics/database-consistency/) explica por que invariantes locais não protegem estado distribuído.
+
 ## Exercícios e verificação
 
 1. Construa tabela de transições com estados nas linhas e confirmar/cancelar nas colunas. Compare com o código.

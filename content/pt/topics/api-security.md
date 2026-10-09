@@ -88,6 +88,8 @@ Defina resposta a credencial comprometida: revogar ou expirar, rotacionar chaves
 
 Teste o predicado e, depois, o endpoint HTTP com configuração real de autenticação e restrições de banco. Inclua dois usuários do mesmo tenant, usuário de outro tenant, credenciais revogadas, assinatura falsificada, claims ausentes, tokens expirados e associação de usuário alterada durante a sessão. Botão oculto no frontend não deve ser barreira principal. Se privilégios mudam durante sessão ativa, defina quando a nova regra passa a valer e se caches podem devolver decisões obsoletas.
 
+**Capítulos relacionados:** [Consistência de bancos](/pt/topics/database-consistency/) discute autoridade dos dados; [redes](/pt/topics/network-protocols/) apresenta confiança TLS; [APIs confiáveis](/pt/topics/api-reliability/) trata retries sem contornar autorização.
+
 ## Exercícios e verificação
 
 1. Por que assinatura válida e scope amplo não autorizam automaticamente ler qualquer ID de pedido?

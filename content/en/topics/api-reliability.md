@@ -91,6 +91,8 @@ Build a matrix: crash before transaction; crash after commit but before response
 | Partial regional outage | Which data/operations can fail over safely? |
 | Downstream returns malformed error | How does caller classify uncertainty? |
 
+**Related chapters:** [Queues and idempotency](/en/topics/asynchronous-messaging/) examine delayed effects; [rate limiting](/en/topics/rate-limiting/) defines admission policies; [network protocols](/en/topics/network-protocols/) explains transport-level ambiguity.
+
 ## Exercises and verification
 
 1. With initial deadline 500 ms and 200 ms already spent, explain why a new call cannot receive an independent 500 ms budget.

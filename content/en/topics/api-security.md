@@ -88,6 +88,8 @@ Establish a procedure for credential compromise: revoke or expire credentials, r
 
 Unit-test the policy, then test the HTTP endpoint with a real identity-validation configuration and database constraints. Include two users in one tenant, one user in another tenant, revoked credentials, forged signatures, missing claims, expired tokens and concurrent membership changes. A front-end 'hidden' button must not be the only barrier. Where privileges change during an active session, define when the service must observe the new policy and whether caches may serve stale decisions.
 
+**Related chapters:** [Database consistency](/en/topics/database-consistency/) discusses state authority; [network protocols](/en/topics/network-protocols/) introduces TLS trust; [reliable APIs](/en/topics/api-reliability/) addresses retries without bypassing access controls.
+
 ## Exercises and verification
 
 1. Why does a token with valid signature and a broad scope not automatically authorize reading every order ID?

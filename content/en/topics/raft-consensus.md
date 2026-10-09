@@ -80,6 +80,8 @@ Client-visible completion also depends on durable persistence, command applicati
 
 Monitor leader changes, term churn, failed append attempts, commit-index lag, applied-index lag, disk fsync latency and network delay. Timeouts that are too short relative to normal RPC and disk delays cause churn; too long delay failure detection. Use careful membership change procedures and disaster-recovery testing before assuming a replicated service is automatically safe.
 
+The broader course on distributed systems at MIT develops replicated state machines, failures and testing as connected topics [2]. **Related chapters:** [Database consistency](/en/topics/database-consistency/) distinguishes serializability from linearizability; [asynchronous messaging](/en/topics/asynchronous-messaging/) studies duplicates and durable acknowledgment.
+
 ## Exercises and verification
 
 1. For five voters, list two majorities and show their intersection. For six voters, why is the majority four, not three?

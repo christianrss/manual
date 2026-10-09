@@ -80,6 +80,8 @@ Concluir operação para o cliente também depende de persistência, aplicação
 
 Acompanhe trocas de líder, termos, erros de AppendEntries, atraso do índice de commit, atraso de aplicação, fsync e latência de rede. Timeouts curtos para a latência normal geram trocas frequentes; longos retardam detecção. Reconfiguração de membros e restauração de backups exigem procedimentos testados.
 
+O curso de Sistemas Distribuídos do MIT aborda máquinas de estados replicadas, falhas e testes de forma integrada [2]. **Capítulos relacionados:** [Consistência em bancos](/pt/topics/database-consistency/) diferencia serializabilidade de linearizabilidade; [mensageria assíncrona](/pt/topics/asynchronous-messaging/) discute duplicatas e confirmação durável.
+
 ## Exercícios e verificação
 
 1. Com cinco votantes, liste duas maiorias e mostre sua interseção. Com seis, por que maioria é quatro e não três?
