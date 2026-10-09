@@ -18,9 +18,9 @@ tracks:
       - title: {en: Runtime, operating systems & correctness, pt: Runtime, sistemas operacionais e correção}
         articles: [testing-maintainability, processes-virtual-memory, concurrency-synchronization, memory-ordering-atomics]
       - title: {en: System design & distributed architecture, pt: Projeto de sistemas e arquitetura distribuída}
-        articles: [capacity-estimation, caching, database-consistency, database-storage-wal, sql-query-planning, database-replication-failover, asynchronous-messaging, load-balancing, rate-limiting, network-protocols, api-security, api-reliability, raft-consensus, distributed-observability, url-shortener]
+        articles: [capacity-estimation, caching, database-consistency, database-storage-wal, sql-query-planning, transactional-indexing-isolation, database-replication-failover, asynchronous-messaging, load-balancing, rate-limiting, network-protocols, api-security, oauth-pkce-token-security, api-reliability, raft-consensus, distributed-observability, url-shortener]
       - title: {en: Engineering judgment & communication, pt: Julgamento técnico e comunicação}
-        articles: [low-level-design, production-incident-response, evidence-based-interviews]
+        articles: [low-level-design, formal-model-checking, production-incident-response, evidence-based-interviews]
     planned_topics:
-      en: Advanced authorization protocols, transactional indexing, storage isolation and deeper formal verification remain planned for later editions.
-      pt: Protocolos avançados de autorização, indexação transacional, isolamento de armazenamento e verificação formal aprofundada permanecem planejados.
+      en: Advanced attribute-based policy engines, durable file-system isolation, parameterized formal proofs, and lock-free memory reclamation remain planned for later editions.
+      pt: Motores avançados de políticas por atributos, isolamento durável em sistemas de arquivos, provas formais parametrizadas e recuperação de memória lock-free permanecem planejados.
