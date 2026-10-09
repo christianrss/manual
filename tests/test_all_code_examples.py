@@ -7,6 +7,7 @@ a translation and syntax errors masked by the HTML builder.
 from __future__ import annotations
 import re
 import sys
+import types
 import unittest
 from pathlib import Path
 
@@ -24,13 +25,18 @@ class ChapterCodeExamples(unittest.TestCase):
         executed = 0
         for lang in ("en", "pt"):
             for ident, article in sorted(articles[lang].items()):
-                namespace = {"__name__": "__chapter_example__"}
-                for index, match in enumerate(PYTHON_FENCE.finditer(article["body"]), 1):
-                    with self.subTest(lang=lang, chapter=ident, block=index):
-                        filename = f"{lang}/{ident}/code-{index}.py"
-                        compiled = compile(match.group("code"), filename, "exec")
-                        exec(compiled, namespace, namespace)
-                    executed += 1
+                module_name = f"_manual_example_{lang}_{ident.replace('-', '_')}"
+                module = types.ModuleType(module_name)
+                sys.modules[module_name] = module
+                try:
+                    for index, match in enumerate(PYTHON_FENCE.finditer(article["body"]), 1):
+                        with self.subTest(lang=lang, chapter=ident, block=index):
+                            filename = f"{lang}/{ident}/code-{index}.py"
+                            compiled = compile(match.group("code"), filename, "exec")
+                            exec(compiled, module.__dict__, module.__dict__)
+                        executed += 1
+                finally:
+                    sys.modules.pop(module_name, None)
         self.assertGreaterEqual(executed, 20, "Unexpectedly few executable examples")
 
 if __name__ == "__main__":
