@@ -28,7 +28,7 @@ The employer describes coding, data structures, algorithms, design, maintainable
 - `monotonic-stacks` — next greater, daily temperatures, histogram and amortized analysis.
 - `tree-algorithms` — BFS levels, LCA, diameter and ancestor-bound BST validation.
 
-**Next priority:** complete object-oriented design, SOLID, testing and software engineering coverage, followed by the system-design process and end-to-end design exercises. Published fundamentals still require sustained problem-solving practice and technical review.
+**Next priority:** complete the system-design process and end-to-end design exercises, then debugging/profiling and release engineering. Object-oriented design, SOLID and core testing strategies now have standalone published EN/PT chapters. Published fundamentals still require sustained problem-solving practice and technical review.
 
 ## P1 — Problem-solving and coding competency
 
@@ -40,15 +40,12 @@ Still required: deliberate practice with greedy, monotonic-stack and tree algori
 
 ## P1 — Software engineering and object-oriented design
 
-Existing: `testing-maintainability`, `low-level-design`, `concurrency-synchronization`, `production-incident-response`.
+**Now published:** `object-oriented-design` (identity, encapsulation and composition); `solid-dependency-inversion` (all five principles, behavioral substitution and ports); `testing-strategies` (unit, property, integration, contract and E2E scopes); `testing-maintainability`, `low-level-design`, `concurrency-synchronization` and `production-incident-response`.
 
-**New core chapters needed:**
-1. `object-oriented-design` — objects, composition, inheritance, encapsulation, interfaces, polymorphism.
-2. `solid-dependency-inversion` — boundaries, coupling, cohesion and test seams, without cargo-cult abstractions.
-3. `testing-strategies` — unit/integration/contract/end-to-end, mocks, property-based cases and deterministic tests.
-4. `debugging-profiling` — hypothesis, reproducibility, CPU/memory profiles, instrumentation, regression prevention.
-5. `ci-cd-release-engineering` — versioning, review, automated gates, rollout/rollback, safe schema evolution.
-6. `refactoring-design-patterns` — trade-offs with concrete before/after examples.
+**Next engineering chapters needed:**
+1. `debugging-profiling` — reproducible defects, CPU/memory profiles, instrumentation and regression prevention.
+2. `ci-cd-release-engineering` — versioning, code review, automated gates, progressive rollout/rollback and safe schema evolution.
+3. `refactoring-design-patterns` — trade-offs with concrete before/after examples and design-pattern failures.
 
 ## P1 — System design methodology and worked solutions
 
