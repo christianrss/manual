@@ -5,7 +5,7 @@ A reader must be able to derive the idea and reproduce the result. Avoid a gloss
 
 ## Required frontmatter
 `id, title, description, category, difficulty, updated, prerequisites, sources`.
-Sources: list of `{id, title, url, kind}`. Prefer official standards and original scholarly sources. Every source cited in text must resolve to a source id. Use `[1]`, `[2]`, etc. ordered to match `sources` list.
+Sources: ordered list of `{title, url, kind}`; citation numbers are one-based positions in the source list. Prefer official standards and original scholarly sources. Every source cited in text must resolve to a source id. Use `[1]`, `[2]`, etc. ordered to match `sources` list.
 
 ## Chapter spine
 1. What problem and when it arises.

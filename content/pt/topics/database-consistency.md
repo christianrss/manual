@@ -18,6 +18,9 @@ sources:
 ---
 Consistência não é um único atributo que se liga ou desliga. Sistemas de armazenamento oferecem propriedades distintas para transações, ordem de operações e replicação. Um projeto correto começa por declarar **qual observação é proibida**: duas reservas da mesma vaga, leitura de saldo antigo ou perda de atualização. Documentos técnicos de PostgreSQL e materiais de sistemas distribuídos descrevem garantias que não devem ser confundidas [1][2].
 
+
+![Duas transações concorrentes desativam médicos diferentes após lerem ambos ativos, produzindo write skew.](/diagrams/database-consistency-invariant.svg)
+
 ## Transações e isolamento
 Atomicidade significa que uma transação é aplicada por completo ou não é aplicada; durabilidade significa que seus efeitos confirmados sobrevivem conforme o contrato do sistema. Isolamento delimita como transações concorrentes podem observar efeitos umas das outras. `READ COMMITTED` normalmente impede leitura de valores não confirmados, mas pode permitir que duas leituras consecutivas dentro da transação vejam estados diferentes.
 

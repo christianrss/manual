@@ -12,6 +12,9 @@ sources:
 ---
 Dynamic programming (DP) solves a problem by identifying overlapping subproblems and reusing their results. It is not a magic speed-up for recursion. A solution requires a state representation that contains exactly the information needed for future decisions, a recurrence derived from valid choices, and a base case [1].
 
+
+![Dynamic programming dependency table for longest common subsequence on the strings AB and BA.](/diagrams/dynamic-programming-invariant.svg)
+
 ## Four questions to answer first
 1. **State:** what does `dp[i]` (or `dp[i,j]`) represent, in one precise sentence?
 2. **Transition:** which mutually complete choices can produce that state?

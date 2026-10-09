@@ -12,6 +12,9 @@ sources:
 ---
 A **priority queue** selects an item based on priority instead of arrival order. A binary heap is one implementation: it maintains quick access to an extreme key without fully sorting all elements. A **min-heap** returns the smallest key first, following the convention of Python heapq [1].
 
+
+![A valid min-heap tree with each parent smaller than its children, corresponding to array indices zero through five.](/diagrams/heaps-priority-queues-invariant.svg)
+
 ## Two invariants, not one
 
 The **shape invariant** requires a complete binary tree filled left-to-right at every level. The **order invariant** requires each parent key to be no greater than its child keys. Siblings need not be ordered. In a zero-based array, children of index i are 2i+1 and 2i+2; a nonroot element has parent (i-1)//2 [1].

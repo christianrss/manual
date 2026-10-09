@@ -12,6 +12,9 @@ sources:
 ---
 **Rate limiting** determina se uma requisição pode consumir um recurso limitado *agora*. Ajuda a conter abuso, proteger capacidade e aplicar cotas de API. É diferente de limitar concorrência (operações em andamento), balancear carga (roteamento) e backpressure (redução do ritmo dos produtores). Mesmo respeitando uma cota de requisições por segundo, um serviço pode sobrecarregar se cada operação ficar mais cara.
 
+
+![Token bucket com capacidade finita de rajada e taxa contínua de reposição, admitindo operações apenas com tokens suficientes.](/diagrams/rate-limiting-invariant.svg)
+
 ## Defina o contrato antes do algoritmo
 
 Especifique a **chave de identidade** (conta, API key, tenant ou IP), a **unidade de custo** (requisição, token ou peso computacional), o **intervalo**, a **capacidade de rajada** e o **comportamento da rejeição**. IP isolado pode ser fraco: muitos usuários legítimos compartilham endereço via NAT e agentes abusivos podem alterná-lo. Prefira identificadores autenticados quando disponíveis e crie regra separada para clientes anônimos.

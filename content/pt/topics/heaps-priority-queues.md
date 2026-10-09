@@ -12,6 +12,9 @@ sources:
 ---
 Uma **fila de prioridade** seleciona elementos conforme prioridade, não ordem de chegada. Um heap binário é uma implementação que mantém acesso rápido a uma chave extrema sem ordenar todos os itens. Um **min-heap** remove primeiro a menor chave, convenção usada por heapq em Python [1].
 
+
+![Árvore de min-heap válida, em que cada pai é menor que seus filhos e corresponde aos índices do vetor.](/diagrams/heaps-priority-queues-invariant.svg)
+
 ## Dois invariantes distintos
 
 O **invariante de forma** exige árvore binária completa preenchida por níveis da esquerda para a direita. O **invariante de ordem** exige que a chave do pai seja menor ou igual à dos filhos. Irmãos não precisam estar ordenados. Num vetor indexado a partir de zero, os filhos de i estão em 2i+1 e 2i+2; para i>0, o pai está em (i-1)//2 [1].

@@ -12,6 +12,9 @@ sources:
 ---
 Binary search finds a **transition in a monotone decision** by discarding half of the remaining range at each step. Searching a sorted array is only one example. Its correctness depends on a proved monotonicity property rather than on the fact that a midpoint is calculated [1].
 
+
+![Boundary between false and true in the monotone predicate of a lower-bound binary search.](/diagrams/binary-search-invariant.svg)
+
 ## Define the contract
 
 Let a be an array of n comparable elements in nondecreasing order. The **lower bound** of x is the first position i such that a[i] is at least x, or n if none exists. The **upper bound** is the first position whose value is strictly greater than x. They are insertion points, not necessarily matches. In [1, 2, 2, 2, 5], lower bound of 2 is 1 and upper bound is 4; the number of occurrences equals 4 minus 1 [2].

@@ -12,6 +12,9 @@ sources:
 ---
 **Rate limiting** decides whether a request may consume a bounded resource *now*. It can limit abuse, protect capacity and enforce API quotas. It differs from concurrency limiting (work in flight), load balancing (routing) and backpressure (slowing producers). Even a service within its requests-per-second allowance can overload if each request suddenly becomes much more expensive.
 
+
+![Token bucket with a finite burst capacity and continuous refill rate, admitting a request only when enough tokens remain.](/diagrams/rate-limiting-invariant.svg)
+
 ## Define the contract before choosing an algorithm
 
 Specify the **identity key** (account, API key, tenant or IP), **cost unit** (request, token or computational weight), **time interval**, **burst capacity** and **rejection behavior**. IP alone can be unreliable: many legitimate users share an address behind NAT and abusive users can rotate addresses. An authenticated key is preferable when available, with a separate policy for anonymous clients.

@@ -12,6 +12,9 @@ sources:
 ---
 A distributed application can return a response while other components have not yet observed the same state. Correct architecture begins by distinguishing **database transaction isolation**, **replica freshness**, and **distributed object consistency**. These are related but not identical requirements [1][2].
 
+
+![Two concurrent transactions each disable a different on-call doctor after observing both doctors active, causing write skew.](/diagrams/database-consistency-invariant.svg)
+
 ## Transactions and anomalies
 Atomicity means the effects of a transaction commit together or none commit; isolation controls what concurrent transactions can observe. Durability concerns survival of committed data under the defined failure model. Database products differ in how isolation levels are implemented, so verify each engine's actual guarantees rather than relying on names alone [1].
 

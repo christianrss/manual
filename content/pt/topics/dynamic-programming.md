@@ -17,6 +17,9 @@ sources:
 ---
 Programação dinâmica resolve problemas combinando subproblemas menores cujas soluções são reutilizadas. O ponto central é definir um **estado suficiente**: um resumo da informação necessária para tomar a próxima decisão, sem carregar o histórico inteiro. Um código que apenas usa uma tabela não é necessariamente uma solução correta; é preciso provar que a recorrência cobre todas as possibilidades relevantes [1].
 
+
+![Tabela de dependências da programação dinâmica para a maior subsequência comum das strings AB e BA.](/diagrams/dynamic-programming-invariant.svg)
+
 ## Do problema ao estado
 Antes de codificar, responda: o que representa `dp[i]`? Qual é o caso base? Como se relacionam estados menores? Em qual ordem eles precisam ser avaliados? Se dois históricos diferentes produzem o mesmo estado, eles devem admitir as mesmas decisões futuras e o mesmo custo ótimo restante. Caso contrário, faltam variáveis no estado.
 

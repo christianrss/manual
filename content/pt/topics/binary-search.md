@@ -12,6 +12,9 @@ sources:
 ---
 A busca binária encontra uma **transição de um predicado monótono** descartando metade das possibilidades a cada passo. Buscar em vetor ordenado é apenas uma aplicação. A correção depende da prova de monotonicidade, não simplesmente de calcular um índice central [1].
 
+
+![Fronteira entre falso e verdadeiro no predicado monotônico da busca binária.](/diagrams/binary-search-invariant.svg)
+
 ## Defina o contrato
 
 Seja a um vetor com n elementos comparáveis em ordem não decrescente. O **limite inferior** de x é a primeira posição i em que a[i] é maior ou igual a x, ou n se ela não existir. O **limite superior** é a primeira posição com valor estritamente maior que x. São posições de inserção, não necessariamente ocorrências. Em [1, 2, 2, 2, 5], o limite inferior de 2 é 1 e o superior é 4; existem 4 menos 1 ocorrências [2].
