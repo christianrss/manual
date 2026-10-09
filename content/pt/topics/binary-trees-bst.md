@@ -100,7 +100,11 @@ Um **heap** binário possui propriedade de prioridade pai-filho e formato de ár
 | Percorrer ordenado | O(n) | O(n) |
 | Dados por nó | Dois filhos | Frequentemente metadados de balanceamento |
 
-## Limites e exercícios
+## Limitações e contraexemplos
+
+Sem balanceamento, buscas podem continuar lineares no pior caso, mesmo com dados inteiramente em memória. Os exercícios verificam o invariante e seus casos-limite.
+
+## Exercícios e verificação
 
 Não espere O(log n) no pior caso de BST comum sem balanceamento. Percurso recursivo em cadeia profunda pode ultrapassar a pilha da linguagem; o iterativo evita isso. Exclusão é mais difícil: nó com dois filhos costuma ser substituído por predecessor ou sucessor, mantendo ordem e descendentes. Modificação concorrente requer sincronização; classe No comum não é índice concorrente.
 

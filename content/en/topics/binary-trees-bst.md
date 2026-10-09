@@ -100,7 +100,11 @@ A binary **heap** maintains parent-child priority order plus a shape invariant (
 | Sorted traversal | O(n) | O(n) |
 | Extra links | 2 child references per node | Additional balance metadata often required |
 
-## Limitations and exercises
+## Limitations and counterexamples
+
+Without balancing, worst-case linear lookup remains possible even when inputs fit in memory. The exercises below verify the core invariant and failure cases.
+
+## Exercises and verification
 
 Do not use a plain BST expecting worst-case O(log n) without balancing. Recursive traversal on an extremely deep chain may overflow the language call stack; the iterative implementation avoids this. Deletion is subtler than insertion: a node with two children is usually replaced by a predecessor or successor while maintaining ordering and preserving all descendants. Concurrent updates need synchronization; an ordinary Node class is not a concurrent index.
 
