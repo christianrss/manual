@@ -29,6 +29,8 @@ class SiteTests(unittest.TestCase):
     s=BeautifulSoup(p.read_text(encoding='utf-8'),'html.parser')
     self.assertEqual(len(s.select('input[data-topic]')),sum(len(x['articles']) for x in track['sections']))
     self.assertTrue(s.select_one('#progress-label'))
+    self.assertNotIn('built-in method',s.get_text())
+    self.assertTrue(s.select_one('#progress-reset'))
  def test_seo(self):
   html=(ROOT/'dist'/'en'/'topics'/'caching'/'index.html').read_text(encoding='utf-8')
   for text in ['hreflang="pt-BR"','application/ld+json','rel="canonical"','id="references"']:
