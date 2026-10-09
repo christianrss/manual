@@ -49,6 +49,30 @@ A falha do cache também exige política definida: ignorá-lo pode derrubar o ba
 ## HTTP não é Redis
 `Cache-Control: no-cache` exige normalmente validação antes da reutilização, enquanto `no-store` proíbe o armazenamento intencional em caches conformes. Confundir as diretivas pode causar erros de privacidade. Um cache Redis não herda automaticamente a semântica de RFC 9111 [1].
 
+## Correção começa pela autoridade sobre os dados
+
+Um cache armazena uma representação adicional de um valor. A **fonte de verdade** é o componente autorizado a determinar o estado atual; o cache fornece uma cópia sob uma política de validade. Se autorização ou saldo exigem o último estado confirmado, uma cópia obsoleta é erro de correção, não apenas de apresentação. Declare se a aplicação admite defasagem limitada, leitura dos próprios escritos ou garantias mais fortes [1].
+
+A chave do cache deve incluir todos os parâmetros semânticos: tenant, idioma, paginação, permissões, flags ou versão do objeto quando aplicável. Se uma resposta depende do usuário, mas a chave contém somente a URL, o cache compartilhado pode revelar dados de outro usuário. Semânticas HTTP de `Vary` e `Cache-Control` tratam parte do problema de representações HTTP, mas não controlam automaticamente qualquer cache de aplicação [1].
+
+## Cálculo da economia e da taxa de acertos
+
+Considere taxa de leitura `R`, probabilidade de acerto `h`, latência do cache `Lc` e latência da origem `Lo`. Num modelo serial simplificado com latências constantes, tempo médio aproximado é `h×Lc+(1−h)×(Lc+Lo)`; carga na origem é `R(1−h)` somente se cada falta gera uma chamada e não há pré-atualizações. Para `R=20.000` RPS e `h=0,98`, faltas normais são 400 RPS. Se o cache falhar e todas as leituras contornarem-no, a origem recebe 20.000 RPS: **50 vezes** o volume habitual de faltas. A alternativa de emergência precisa ser testada em capacidade, não apenas codificada.
+
+## Corrida que o TTL não resolve
+
+Considere: cliente A não encontra a chave e lê a versão 4 do banco; cliente B grava versão 5, confirma e invalida o cache; A insere agora a versão antiga 4 no cache. O TTL limita a duração, mas não impede a **ressurreição de dado obsoleto**. Soluções variam: chaves imutáveis versionadas, comparação atômica de versões crescentes, invalidação coordenada ou leituras com token explícito de consistência. Cada solução tem custo e precisa de testes com escritores concorrentes [2].
+
+## Expiração, remoção por capacidade e avalanche
+
+**Expiração** determina quando uma entrada deixa de ser válida; **eviction** remove por falta de memória, possivelmente antes do TTL. LRU privilegia uso recente e LFU frequência; ambas podem ser inadequadas conforme a carga. Se milhares de clientes perdem a mesma chave simultaneamente, a combinação de requisições (*request coalescing*) mantém no máximo uma busca em andamento por chave **no escopo de coordenação escolhido**. Jitter de TTL diminui expiração sincronizada, mas não impede toda avalanche de faltas.
+
+Para cache de resultados negativos, determine por quanto tempo 'não encontrado' pode persistir. Se o recurso for criado depois, um TTL negativo longo retarda sua visibilidade. Não armazene indiscriminadamente erros autenticados.
+
+## Evidências exigidas antes de publicar
+
+Documente chaves e cardinalidade, serialização, tamanho máximo do valor, orçamento de memória, distribuição de acessos, taxas de acerto por requisição e por byte, taxa de remoções, idade de cópias, carga da origem e comportamento quando o cache cai. Teste partida a frio e chave extremamente popular. Uma política correta pode preferir erro controlado a contornar o cache sem limites e derrubar a fonte de verdade [2].
+
 ## Exercícios e verificação
 1. Dois usuários solicitam `/profile`. Defina uma chave segura incluindo identidade, ou impeça cache compartilhado.
 2. Modele uma leitura antiga terminando depois da invalidação. Como impedir que ela recoloque o resultado obsoleto?

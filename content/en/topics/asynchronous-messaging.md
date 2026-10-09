@@ -49,6 +49,44 @@ Do not measure queue health only through total count. Track **age of oldest mess
 | Schema evolves incompatibly | Consumer parse errors | Versioned contracts and compatibility tests |
 | Downstream rate limits | Retries amplify load | Backoff, concurrency limits, circuit breaker |
 
+## A precise message lifecycle
+
+Separate the states **accepted by producer**, **durably stored by broker**, **delivered to consumer**, **business effect committed** and **acknowledged**. A successful producer HTTP response is not proof of durable eventual execution unless acceptance is coupled to durable storage. Likewise, delivery is not acknowledgment. A worker may crash in any interval between those states, creating different recovery obligations [1].
+
+In an at-least-once system, the broker can redeliver when the consumer's acknowledgment is lost even though the effect committed. The consumer needs a durable deduplication key with a uniqueness constraint in the same transaction as local state changes. An in-memory 'seen IDs' set fails after restart; a read-then-write without a unique constraint races. If the effect is an external charge, the remote API's idempotency contract or reconciliation is required in addition to local database deduplication.
+
+## Ordering and retries are scoped guarantees
+
+Many brokers preserve ordering only within a queue or partition, not across independent consumers or partitions. If events `Created(v1)` and `Cancelled(v2)` arrive out of order, applying them naively may resurrect a cancelled entity. Include a per-entity version or monotonic sequence number, and specify how gaps are handled. Retry delays can reorder effects even when the normal path is ordered.
+
+For retries, distinguish permanent validation failures from transient errors. Use bounded exponential backoff with jitter, maximum attempts or age, per-dependency concurrency limits and a dead-letter policy. A timeout means the remote operation's **outcome may be unknown**; retrying a non-idempotent command may duplicate effects [1].
+
+## Derive recovery capacity, not just queue growth
+
+If arrivals average `λ=80` jobs/s while workers can finish `μ=100` jobs/s, net drain is `μ−λ=20` jobs/s. An existing backlog of 12,000 jobs then needs at least `12,000/20=600` seconds to drain **provided those rates remain stable and failures cause no extra attempts**. When `λ≥μ`, backlog cannot drain at steady state. Retry traffic increases effective offered load and can create an unstable feedback loop [2].
+
+Let `A` be age of oldest ready message. Two queues with 10,000 messages can have radically different customer impact depending on processing time and deadlines; backlog count alone is insufficient. Track end-to-end time, poison-message isolation, counts by attempt number, DLQ age and oldest-message age.
+
+## Idempotent consumer pseudo-transaction
+
+```text
+on(message with id, entity_id, version):
+    BEGIN
+      INSERT INTO inbox(id) VALUES (message.id)
+      IF unique-key conflict:
+          ROLLBACK/COMMIT NO-OP; ACK; RETURN
+      CHECK entity version and domain invariants
+      APPLY business update
+    COMMIT
+    ACK broker message
+```
+
+This schematic assumes inbox and business entities share one transactional database. It cannot promise exactly-once effects for calls to systems outside that transaction. If the process crashes after commit and before ACK, the unique inbox record makes redelivery harmless for the local effect. If it crashes before commit, the broker retries after its visibility/acknowledgment policy. Think explicitly about transaction isolation and broker reconnects.
+
+## Verification under faults
+
+Test crash before effect, crash after commit but before ACK, duplicate messages with the same ID, two concurrent workers receiving one ID, reversed event versions, poison messages, disconnected broker and slow downstream API. Verify not just final state but number of externally visible effects. This exercise is a fault matrix: each possible interruption must have an explicit recovery outcome and observable signal.
+
 ## Exercises and verification
 1. A worker commits a reservation then loses the ACK. Explain which unique database constraint makes redelivery safe.
 2. A queue with 12,000 pending jobs accepts 80/s and completes 100/s. Ignoring other failures, approximate drain time: `12,000 / (100−80) = 600 seconds`.

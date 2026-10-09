@@ -33,6 +33,36 @@ Quando taxa de chegada `λ` se aproxima da taxa de serviço `μ`, o tempo de esp
 ## Hipóteses e erros comuns
 Não confunda requisições com usuários, bytes com bits ou megabytes decimais com mebibytes binários. Um cache pode reduzir leituras ao banco, mas uma falha simultânea em cache e backend invalida médias anteriores. Repita os cálculos para cenários de pico, falha de instância e carga desbalanceada.
 
+## Modelo de capacidade com unidades e curva de saturação
+
+A conta `instâncias=ceil(RPS_pico / RPS_testado_por_instância)` só tem sentido quando o denominador foi medido no objetivo de latência e erro exigido. Um benchmark de **vazão máxima** a 100% de CPU não constitui capacidade segura de operação. A carga depende da mistura de requisições, payload, localidade de dados, reutilização de conexões, tarefas em segundo plano e saturação de dependências. Para cada hipótese, registre uma faixa plausível e refaça a conta com valores pessimistas [1].
+
+Separe **taxa de chegada** `λ` (tarefas/s), **taxa de serviço** `μ` (tarefas/s por trabalhador) e **concorrência** `L` (tarefas no sistema). A lei de Little `L=λW` vale para sistema estável e fronteiras de observação coerentes; não prevê sozinha a distribuição de latência. Numa fila idealizada M/M/1 com chegadas Poisson e serviços exponenciais, o tempo médio no sistema é `W=1/(μ−λ)` para `λ<μ`; isso é um *modelo*, não uma fórmula geral de produção. Quando `λ` se aproxima de `μ`, a espera cresce sem limite. Serviços reais com rajadas ou múltiplos recursos podem se comportar diferentemente.
+
+## Redundância e orçamento de falhas
+
+Considere pico de 2.400 RPS e servidor capaz de 600 RPS na latência pretendida e mistura de carga testada. Para operar a 60% desse limite, planeje `600×0,60=360` RPS por nó. `ceil(2400/360)=7` nós saudáveis cobrem o pico modelado. Para suportar falha de um nó mantendo o objetivo, provisione 8. É um *cenário*: se o banco não fornece 2.400 RPS, adicionar réplicas da aplicação não resolve o sistema completo.
+
+Um SLO mensal de disponibilidade de 99,9% corresponde a aproximadamente 43,2 minutos de indisponibilidade permitida em 30 dias, quando a medida é proporção de tempo. Mas um SLO baseado em requisições conta erros por requisição; traduzir diretamente para minutos pode ser inadequado [2]. Declare o indicador e o critério de erro.
+
+## Armazenamento, rede e retenção
+
+Para `N` registros novos/dia, tamanho médio lógico `S` bytes e retenção de `D` dias, armazenamento lógico bruto ativo é `N×S×D`, sem exclusões nem compressão. Demanda física inclui índices, réplicas, logs transacionais, backups, sistema de arquivos e margem de segurança. Em rede, distinga MB decimal de MiB binário e payload de bytes transmitidos ou comprimidos. Sistemas com muitas leituras podem saturar banda antes da CPU.
+
+| Incerteza | Medição necessária |
+| --- | --- |
+| Relação pico/média | Tráfego por período, região e endpoint |
+| Capacidade por instância | Teste de carga com dependências representativas |
+| Taxa de acerto do cache | Comparação entre cache frio e aquecido |
+| Mistura de operações | Custo por rota e classe de usuário |
+| Margem de recuperação | Derrubar uma réplica sob carga e observar p99 |
+
+## Experimentos e registro de decisão
+
+Execute testes de regime, rajada, partida a frio e falha de instância. Declare carga oferecida, vazão bem-sucedida, p95/p99, erros, CPU, memória, filas e condições das dependências. Se a carga oferecida cresce mas a vazão **concluída** deixa de aumentar, o excesso precisa ser rejeitado ou acumular em fila; contar apenas requisições aceitas disfarça a sobrecarga. Documente quando o controle de admissão passa a ser obrigatório [1].
+
+**Verificação:** depois da falha de uma réplica, dimensione com as réplicas *restantes*. Se a taxa de acerto do cache normalmente é 95%, estime a carga na origem caso ela caia para zero; resiliência depende desse pico, não apenas da média.
+
 ## Exercícios e verificação
 1. Para 8,64 milhões de requisições/dia, a média é 100 req/s. Com pico 5×, projete 500 req/s.
 2. Se cada worker sustenta 80 operações/s e chegadas persistentes são 100/s, o atraso cresce; identifique o mecanismo de rejeição ou ampliação de capacidade.

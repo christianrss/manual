@@ -45,6 +45,30 @@ When the cache becomes unavailable, decide deliberately whether requests bypass 
 ## HTTP cache semantics versus application cache
 HTTP defines explicit freshness, validation and cache-control rules; `Cache-Control: no-store` is not interchangeable with `no-cache`. The latter ordinarily requires successful validation before reuse, while `no-store` forbids intentional storage by compliant caches [1]. A Redis-based application cache has different semantics and must implement its own coherency rules.
 
+## Correctness requires specifying ownership of data
+
+Caching stores an additional representation of an underlying value. The **source of truth** is the component authorized to decide its current meaning, while a cache supplies a reusable copy under a validity policy. If an access-control decision or balance must reflect the latest committed state, a stale copy may be a correctness bug, not just a display issue. Explicitly name whether the application tolerates bounded staleness, read-your-writes, or stronger guarantees [1].
+
+A cache key must include all semantic inputs: tenant, locale, pagination, permissions, feature flags or object version when relevant. If a response depends on user identity but the key only includes the URL, shared caching can expose one user's data to another. HTTP `Vary` and relevant `Cache-Control` semantics address some HTTP representations; they do not automatically govern arbitrary application-level cache stores [1].
+
+## Derive cost and hit-rate impacts
+
+Let incoming read rate be `R`, hit probability `h`, cache latency `Lc` and origin latency `Lo`. Under a simplified serial model with constant latencies, expected read time is approximately `h×Lc+(1−h)×(Lc+Lo)`; expected origin request rate is `R(1−h)` only if every miss causes one origin call and there are no refreshes. At `R=20,000` RPS with `h=0.98`, baseline misses are 400 RPS. If the cache fails and every read falls back, origin sees 20,000 RPS: **50 times** the normal cache-miss volume. Fallback must be capacity-tested, not merely programmed.
+
+## A race that TTL does not solve
+
+Consider: client A misses the cache and reads database version 4; client B writes version 5, commits, then invalidates the cache; client A now stores its older version 4 in the cache. A TTL limits the duration of the problem but does not prevent the stale resurrection. Solutions vary: immutable versioned keys tied to current metadata, compare-and-set on increasing versions, coordinated invalidation, or reads with an explicit consistency token. Each strategy has a cost and must be validated for concurrent writers [2].
+
+## Eviction, expiration and stampedes
+
+**Expiration** decides when an entry becomes invalid for reuse; **eviction** removes entries because of capacity pressure, possibly well before TTL. LRU approximates recent usage, LFU frequency, and each can behave poorly under certain workloads. If thousands of clients simultaneously miss a popular key, request coalescing ensures at most one in-flight fetch per key *per coordination scope*. TTL jitter reduces synchronized expiry but does not guarantee elimination of a cache stampede.
+
+For negative caching, define how long a 'not found' response may be reused. If users can create a previously missing resource, a long negative-cache TTL delays its visibility. Do not cache authenticated error responses indiscriminately.
+
+## Evidence required before deploying a cache
+
+Record expected keys and cardinality, serialization format, max object size, memory budget, key distribution, hit and byte-hit ratios, eviction rate, freshness age, upstream request rate and cache outage behavior. Load-test cold start and a single hot key. A correct operational policy may deliberately return a controlled error when the source of truth would otherwise be overwhelmed rather than attempt an unbounded cache bypass [2].
+
 ## Exercises and verification
 1. Two users request `/profile` with different identities. What belongs in the cache key or why should the response not be shared?
 2. After invalidation, an old in-flight read attempts to repopulate a key. Design a version token or compare-and-set rule to reject stale writes.

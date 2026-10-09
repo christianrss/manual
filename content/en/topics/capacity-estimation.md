@@ -47,6 +47,36 @@ As utilization approaches a constrained resource's limit, queuing delay can incr
 
 The diagram is a **possible read path**, not an instruction to add every component. A small application may correctly start with a single service and relational database.
 
+## A capacity model must have units and a saturation curve
+
+The arithmetic `instances=ceil(peak_RPS / tested_RPS_per_instance)` is meaningful only when the denominator is measured at the required latency and error budget. A benchmark reporting the **maximum** throughput at 100% CPU cannot be used as a safe per-instance operating target. Load depends on request mix, payload size, data locality, connection reuse, background jobs and downstream saturation. For each assumption, record a plausible range and rerun the estimate with pessimistic values [1].
+
+Separate **arrival rate** `λ` (jobs/s), **service rate** `μ` (jobs/s per worker) and **concurrency** `L` (jobs in system). Little's law `L=λW` holds for stable systems over consistent observation boundaries; it does not by itself predict response-time distribution. For a single idealized M/M/1 queue with Poisson arrivals and exponential service times, mean time in the system is `W=1/(μ−λ)` when `λ<μ`; this is a *model*, not a universal production formula. As `λ` approaches `μ`, delay diverges. Real services with bursty arrivals or multiple resource constraints can behave differently.
+
+## Redundancy and failure budgets
+
+Suppose peak traffic is 2,400 RPS, and a server sustains 600 RPS at the desired latency under the intended mix. To target 60% of that tested ceiling, plan `600×0.60=360` RPS per node. `ceil(2400/360)=7` healthy nodes cover the modeled peak. To survive one node failing while keeping the same target, provision 8. This is a *scenario*: if the database cannot supply 2,400 RPS, adding replicas to the application tier will not make the end-to-end service scale.
+
+A 99.9% monthly availability SLO corresponds to approximately 43.2 minutes of total allowed unavailability over a 30-day month, if measured as a simple time proportion. But a request-based SLO may count failed requests rather than minutes, so converting directly to a time budget may be misleading [2]. Clearly define the measurement and error criteria.
+
+## Storage, bandwidth and retention
+
+For `N` new records/day, mean logical record size `S` bytes and retention `D` days, raw live logical storage is `N×S×D`, ignoring deletion and compression. Physical demand adds indexes, replication, transaction logs, backup retention, filesystem overhead and headroom. For network transfer, distinguish decimal MB from binary MiB and whether you are counting payload, wire bytes or compressed transfer. Read-heavy systems may be bandwidth-constrained long before CPU saturation.
+
+| Unknown | Experiment to reduce uncertainty |
+| --- | --- |
+| Peak-to-average ratio | Measure traffic by time bucket, region and endpoint |
+| Per-instance capacity | Load test against representative downstreams |
+| Cache hit fraction | Compare warmed and cold cache windows |
+| Traffic mix | Break down cost by endpoint and user tier |
+| Recovery margin | Kill one replica during load and inspect p99 |
+
+## Test design and decision record
+
+Run a steady-state test, a burst test, a cold-start test and a failure-over test. Each should specify offered load, completed throughput, p95/p99, errors, CPU, memory, queue depth and downstream health. If offered load increases while **successful** throughput stops growing, the difference must be rejected or accumulate as backlog; simply counting accepted requests hides overload. Document the point where admission control becomes necessary [1].
+
+**Checkpoint:** if one replica fails, estimate capacity using *remaining* replicas. If you use a cache hit rate of 95%, quantify the origin load when that hit rate suddenly becomes 0%; resilience depends on the surge, not only normal operation.
+
 ## Exercises and verification
 1. If average traffic doubles but peak ratio stays constant, redo instance provisioning while preserving one-failure tolerance.
 2. At 500 RPS and average response time 0.4 seconds, Little's law suggests mean concurrency `200` in a stable system. Explain why p99 latency may still be much higher.
