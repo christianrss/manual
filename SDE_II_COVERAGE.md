@@ -28,7 +28,7 @@ The employer describes coding, data structures, algorithms, design, maintainable
 - `monotonic-stacks` — next greater, daily temperatures, histogram and amortized analysis.
 - `tree-algorithms` — BFS levels, LCA, diameter and ancestor-bound BST validation.
 
-**Next priority:** complete the system-design process and end-to-end design exercises, then debugging/profiling and release engineering. Object-oriented design, SOLID and core testing strategies now have standalone published EN/PT chapters. Published fundamentals still require sustained problem-solving practice and technical review.
+**Next priority:** expand from the published system-design method and notification case into storage selection, order-service and feed designs; then debugging/profiling and release engineering. Object-oriented design, SOLID and testing already have separate EN/PT chapters. Published fundamentals still require sustained problem-solving practice and technical review.
 
 ## P1 — Problem-solving and coding competency
 
@@ -51,14 +51,17 @@ Still required: deliberate practice with greedy, monotonic-stack and tree algori
 
 Existing: `capacity-estimation`, `caching`, `asynchronous-messaging`, `load-balancing`, `rate-limiting`, `database-consistency`, `api-reliability`, `network-protocols`, `url-shortener` plus advanced internals.
 
-**New core chapters needed:**
-1. `system-design-process` — functional/nonfunctional requirements, estimates, interfaces, component diagrams, bottlenecks, failure cases, verification.
-2. `api-contracts-pagination` — REST semantics, pagination, status/errors, compatibility, idempotency.
-3. `data-partitioning-sharding` — partition keys, hotspots, rebalancing, consistency, operational cost.
-4. `storage-selection` — relational/document/key-value trade-offs based on access patterns.
-5. `system-design-notifications` — full worked design from requirements through storage, delivery, failure and SLO.
-6. `system-design-order-service` — complete design with inventory, payments, concurrency and failure recovery.
-7. `system-design-feed` — full worked design of high-read fanout architecture and consistency.
+**Newly published EN/PT:**
+- `system-design-process` — functional and nonfunctional requirements, explicit estimates, APIs, storage authority, failure cases, measurable validation.
+- `api-contracts-pagination` — HTTP method semantics, opaque signed cursors, ETags, idempotent commands, standardized errors and compatibility.
+- `data-partitioning-sharding` — partition keys, hotspots, stable rendezvous mapping, migration protocol and global-uniqueness boundaries.
+- `system-design-notifications` — full worked multi-channel design, durable transactional outbox, provider ambiguity, backlog math and recovery.
+
+**Core chapters still needed:**
+1. `storage-selection` — relational/document/key-value choices driven by concrete access patterns and consistency.
+2. `system-design-order-service` — complete system with inventory, payment coordination, concurrency and recovery.
+3. `system-design-feed` — high-read content feed with fanout alternatives, hotspots and freshness.
+4. `service-boundaries` — synchronous versus asynchronous collaboration and separation criteria.
 
 Advanced chapters such as `raft-consensus`, `memory-ordering-atomics` and `formal-model-checking` are **optional enrichment** until the core path is complete.
 

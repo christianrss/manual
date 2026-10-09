@@ -5,7 +5,7 @@ description: "Learn a complete system design method through requirements, worklo
 category: system-design
 difficulty: intermediate
 updated: 2026-10-09
-prerequisites: [capacity-estimation, api-reliability, database-consistency]
+prerequisites: [capacity-estimation]
 sources:
   - {title: "Google SRE Workbook — Implementing SLOs", url: "https://sre.google/workbook/implementing-slos/", kind: "official engineering workbook"}
   - {title: "Amazon Builders Library — Timeouts, retries and backoff with jitter", url: "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/", kind: "original engineering guidance"}
