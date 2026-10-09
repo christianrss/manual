@@ -34,3 +34,9 @@ This is a public, bilingual, referenced technical manual. The repository is the 
 - Revisit correctness and examples, not just append more words. Name hidden assumptions, explain intermediate derivations, and include at least one nontrivial counterexample.
 - Follow Edition 2 rules in EDITORIAL.md and run *all* Python code fences, in both EN and PT, through tests/test_all_code_examples.py.
 - Never mark material as comprehensively complete merely because chapter count or build checks pass.
+
+## SDE II core coverage priority (editorial correction, 2026-10-09)
+- The primary near-term publication goal is a rigorous **Amazon SDE II study track** based on public Amazon.jobs preparation material. Amazon-specific branding and hiring process belong only in the track and its roadmap; ordinary technical articles remain employer-neutral.
+- Before choosing a new advanced topic, read `SDE_II_COVERAGE.md`. Close missing **basic data structures, algorithm patterns, software engineering/OOP and systematic system design** first. Do not claim a topic is taught because its name appears in another article.
+- Prioritize foundations needed for coding without an IDE, correctness arguments, edge cases and testing, then system-design trade-offs and complete worked architectures. Keep already published advanced material accessible as electives.
+- Each published pair must satisfy EDITORIAL.md and all existing checks. Track `planned_topics` must list material that remains unimplemented instead of marking it finished.
