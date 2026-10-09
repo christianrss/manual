@@ -98,6 +98,8 @@ Tabela hash pode ser menor e mais simples para consultas exatas. Vetor ordenado 
 
 Um erro comum considera qualquer nó alcançado uma palavra: após inserir "cart", a consulta exata "car" retorna verdadeiro indevidamente. Outro erro remove nós compartilhados e faz palavras independentes desaparecerem. Inserções concorrentes não se tornam automaticamente seguras só porque operações isoladas de dicionário parecem atômicas: alterações compartilhadas precisam de sincronização. A política de normalização também deve ser idêntica em gravações e leituras.
 
+**Leituras relacionadas:** [Modelos de colisão em tabelas hash](/pt/topics/hash-tables/) tratam indexação por chave exata; [busca binária](/pt/topics/binary-search/) oferece alternativa com vetor ordenado. Essas estruturas atendem contratos parcialmente diferentes.
+
 ## Exercícios e verificação
 
 1. Insira "an", "ant" e "and". Demonstre que existe prefixo "a", mas não palavra exata "a". Remover "an" deve preservar as demais.

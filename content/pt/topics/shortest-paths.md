@@ -78,6 +78,8 @@ Com lista de arestas, tempo O(VE) e memória O(V). Encerrar antes caso uma rodad
 
 Não finalize vértice só por tê-lo inserido na fila num grafo ponderado. Um caminho posterior pode reduzir a estimativa. Pesos de ponto flutuante requerem políticas de precisão e infinito. Ciclos negativos destroem o ótimo finito, não apenas um algoritmo. Para reconstruir caminhos, guarde pais e percorra do destino até s, rejeitando destino inalcançável.
 
+**Conexão com pré-requisitos:** [Percurso de grafos](/pt/topics/graph-traversal/) explica camadas da BFS e vértices inalcançáveis. [Heaps binários](/pt/topics/heaps-priority-queues/) explica a extração eficiente da menor estimativa.
+
 ## Exercícios e verificação
 
 1. Para s→a peso 8, s→b peso 2 e b→a peso 1, a menor distância até a é 3, não 8. Simule as entradas do heap.

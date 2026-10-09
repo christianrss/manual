@@ -78,6 +78,8 @@ Time is O(VE) and space O(V) for an edge list representation. Terminating early 
 
 Do not mark a vertex as settled merely when enqueued in a weighted graph. A candidate path through another vertex might still improve it. Floating-point weights require numerical policies for infinities and precision. Negative cycles destroy the finite optimum, not just the usefulness of a particular implementation. For paths rather than distances, store parents and reverse the chain from target to s, rejecting unreachable targets.
 
+**Prerequisite connections:** [Graph traversal](/en/topics/graph-traversal/) explains BFS layers and unreachable vertices. [Binary heaps](/en/topics/heaps-priority-queues/) explains why the priority queue can efficiently extract the current smallest estimate.
+
 ## Exercises and verification
 
 1. On s→a weight 8, s→b weight 2 and b→a weight 1, the minimum distance to a is 3, not 8. Walk through the heap entries.

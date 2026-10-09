@@ -76,6 +76,8 @@ A running process may be preempted, block while waiting for I/O, or voluntarily 
 
 Large pages reduce some translation overhead but increase internal fragmentation and may complicate allocation. Copy-on-write can share physical pages until a write requires copying; it demands accurate access permissions and fault handling. Excessive threads consume stacks and scheduling overhead, while too few threads may underutilize I/O waits. Security cannot be inferred from language runtime alone; kernel permission boundaries are a separate layer.
 
+**Next chapter:** [Concurrency and synchronization](/en/topics/concurrency-synchronization/) builds on the distinction between process isolation, shared address spaces and independently scheduled threads.
+
 ## Exercises and verification
 
 1. With page size 4096 and address 12,345, compute VPN=3 and offset=57; verify 3×4096+57=12,345.

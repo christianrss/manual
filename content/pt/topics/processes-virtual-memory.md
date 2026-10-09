@@ -76,6 +76,8 @@ O processo em execução pode ser preemptado, bloquear esperando E/S ou ceder CP
 
 Páginas grandes reduzem parte do custo de tradução, mas aumentam fragmentação interna e complexidade de alocação. Copy-on-write permite compartilhar quadros até ocorrer escrita, quando pode ser necessário copiar; exige proteções e tratamento corretos de exceções. Threads em excesso consomem pilhas e tempo de escalonamento, enquanto poucas threads podem desperdiçar intervalos de E/S. A linguagem de programação não substitui a fronteira de proteção do kernel.
 
+**Próximo capítulo:** [Concorrência e sincronização](/pt/topics/concurrency-synchronization/) parte da diferença entre isolamento de processos, endereços compartilhados e threads escalonadas independentemente.
+
 ## Exercícios e verificação
 
 1. Para página de 4096 bytes e endereço 12.345, calcule VPN=3 e deslocamento=57; confira 3×4096+57=12.345.

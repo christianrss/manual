@@ -98,6 +98,8 @@ A hash table may be simpler and smaller for exact lookups with no prefix operati
 
 A common bug treats any reached node as a complete word: after inserting "cart", querying "car" incorrectly returns true. Another incorrectly deletes a shared node, causing unrelated words to vanish. Concurrent inserts are not safe merely because a dictionary offers individual atomic-looking operations; coordinate mutations when threads share the trie. Strings with surrogate or combining sequences require normalization policy consistent across insertion and lookup.
 
+**Related reading:** [Hash-table collision models](/en/topics/hash-tables/) explains exact-key indexing; [binary search](/en/topics/binary-search/) provides an ordered-array alternative. These structures solve overlapping but nonidentical query contracts.
+
 ## Exercises and verification
 
 1. Insert "an", "ant" and "and": prove that prefix "a" exists but exact word "a" does not. Deleting "an" must preserve both longer words.
