@@ -53,6 +53,37 @@ Client -> DNS -> load balancer -> app A / app B / app C
 
 Adding app replicas cannot solve a single-database bottleneck. Likewise, a load balancer does not guarantee correctness of concurrent writes; see [Transaction Consistency](/en/topics/database-consistency/). Estimate whether the shared data tier can handle the full traffic and the bursts created by retries.
 
+## Routing policies and queueing behavior
+
+**Round robin** distributes requests in sequence but assumes approximately equal request cost and compatible instance capacity. **Weighted round robin** reflects known differences in host capacity but not instantaneous saturation. **Least connections** directs work to a node with fewer active connections; it can be misleading when a connection is idle or multiplexes many requests. A latency-aware policy uses feedback but must avoid oscillation and unfair concentration caused by noisy measurements. The algorithm is a workload assumption, not an unconditional ranking of strategies [1].
+
+Distinguish layer-4 routing (transport tuples and connections) from layer-7 routing (HTTP method, path, headers, host or cookies). TLS may terminate at the gateway or be passed through; the choice affects certificate ownership, observability and the trust boundary. Never assume a client IP header can be trusted when the proxy chain is not authenticated.
+
+## Stateful traffic and connection draining
+
+A stateless application can route successive requests from the same user to different instances because session state lives in a durable or appropriately shared component, or is explicitly self-contained and validated. **Sticky sessions** can preserve in-memory state temporarily but complicate failover and unevenly distribute hot users; they are not a substitute for a deliberate session model.
+
+When removing a node, first stop admitting new work, then allow in-flight requests to finish until a bounded deadline. Different protocols need different semantics: a WebSocket may remain open for hours, while an HTTP request may last milliseconds. A node that passes TCP health checks can still be broken at the application layer; use readiness checks for routing and a separate process liveness policy.
+
+## Health checks and correlated failures
+
+For `N` healthy instances each providing `C` sustainable requests per second at the required latency, rough provisioned capacity is `N×C`, but correlated dependencies such as one saturated database invalidate independent-server arithmetic. Active checks detect known failure conditions; passive checks use observed traffic but may react too slowly or mark nodes bad during a shared downstream outage. Retry amplification from gateways can make the incident worse.
+
+A **single load balancer** is itself a failure domain. Redundancy may require multiple gateways and a strategy for DNS, anycast or managed failover. A successful failover test should verify routing convergence and client behavior, not merely that the second gateway is reachable [2].
+
+## Capacity example and observability
+
+For peak 3,000 RPS and 500 RPS measured maximum *per healthy instance*, planning at 60% yields 300 RPS planned per node; ten nodes cover peak, and eleven allow one failure at the same target. Yet if 20% of operations cost five times as much CPU as the others, a simple RPS metric hides the shift in resource consumption. Segment load tests by endpoint and use completed RPS, p95/p99, error rate, active requests and saturation.
+
+| Failure | Visible symptom | Engineering response |
+| --- | --- | --- |
+| One instance stops | 5xx/connection failures | Health detection, retry budget and drain |
+| All instances share failing database | Correlated failures | Shed work; do not route endlessly |
+| Client session held only in memory | Logout after failover | Shared/durable session contract |
+| Slow requests dominate connections | Uneven work despite equal RPS | Prefer workload-aware health/cost metrics |
+
+**Review question:** If you split a service into more replicas, which parts of state must also move? If the answer is 'none' but workers keep mutable session data in local RAM, the proposed scalability claim is incomplete.
+
 ## Exercises and verification
 
 1. At 2,400 requests/s and 400 requests/s per instance with 50% planned utilization, ceil(2400/200) = 12 healthy instances; 13 survive one failure with that target.

@@ -74,6 +74,37 @@ Relógios monótonos são adequados dentro de um processo, mas não podemos comp
 
 Padronize resposta 429 e opcionalmente Retry-After, exigindo clientes com espera exponencial limitada e jitter. Diferencie operações caras de leituras baratas quando necessário. Monitore aceitas e rejeitadas, concentração por tenant, saturação de backends, falhas do armazenamento e latências p95/p99. Rate limiting não substitui autenticação, autorização nem limitação de concorrência.
 
+## Demonstração do limite superior do token bucket
+
+Seja `b(t)` a quantidade de tokens, `B` a capacidade, `r` tokens/s a reposição e trabalho admitido medido nas mesmas unidades. Entre `t0` e `t1`, o trabalho aceito não supera `B+r(t1−t0)` sob um único bucket serializado: no início existem no máximo `B` tokens e a reposição acrescenta no máximo `rΔt`. Isso **não** impõe limite instantâneo rígido de requisições por segundo: uma rajada B pode passar de uma vez. Use semáforo de concorrência ou controle de trabalhos ativos se a duração das operações também puder saturar os recursos.
+
+## Comparação das janelas e dos modelos
+
+O contador de janela fixa reinicia nos limites temporais e pode permitir quase duas cotas em intervalo curtíssimo próximo à virada. O log deslizante armazena timestamps e impõe contagem móvel exata ao custo de mais estado. O token bucket permite acumular créditos até B. Um leaky bucket com fila escoa trabalho a uma taxa controlada, mas pode acrescentar latência ou descartar após encher. Produtos chamam mecanismos específicos de 'leaky bucket'; verifique a semântica real em vez de presumir que as equações coincidam [2].
+
+## Atomicidade e limite distribuído
+
+Considere um contador compartilhado com um token restante; duas instâncias leem simultaneamente o mesmo valor. Se cada uma subtrai por etapas separadas de leitura e escrita, ambas podem admitir a operação, ultrapassando a cota. Use transição atômica no servidor ou transação e documente a origem do relógio. Dividir cota entre nós reduz coordenação, mas gera problemas de *transferência de orçamento* e equidade quando o tráfego se distribui mal. *Fail open* preserva disponibilidade e permite carga excessiva; *fail closed* pode bloquear clientes legítimos quando o limitador falha.
+
+Com múltiplos limites—IP, usuário e global—defina ordem de avaliação e se uma rejeição também consome outras cotas. Evite revelar identidades por tempo ou detalhe da resposta. Rate limiting não substitui autenticação, autorização, detecção de bots ou garantia de capacidade do backend.
+
+## Política HTTP e comportamento do cliente
+
+HTTP 429 indica excesso de requisições; `Retry-After` pode informar atraso antes da repetição. O cliente não deve tentar novamente tudo de imediato: retries sincronizados geram novos picos. Prefira backoff exponencial limitado com jitter e prazo máximo, considerando idempotência do comando [1].
+
+```text
+POST /v1/operacao-custosa
+HTTP/1.1 429 Too Many Requests
+Retry-After: 5
+Content-Type: application/json
+
+{"error":"rate_limited","retryable":true}
+```
+
+## Experimentos necessários
+
+Use relógio monotônico controlado para testar: rajada inicial B; esgotamento exato; reposição parcial; ociosidade longa sem ultrapassar B; custo fracionário; movimento negativo de tempo inválido; e duas tentativas simultâneas pelo último token. O último caso **não é comprovável** pela demonstração sequencial em memória: execute-o na implementação atômica compartilhada. Teste também partições regionais e quedas da loja de estado para conferir a política de falhas.
+
 ## Exercícios e verificação
 
 1. Com B=8 e r=1 token/s, oito chamadas no instante zero esgotam tokens; após três segundos, passam exatamente três requisições unitárias.

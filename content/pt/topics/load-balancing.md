@@ -53,6 +53,37 @@ Cliente -> DNS -> balanceador -> app A / app B / app C
 
 Adicionar réplicas da aplicação não resolve o gargalo de um único banco de dados. O balanceador também não garante correção de escritas concorrentes; consulte [Consistência transacional](/pt/topics/database-consistency/). Dimensione o armazenamento para a demanda agregada e as rajadas provocadas por retentativas.
 
+## Políticas de roteamento e comportamento das filas
+
+**Round robin** distribui requisições em sequência, mas pressupõe custos e capacidades aproximadamente iguais. **Weighted round robin** representa diferenças conhecidas de capacidade, sem refletir necessariamente saturação instantânea. **Least connections** envia trabalho ao nó com menos conexões ativas; pode enganar quando conexões estão ociosas ou multiplexam múltiplas requisições. Políticas baseadas em latência usam feedback, mas podem oscilar ou concentrar carga conforme ruído das medições. A escolha do algoritmo depende do trabalho real, não de um ranking universal [1].
+
+Diferencie roteamento de camada 4 (conexões e transporte) de camada 7 (método HTTP, rota, cabeçalhos, host e cookies). TLS pode terminar no gateway ou ser encaminhado; isso altera posse de certificados, observabilidade e fronteiras de confiança. Nunca confie automaticamente num cabeçalho de IP de cliente se a cadeia de proxies não for autenticada.
+
+## Sessões e drenagem de conexões
+
+Uma aplicação sem estado pode encaminhar requisições sucessivas do mesmo usuário a instâncias diferentes porque a sessão reside num componente persistente/compartilhado apropriado, ou porque carrega estado autossuficiente validado. **Sticky sessions** preservam estado em memória por algum tempo, mas complicam failover e desequilibram usuários muito ativos; não substituem modelo deliberado de sessão.
+
+Ao retirar um nó, pare primeiro de admitir novas requisições e permita que as existentes terminem até um prazo máximo. Protocolos exigem semânticas diferentes: um WebSocket pode durar horas, um HTTP comum milissegundos. Uma instância pode aprovar teste TCP e falhar na lógica da aplicação; use readiness para roteamento e política distinta para liveness do processo.
+
+## Health checks e falhas correlacionadas
+
+Para `N` instâncias saudáveis com capacidade `C` requisições/s cada, na latência exigida, capacidade aproximada é `N×C`; porém dependências compartilhadas, como banco saturado, invalidam a hipótese de nós independentes. Testes ativos detectam falhas previstas; observação passiva usa tráfego real, mas pode reagir tarde ou marcar todos os nós como ruins numa pane comum. Repetições descontroladas no gateway podem agravar o incidente.
+
+Um **único load balancer** também é domínio de falha. Redundância pode exigir múltiplos gateways e estratégia de DNS, anycast ou failover gerenciado. Um teste bem-sucedido de failover verifica convergência de rota e comportamento dos clientes, não apenas alcance ao segundo gateway [2].
+
+## Dimensionamento e observabilidade
+
+Para pico de 3.000 RPS e 500 RPS de capacidade máxima medida *por instância*, operar a 60% produz alvo de 300 RPS por nó; dez nós cobrem pico e onze toleram uma falha sob o mesmo alvo. Mas se 20% das operações gastam cinco vezes mais CPU que as demais, RPS agregado esconde a alteração de custo. Meça carga por endpoint, RPS concluído, p95/p99, erros, operações simultâneas e saturação.
+
+| Falha | Sintoma | Resposta |
+| --- | --- | --- |
+| Instância para | 5xx/erros de conexão | Health checks, orçamento de retries e drain |
+| Banco compartilhado falha | Erros correlacionados | Rejeitar excesso em vez de roteamento infinito |
+| Sessão só em memória | Perda de sessão no failover | Contrato de sessão compartilhada/persistente |
+| Operações lentas dominam conexões | Trabalho desigual apesar de RPS igual | Medir custo e latência por classe de operação |
+
+**Revisão:** se você multiplica réplicas, quais partes de estado precisam mudar? Se a resposta é 'nenhuma', mas sessões mutáveis continuam na RAM local, a alegação de escalabilidade está incompleta.
+
 ## Exercícios e verificação
 
 1. Com 2.400 requisições/s, capacidade de 400 por instância e utilização planejada de 50%, ceil(2400/200) = 12 instâncias saudáveis; 13 toleram uma falha.

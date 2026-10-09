@@ -74,6 +74,37 @@ Monotonic clocks work inside one process but timestamps from unrelated hosts can
 
 Choose a clear 429 response body, optionally including Retry-After, and require clients to apply bounded backoff with jitter. Separate expensive operations from lightweight reads when necessary. Track accepted versus rejected requests, per-tenant concentration, backend saturation, store failures and p95/p99 latency. Rate limiting does not replace authentication, authorization or a work-concurrency limit.
 
+## Prove the token-bucket upper bound
+
+Let `b(t)` denote current tokens, capacity `B`, refill rate `r` tokens/s, and admitted work counted in the same token units. Between any times `t0` and `t1`, admitted work cannot exceed `B+r(t1−t0)` under a single serialized bucket, because at most `B` tokens are initially present and refill adds at most `rΔt`. This does **not** guarantee an instantaneous requests-per-second ceiling: a bucket can allow a burst of size B at one moment. Use a concurrency semaphore or active-work limit when work duration, rather than rate alone, risks saturating resources.
+
+## Compare fixed, sliding and leaky models
+
+A fixed counter resets at calendar-window boundaries, so a client can send nearly two windows' worth of requests in a narrow interval spanning a boundary. A sliding-log limiter stores timestamps and can enforce an exact rolling count at the price of more state. A token bucket permits explicit credit accumulation up to B. A leaky-bucket queue drains at a controlled service rate but may add latency or drop requests once full. Vendor implementations may use 'leaky bucket' terminology with specific scheduling rules; test actual semantics rather than assuming equations match [2].
+
+## Atomicity and distributed limits
+
+Suppose a distributed counter shows one remaining token, and two instances concurrently read it. If both decrement through separate read/write steps, both may accept even though capacity was one. Use an atomic server-side transition or transaction and document how the clock is obtained. Partitioning the quota among nodes reduces shared coordination but creates *budget transfer* and fairness questions when traffic is uneven. Fail-open policies preserve availability but risk excess costly work; fail-closed policies can reject authorized customers when the shared limiter is unavailable.
+
+For a hierarchy of limits—per-IP, per-user and global—state evaluation order and whether a rejected request consumes other quotas. The server should avoid leaking identities through timing or detail of error responses. Rate limiting is not authentication, authorization, bot detection or a guarantee of backend capacity.
+
+## HTTP response policy and client behavior
+
+HTTP 429 states that too many requests occurred; a `Retry-After` value may provide a retry delay. A client should not immediately retry all failures in lockstep: synchronized retries can generate another spike. Prefer bounded exponential backoff with jitter and a maximum retry deadline, considering whether the operation is idempotent [1].
+
+```text
+POST /v1/expensive-operation
+HTTP/1.1 429 Too Many Requests
+Retry-After: 5
+Content-Type: application/json
+
+{"error":"rate_limited","retryable":true}
+```
+
+## Experimental checks
+
+Use a controlled monotonic clock to validate: initial burst B; exactly zero remaining tokens; partial refill; long idle period never increasing above B; fractional operation cost; invalid negative time movement; and two concurrent attempts competing for the final token. The last test **cannot** be proven by the current in-memory sequential demonstration—run it against the intended atomic shared-state implementation. Additionally test regional partitions and limiter-store outages to confirm the documented failure policy.
+
 ## Exercises and verification
 
 1. If B=8 and r=1 token/s, eight requests at time zero exhaust tokens; after three seconds exactly three unit-cost requests may pass.

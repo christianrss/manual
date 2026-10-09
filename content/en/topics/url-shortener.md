@@ -51,6 +51,36 @@ A production design also needs metrics (read success rate, p99 latency, cache hi
 - Custom aliases require a uniqueness and namespace policy; case sensitivity must be explicit.
 - A short code should not be treated as an authorization token. Unpredictability may reduce enumeration, but access control is a separate requirement.
 
+## Make URL identity and redirect semantics explicit
+
+A short code is a public identifier, **not an access token**. If private destinations exist, authentication and authorization must be performed independently of how difficult a code is to guess. Decide whether links are mutable or immutable, when expiration is enforced, whether custom aliases may be reassigned, and whether case matters. Those choices determine cache keys, schemas and potential abuse cases. Validate schemes against an allowlist and inspect redirects according to a clearly stated safety policy; a syntactically valid URL can still lead to a malicious destination.
+
+For redirects, `301` and `308` communicate permanence whereas `302` and `307` are temporary, with differences in how methods and bodies are preserved. Browser/proxy caching can make a revoked or edited destination difficult to invalidate if permanent caching was previously allowed. Choose status codes according to the product contract and test the actual client behavior [3].
+
+## Derive identifier-space constraints
+
+A fixed-length alphabet of size `b` and code length `k` yields `b^k` possible codes. For Base62 and 7 symbols, there are `62^7=3,521,614,606,208` values. This is capacity, not random collision protection. With uniformly random independent samples from a space `M`, the birthday approximation for **at least one pairwise collision** among `n` generated samples is `1-exp[-n(n-1)/(2M)]` when the approximation's conditions hold. Enforce a unique database key and retry collisions atomically; never rely on 'check availability then insert' without atomic uniqueness.
+
+## A consistency-aware read path
+
+On `GET /{code}`, validate code syntax, find mapping in a cache if allowed, otherwise in the authoritative datastore, check expiration/revocation, and return the specified redirect status. Negative caching of unknown codes can improve abuse handling but delays visibility when a previously missing custom alias is created. A deletion or destination update must document the maximum staleness allowed in caches. If revocation is security-critical, a long TTL without coordinated invalidation is inconsistent with the requirement.
+
+## Capacity and hot-key analysis
+
+For 100 million redirects/day, mean rate is about 1,157 RPS; a 10× assumed peak is ~11,574 RPS. A single popular link may receive a large fraction of reads, so uniform partitioning by key does **not** guarantee uniform traffic. A CDN or replicated cache can absorb hotspots if stale data is permissible; analytics can be asynchronously processed with explicit duplicate-delivery handling. URL writes and redirects have distinct scaling patterns and therefore separate performance budgets.
+
+## Failure-mode matrix
+
+| Event | Expected behavior | Design consideration |
+| --- | --- | --- |
+| Duplicate random code | Retry insert | Unique constraint and bounded retries |
+| Database unavailable, cache miss | Controlled error or explicitly allowed stale response | SLO and staleness agreement |
+| Cached revoked URL | Must satisfy revocation policy | Versioned keys / invalidation |
+| Popular code overloads one shard | Queue/retry pressure | Hot-key replication or front cache |
+| Malicious redirect submitted | Reject/quarantine according to policy | Abuse detection and audit |
+
+**Architecture review:** the simplest viable deployment may be one stateless web service and relational database, with a cache only after measured need. Do not add distributed coordination to solve a scale that the measurements do not establish.
+
 ## Exercises and verification
 1. Calculate average redirect RPS for 86.4 million redirects/day: `1,000/s`. Then add an explicit peak factor.
 2. Explain why random IDs plus a primary-key constraint are safer than checking existence before insertion without a transaction.

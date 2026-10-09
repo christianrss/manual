@@ -48,6 +48,36 @@ Leituras populares podem ficar em cache com TTL e invalidação apropriados. Se 
 
 A validação de destinos deve considerar redirecionamentos não validados, risco documentado pela OWASP [2]. A diferença operacional entre códigos de status HTTP deve seguir a RFC 9110 [3].
 
+## Identidade da URL e semântica do redirecionamento
+
+Um código curto é identificador público, **não token de acesso**. Se existirem destinos privados, autenticação e autorização devem ser independentes da dificuldade de adivinhar o código. Decida se links são mutáveis, como expiração é aplicada, se aliases customizados podem ser reassociados e se maiúsculas têm significado. Isso determina chaves de cache, esquema e possibilidades de abuso. Valide esquemas da URL por allowlist e trate redirecionamentos conforme política de segurança; URL sintaticamente válida também pode levar a destino malicioso.
+
+Nos redirects, `301` e `308` comunicam permanência, ao passo que `302` e `307` são temporários, com distinções sobre preservação de método e corpo. Cache de navegadores e proxies pode dificultar revogação ou edição após redirecionamentos permanentes. Escolha código HTTP pelo contrato e teste clientes reais [3].
+
+## Cálculo do espaço de identificadores
+
+Um alfabeto de tamanho `b` e identificador de comprimento `k` permitem `b^k` combinações. Para Base62 e sete símbolos, são `62^7=3.521.614.606.208` códigos. Isso é capacidade, não proteção absoluta contra colisões aleatórias. Com amostras independentes e uniformes em espaço `M`, a aproximação do aniversário para a probabilidade de **ao menos uma colisão entre pares** em `n` amostras é `1-exp[-n(n-1)/(2M)]`, dentro de suas hipóteses. Imponha chave única no banco e repita conflitos atomicamente; não confie em 'verificar se existe e depois inserir' sem unicidade transacional.
+
+## Rota de leitura com consistência explícita
+
+Em `GET /{code}`, valide sintaxe, procure o mapeamento no cache se permitido, consulte a fonte de verdade em caso de falta, aplique expiração/revogação e responda com o status definido. Cache negativo de códigos inexistentes ajuda contra abuso, mas atrasa visibilidade de novo alias customizado. Exclusão ou edição precisa definir defasagem máxima admitida nos caches. Se revogação é crítica à segurança, TTL elevado sem invalidação coordenada contradiz a exigência.
+
+## Capacidade e chaves extremamente populares
+
+Para 100 milhões de redirects/dia, média aproximada de 1.157 RPS; assumindo pico 10×, cerca de 11.574 RPS. Um link popular pode concentrar grande parte das leituras; particionar uniformemente por chave **não garante** tráfego uniforme. CDN ou cache replicado absorvem hotspots quando cópias obsoletas são aceitáveis; análises podem ser assíncronas com tratamento de entregas duplicadas. Gravação e redirecionamento têm padrões de escala distintos e, portanto, orçamentos de desempenho próprios.
+
+## Matriz de falhas
+
+| Evento | Comportamento esperado | Solução |
+| --- | --- | --- |
+| Código aleatório duplicado | Repetir inserção | Constraint única e retries limitados |
+| Banco indisponível, falta no cache | Erro controlado ou leitura obsoleta explicitamente permitida | SLO e contrato de defasagem |
+| URL revogada em cache | Cumprir a política de revogação | Chave versionada / invalidação |
+| Código popular satura shard | Pressão de filas/retries | Réplicas ou cache frontal |
+| Redirecionamento malicioso | Rejeitar/quarentenar conforme política | Detecção de abuso e auditoria |
+
+**Revisão:** a arquitetura mínima pode ser um serviço web sem estado e banco relacional, com cache apenas depois de necessidade medida. Não introduza coordenação distribuída para uma escala que as medições ainda não demonstraram.
+
 ## Exercícios e verificação
 1. Se os links podem mudar, explique por que um `301` extensamente cacheado pode ser inadequado.
 2. Compare códigos sequenciais base62 e códigos aleatórios quanto a unicidade, previsibilidade e tratamento de colisões.
