@@ -50,6 +50,39 @@ O procedimento clássico para encontrar uma soma alvo expandindo enquanto a soma
 
 Ao analisar limites de complexidade, mantenha explícito o número total de deslocamentos, de acordo com a abordagem de análise de algoritmos do MIT [2].
 
+## Demonstração por movimento monotônico
+
+Um algoritmo de dois ponteiros é linear apenas quando cada ponteiro se move `O(n)` vezes **e** o custo por movimento é limitado. Para uma janela variável `[left,right]`, conte os movimentos totais: `right` avança no máximo `n` vezes e `left` também, totalizando no máximo `2n`. É um argumento **amortizado**: uma iteração do laço externo pode encurtar a janela várias vezes. A presença de dois índices, por si só, não é prova de linearidade [1].
+
+Quando o estado é um dicionário de frequências, inserir aumenta a contagem e remover diminui; exclua entradas zeradas se a quantidade de chaves distintas representar uma condição. O invariante deve declarar exatamente o significado dessas contagens. Confundir os intervalos `[left,right)` e `[left,right]` provoca erros de comprimento e de remoção.
+
+## Exemplo completo de janela fixa
+
+Para `[3,1,4,1,5]` e janela de tamanho `k=3`, a soma inicial é `3+1+4=8`. Desloque: subtraia 3 e some 1, obtendo 6. Desloque outra vez: subtraia 1 e some 5, obtendo 10. O máximo é 10, sem recalcular três parcelas por janela. Invariante: 'current_sum representa a soma dos elementos da janela atual'. Se `k>n`, decida explicitamente se a operação falha, retorna sentinela ou não encontra resultados.
+
+```python
+def maior_soma_fixa(valores, largura):
+    if largura <= 0 or largura > len(valores):
+        raise ValueError("exige 1 <= largura <= tamanho da entrada")
+    atual = sum(valores[:largura])
+    melhor = atual
+    for direita in range(largura, len(valores)):
+        atual += valores[direita] - valores[direita-largura]
+        melhor = max(melhor, atual)
+    return melhor
+
+assert maior_soma_fixa([3,1,4,1,5],3) == 10
+assert maior_soma_fixa([-5,-2,-9],2) == -7
+```
+
+## Contraexemplo: números negativos rompem a monotonicidade
+
+Procure o menor subvetor de soma ao menos 3. Com `[2,-3,5]`, ampliar a janela de `[2]` para `[2,-3]` **diminui** a soma de 2 para -1; ampliar para `[2,-3,5]` a eleva para 4. O raciocínio habitual 'expandir até válido, contrair enquanto válido' para números não negativos deixa de ser automaticamente correto. Uma alternativa para valores com sinal usa prefixos `p[j]-p[i]` e deque monotônica, com outro invariante [2].
+
+## Comparação com oráculo simples
+
+Para strings curtas aleatórias, compare `longest_unique` com uma implementação de força bruta que enumere todas as substrings e verifique `len(set(trecho))==len(trecho)`. Inclua repetição, entrada vazia, acentos combinados Unicode e sequências longas do mesmo símbolo. O oráculo pode ser lento, pois opera em entradas pequenas e independentes da otimização. Diferencie 'subsequência' (não necessariamente contígua) de 'substring' ou 'subvetor' (contíguos): janelas deslizantes aplicam-se a estes últimos.
+
 ## Exercícios e verificação
 1. Para `"abba"`, a maior substring sem repetição tem comprimento `2`; verifique por que `inicio = max(...)` evita retroceder.
 2. Para `[2,1,3,2]` e `k=2`, calcule as somas `[3,4,5]` em `O(n)`.

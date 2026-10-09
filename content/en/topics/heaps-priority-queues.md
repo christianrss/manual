@@ -60,6 +60,39 @@ assert largest_k([7, 2], 0) == []
 
 A heap is **not** a general-purpose key index. Efficiently changing priority for an arbitrary known item needs an index map or a lazy invalidation policy. Equal priorities need a stable tie-breaker such as an increasing sequence counter; otherwise incomparable payload objects may raise errors. Unbounded queues can consume memory, and priority-based service can starve low-priority tasks. heapq itself is not a concurrent task queue; queue.PriorityQueue provides locking semantics [2].
 
+## Derive height and heap construction cost
+
+In an array-backed complete binary tree, level `d` contains at most `2^d` nodes. Therefore the tree height is `⌊log₂ n⌋`, and a single sift-up or sift-down traverses at most that many edges. This establishes `O(log n)` for insertion and root removal, independently of comparisons between unrelated siblings. A heap never promises its array is sorted: only every parent is ordered relative to its own children [1].
+
+Why is bottom-up construction `O(n)` rather than `O(n log n)`? A node of height `h` may need `O(h)` swaps, but there are at most approximately `n/2^(h+1)` such nodes. Summing `n Σ(h≥0) h/2^(h+1)` yields `O(n)` because the weighted geometric series converges. Treating all nodes as height `log n` ignores the fact that most are leaves. This reasoning is essential when comparing construction with `n` independent pushes [1].
+
+## Choosing the priority queue contract
+
+Priorities may be smallest-first or largest-first; repeated keys may or may not need stable order. A binary heap excels at extracting extrema but not at searching for arbitrary keys. For Dijkstra, a common Python implementation inserts updated (priority,node) pairs and ignores obsolete entries when popped; without decrease-key, the heap can temporarily contain repeated nodes. For a job scheduler, fairness and starvation policy matter: low-priority jobs can wait forever if high-priority work never stops.
+
+**Worked trace:** insert `8,3,5,1` into a min-heap. After inserting 8: `[8]`; insert 3 and sift up: `[3,8]`; insert 5: `[3,8,5]`; insert 1 and sift twice: `[1,3,5,8]`. Removing the minimum moves 8 to the root, compares children 3 and 5, and sifts to obtain `[3,8,5]`. Note that `[3,8,5]` is a heap although it is not sorted.
+
+## Verify the invariants by testing
+
+```python
+import heapq
+
+def heap_is_valid(items):
+    return all(items[(i-1)//2] <= items[i] for i in range(1,len(items)))
+
+numbers = [9, 1, 4, 8, 2, 7]
+heapq.heapify(numbers)
+assert heap_is_valid(numbers)
+removed = [heapq.heappop(numbers) for _ in range(len(numbers))]
+assert removed == sorted([9, 1, 4, 8, 2, 7])
+```
+
+A useful property-based test generates arrays including duplicates, negatives and empty inputs, heapifies them, then verifies both the parent-child invariant and sorted pop order. Beware of mutating objects whose priority participates in comparisons after insertion: their relative order may no longer be represented correctly. For concurrent producers and consumers, `heapq` alone is not a synchronization primitive; use a thread-safe queue or explicit locking [2].
+
+## Costs that do not appear in Big O
+
+A comparator may execute arbitrary application code, allocate memory or raise exceptions. Large objects stored as heap entries may increase memory traffic; adding a stable monotonic counter increases tuple width. For `top-k` over a stream, choose heap size `k`; if `k=0`, the optimal implementation should short-circuit rather than scan needlessly, unless the contract requires consuming the iterator. State whether input is finite and whether output must be sorted, because sorting retained values adds `O(k log k)`.
+
 ## Exercises and verification
 
 1. Check every parent-child pair of [1,4,3,9,8,7] and explain why the heap is valid although the array is not sorted.

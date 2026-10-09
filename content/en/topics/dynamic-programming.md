@@ -58,6 +58,39 @@ For Fibonacci numbers, a state depends only on the previous two values, so keepi
 ## Failure modes and counterexamples
 A greedy solution to the coin example chooses the largest coin first. For denominations `[1,3,4]` and amount 6, it chooses `4+1+1` (3 coins) while DP finds `3+3` (2 coins). Greedy is not generally valid without a proof about the denomination system. Likewise, DP is not appropriate merely because a problem mentions maximizing or minimizing something: check for reusable subproblem states.
 
+## Formal state correctness: induction over dependency order
+
+A DP state must summarize everything future decisions depend on. For minimum-coin change with positive denominations, `dp[x]` stores the optimum for exactly `x`; the recurrence considers every possible **last coin**. Correctness can be established by strong induction on `x`: the base case `dp[0]=0` is optimal; for `x>0`, each candidate uses one coin `c` plus an optimal solution to the smaller amount `x-c`, optimal by the induction hypothesis. Taking the minimum covers every valid solution. This proof fails if zero or negative denominations allow nondecreasing dependencies [1].
+
+## A second DP model: longest common subsequence
+
+For strings `A` and `B`, define `dp[i][j]` as the LCS length of prefixes `A[:i]` and `B[:j]`. The base cases are `dp[0][j]=dp[i][0]=0`. If the last characters match, an optimal subsequence can include them: `dp[i][j]=dp[i-1][j-1]+1`. Otherwise at least one of the two last characters is excluded, giving `dp[i][j]=max(dp[i-1][j],dp[i][j-1])`. With lengths `m,n`, the table uses `O(mn)` time and space; retaining only neighboring rows reduces the **length computation** to `O(min(m,n))` space, but not an entire reconstructed sequence without additional decisions [2].
+
+```python
+def lcs_length(a,b):
+    previous = [0]*(len(b)+1)
+    for x in a:
+        current = [0]*(len(b)+1)
+        for j,y in enumerate(b,1):
+            current[j] = previous[j-1]+1 if x == y else max(previous[j],current[j-1])
+        previous = current
+    return previous[-1]
+
+assert lcs_length("ABCBDAB","BDCABA") == 4
+assert lcs_length("","x") == 0
+assert lcs_length("abc","def") == 0
+```
+
+## Memoization versus tabulation: actual engineering choice
+
+Top-down memoization caches only visited states but requires safe recursion depth and unambiguous cache keys. Bottom-up tabulation requires an order respecting all dependencies, making memory layout and complexity easier to predict. In either form, the number of distinct states multiplied by work per state provides a starting cost model; it excludes potential costs of hashing a large state key or copying sequences into memo entries. Space optimization is legal only after proving a state will never be needed again.
+
+## Pseudopolynomial time and invalid greedy shortcuts
+
+The coin algorithm uses `O(A·C)` time for numeric amount `A` and number of denominations `C`. Because representing `A` in binary requires only `Θ(log A)` bits, this is **pseudopolynomial**, not polynomial in encoded input length. A 'greedy picks the largest coin' argument is wrong for denominations `1,3,4` and target 6, where `4+1+1` loses to `3+3`. Greedy methods demand a separate exchange argument or proof of a special coin system.
+
+**Checkpoints:** show why `dp[x]` cannot use an unbounded negative denomination without modifying its state model; derive the LCS recurrence for `"ab"` and `"ba"` (answer 1); explain why a DP with `2^n` states is not automatically efficient even if each transition is constant-time.
+
 ## Exercises and verification
 1. Write the state and recurrence for climbing stairs using steps 1 or 2. Base `ways(0)=1`; for `n>=1`, sum valid predecessor counts.
 2. In the coin example, explain why `unreachable=A+1` is a safe sentinel: any attainable amount uses at most `A` positive integer coins if denomination 1 is available; more generally a solution can use at most `A` positive-valued coins.

@@ -47,6 +47,39 @@ Suppose the task is the shortest subarray with sum at least `S`. If **all number
 
 Two-pointer methods for pair sums in a sorted array have a related monotonicity assumption: if the current sum is too small, increasing the left value moves toward the target. On an unsorted array, that implication does not hold.
 
+## A derivation from monotonic movement
+
+A two-pointer algorithm is linear only if each pointer moves at most `O(n)` times *and* its work per move has bounded cost. For a variable window `[left,right]`, consider all sequences of moves: `right` advances at most `n` times, and `left` advances at most `n` times, so there are at most `2n` boundary moves. This is an **amortized** argument; a particular iteration of the outer loop may shrink the window many times. It is not enough to count that there are two pointers [1].
+
+When the state is a frequency dictionary, adding a character increments its count, and removing decrements it; delete zero counts if the number of distinct keys is used as a condition. The state invariant should say exactly what is represented by the counts. An off-by-one error in deciding whether the window is `[left,right)` or `[left,right]` changes length computations and invalidation rules.
+
+## Fixed-window worked example
+
+For numbers `[3,1,4,1,5]` and fixed width `k=3`, the first sum is `3+1+4=8`. Slide right: subtract the departing 3, add 1, obtaining 6; slide again: subtract 1, add 5, obtaining 10. The maximum is 10, obtained without re-summing all three elements each time. The maintained invariant is 'current_sum equals the sum of elements inside the current window'. If `k>n`, decide whether to reject, return a sentinel, or search no windows; there is no universal default.
+
+```python
+def max_fixed_sum(values, width):
+    if width <= 0 or width > len(values):
+        raise ValueError("require 1 <= width <= input length")
+    current = sum(values[:width])
+    best = current
+    for right in range(width, len(values)):
+        current += values[right] - values[right-width]
+        best = max(best, current)
+    return best
+
+assert max_fixed_sum([3,1,4,1,5],3) == 10
+assert max_fixed_sum([-5,-2,-9],2) == -7
+```
+
+## Counterexample: negative values invalidate sum monotonicity
+
+Suppose you want the shortest subarray whose sum is at least 3. With numbers `[2,-3,5]`, extending the interval from `[2]` to `[2,-3]` **decreases** its sum from 2 to -1; extending to `[2,-3,5]` increases it to 4. The usual 'grow until valid, shrink while valid' reasoning for nonnegative values is not automatically sound. An alternative for signed values uses prefix sums `p[j]-p[i]` and a monotone deque, requiring a different invariant [2].
+
+## Validate against a slow oracle
+
+For short random strings, compare `longest_unique` with a brute-force implementation that enumerates all substrings and checks `len(set(substring))==len(substring)`. Keep test cases with repeated characters, empty input, Unicode combining marks and long runs of the same symbol. The test oracle costs more time but is small and independent of the optimized reasoning. Finally, distinguish 'subsequence' (not necessarily contiguous) from 'substring' or 'subarray' (contiguous); sliding windows apply to the latter.
+
 ## Exercises and verification
 1. For `'abba'`, after processing the second `'b'`, `left=2`. When the next `'a'` is inspected, the previous `'a'` lies before the boundary; `left` must remain 2.
 2. Adapt the function to return the substring itself by retaining the best `(start, length)` pair; verify ties explicitly.

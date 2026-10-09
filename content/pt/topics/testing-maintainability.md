@@ -49,6 +49,37 @@ Mudanças em serviços distribuídos exigem verificar compatibilidade retroativa
 ## Revisão e segurança operacional
 Um pull request deve explicitar contrato modificado, impacto nos consumidores, evidências dos testes, plano de rollback e telemetria esperada. Em ambientes críticos, feature flags, canary e alertas tornam uma mudança reversível. Evite refatorar vários domínios junto com uma correção pequena, pois isso aumenta a superfície de revisão sem melhorar a evidência de correção.
 
+## Particione o domínio antes de implementar
+
+Uma suíte confiável nasce do contrato, não de exemplos aleatórios do caminho feliz. Separe entradas em classes de equivalência (válidas, inválidas, limites e malformadas) e identifique as transições entre elas. Na união de intervalos, diferencie entrada vazia, intervalo único, intervalos disjuntos, sobreposição, extremos fechados que se tocam, extremos invertidos, duplicatas e intervalos aninhados. Cada caso exercita uma hipótese. Teste comportamento independente da implementação: afirmar que um mock foi chamado não demonstra que os intervalos foram unidos corretamente.
+
+## Propriedades verificáveis da união de intervalos
+
+Para uma saída `out`, demonstre ao menos quatro propriedades: (1) início ≤ fim de cada intervalo; (2) ordenação por início; (3) intervalos consecutivos estritamente separados sob semântica de extremos fechados; (4) união dos pontos cobertos igual à da entrada. As propriedades (1)-(3) podem passar mesmo se (4) falhar ao perder um intervalo. Num domínio inteiro pequeno, compare a pertinência de cada ponto com um oráculo simples e independente.
+
+```python
+def coberto(intervalos, ponto):
+    return any(inicio <= ponto <= fim for inicio,fim in intervalos)
+
+for entrada in ([], [(1,3)], [(1,3),(3,5)], [(1,10),(2,4)], [(8,9),(1,2)]):
+    saida = merge_closed_intervals(entrada)
+    assert all(a <= b for a,b in saida)
+    assert all(saida[i][1] < saida[i+1][0] for i in range(len(saida)-1))
+    assert all(coberto(entrada,p) == coberto(saida,p) for p in range(-1,12))
+```
+
+## Contratos de integração e compatibilidade
+
+Um contrato de API envolve mais que o formato JSON: códigos HTTP, paginação estável, timeouts, autenticação e idempotência podem fazer parte do comportamento observável. Testes de contrato orientados por consumidores identificam alterações incompatíveis, mas um esquema válido não prova que uma reserva jamais seja cobrada duas vezes. Invariantes persistidos exigem testes de integração com banco real e concorrência; resiliência exige injeção de falhas. Use relógios controláveis para testes de expiração e compare semântica, evitando testes dependentes de tempo real [2].
+
+## Do pull request ao rollback
+
+Uma mudança bem descrita apresenta motivação, interfaces afetadas, compatibilidade, ordem de migração, sinais de observabilidade e gatilho de reversão. Em migrações de esquema, adote expansão/migração/contração quando versões antigas e novas coexistirem: crie campo compatível, faça preenchimento ou leitura dupla quando necessário, mude leitores e só depois remova campos obsoletos. Um rollback pode ser inseguro se as novas gravações não forem compreendidas pela versão antiga. Planeje e ensaie recuperação *antes* da implantação.
+
+## Limites dos testes automatizados
+
+Testes unitários verificam exemplos e propriedades especificados, mas um conjunto finito de testes não prova correção universal. Alta cobertura de linhas pode coexistir com asserts fracos, condições de corrida ignoradas ou falhas operacionais. Revisão de segurança, testes de carga, análise estática e observabilidade acrescentam evidências diferentes. Analogamente, criar abstrações não constitui virtude automática: interfaces devem expressar contratos realmente variáveis, e não apenas reproduzir classes concretas [1].
+
 ## Exercícios e verificação
 1. Para intervalos fechados, explique por que `(1,2)` e `(2,3)` devem se mesclar; para intervalos semiabertos a política pode diferir.
 2. Acrescente testes para intervalos invertidos, vazios, contidos e já ordenados.

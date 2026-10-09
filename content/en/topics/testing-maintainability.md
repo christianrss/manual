@@ -55,6 +55,37 @@ A useful review asks whether the behavior is correct, whether the abstraction ac
 
 Avoid tests that assert only the current internal implementation structure. Prefer observable outcomes and invariants so that refactoring does not require rewriting every test. Mocking every dependency can remove the exact integration behavior that matters most.
 
+## Partition the input space before implementing
+
+A reliable suite comes from the contract, not from arbitrary happy-path samples. Divide inputs into equivalence classes (valid, invalid, boundary and malformed), then identify transitions between them. For interval merging, distinguish empty input, one interval, disjoint intervals, overlaps, touching closed endpoints, reversed endpoints, duplicates and deeply nested intervals. Each case tests a separate premise. Test implementation independence: checking that a mocked helper was called does not prove that the final interval representation is correct.
+
+## Property-based reasoning for interval merging
+
+For a returned list `out`, establish at least four properties: (1) each output interval has start ≤ end; (2) outputs are ordered by start; (3) adjacent outputs are strictly separated under the closed-interval rule; and (4) the union of covered points equals that of the original intervals. Properties (1)-(3) can hold while (4) fails if an interval is accidentally dropped. In a small bounded domain, compare membership of each integer point to a simple oracle as an independent regression check.
+
+```python
+def covered(intervals, point):
+    return any(start <= point <= end for start,end in intervals)
+
+for sample in ([], [(1,3)], [(1,3),(3,5)], [(1,10),(2,4)], [(8,9),(1,2)]):
+    output = merge_closed_intervals(sample)
+    assert all(a <= b for a,b in output)
+    assert all(output[i][1] < output[i+1][0] for i in range(len(output)-1))
+    assert all(covered(sample,p) == covered(output,p) for p in range(-1,12))
+```
+
+## Contract tests and compatibility
+
+An API contract includes more than a JSON shape: status codes, pagination stability, timeouts, auth semantics and idempotency guarantees may be observable behavior. Consumer-driven contract tests can detect incompatible schema changes, but a green schema test does not establish that a booking is never charged twice. Persisted invariants belong in database integration tests with concurrency; resilience belongs in failure-injection tests. Use deterministically controlled clocks for expiry tests and compare exact semantic behavior, not timing flukes [2].
+
+## From pull request to rollback
+
+A robust change description should state why it is needed, affected interfaces, backward-compatibility plan, migration ordering, observability signals and rollback trigger. For schema migration, use expand/migrate/contract when old and new application versions coexist: add a compatible field, backfill or dual-read as justified, switch readers and only then remove obsolete fields. Rollback becomes unsafe if new writes cannot be interpreted by the old version. Design and rehearse a recovery path *before* deploying.
+
+## What automated checks cannot prove
+
+Unit tests can demonstrate specified examples and properties, but finite tests do not establish universal correctness. High line coverage may coexist with weak assertions, missed races or untested operational behavior. Security review, load tests, static analysis and production observability add different evidence. Likewise, more abstraction is not a virtue in itself; an interface should express a genuinely varying contract, not merely mirror a concrete class [1].
+
 ## Exercises and verification
 1. Change the contract from closed intervals to half-open intervals `[start,end)`. Does `[1,3)` overlap `[3,5)`? No; the merge condition must change accordingly.
 2. Test duplicate events in a reservation consumer; a unit test with a mock queue is insufficient to prove the real DB's uniqueness enforcement.
