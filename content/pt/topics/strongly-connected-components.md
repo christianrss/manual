@@ -102,6 +102,8 @@ Num grafo com milhões de arestas, organização de memória e localidade podem 
 
 Union-Find não pode substituir diretamente algoritmos de CFC: DSU acompanha conectividade não dirigida sob uniões, enquanto uma CFC exige caminhos dirigidos **nos dois sentidos**. Uma BFS desde origem única também falha ao ignorar vértices inalcançáveis. Aresta A→B não prova que A e B pertencem à mesma CFC. Reutilizar o conjunto de visitados da primeira etapa sem limpá-lo antes da segunda também é erro frequente.
 
+**Dependências conceituais:** [DFS e BFS](/pt/topics/graph-traversal/) estabelecem alcançabilidade e tempos de término. [Union-Find](/pt/topics/disjoint-set-union/) resolve conectividade não dirigida; [caminhos mínimos](/pt/topics/shortest-paths/) otimiza percursos ponderados, não particiona alcançabilidade mútua.
+
 ## Exercícios e verificação
 
 1. Determine CFCs da cadeia 0→1→2 sem arestas inversas. Resposta: três componentes unitárias.

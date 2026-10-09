@@ -90,6 +90,8 @@ Se o aumento acompanha espera por locks do banco, investigue transações que se
 | Spans só com IDs locais | Perda da relação entre serviços | Propagação W3C |
 | Dashboard sem definição SLO | Não indica impacto nem orçamento | População, janela e regra explícitas |
 
+**Leituras relacionadas:** [APIs confiáveis](/pt/topics/api-reliability/) define deadlines e falhas; [estimativa de capacidade](/pt/topics/capacity-estimation/) trata medição sob saturação; [redes](/pt/topics/network-protocols/) apresenta orçamentos de conexão, TLS e HTTP.
+
 ## Exercícios e verificação
 
 1. Calcule orçamento de falhas para 50.000 chamadas elegíveis sob SLO 99,9%. Resposta: 50 falhas; defina o que conta como falha.

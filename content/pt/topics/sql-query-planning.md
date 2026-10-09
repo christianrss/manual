@@ -79,6 +79,8 @@ Uma conversão implícita de tipo num predicado pode impedir caminho desejado ou
 
 Evite converter um benchmark em cache aquecido numa garantia geral. Planos mudam depois de ANALYZE, migrações de esquema e alterações grandes de distribuição de dados. O ciclo correto é hipótese → inspeção do plano → medição representativa → ajuste de índice ou consulta → testes de regressão.
 
+**Conexão com pré-requisitos:** [Páginas e WAL](/pt/topics/database-storage-wal/) explicam tuplas e índices físicos; [análise de complexidade](/pt/topics/complexity-analysis/) distingue modelos de custo de tempo real; [cache](/pt/topics/caching/) trata mudanças de latência com dados aquecidos.
+
 ## Exercícios e verificação
 
 1. Para N=50.000 e predicados independentes com seletividades 0,2 e 0,05, estime 500 linhas. Explique por que correlação pode alterar o resultado.

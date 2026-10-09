@@ -91,6 +91,8 @@ Agora inverta a ordem: se a página alterada atingir armazenamento enquanto o re
 
 Um banco transacional compartilhado possui garantias distintas das de um sistema global distribuído. WAL pode permitir recuperar o estado de um motor, mas não constitui consenso entre réplicas. Além disso, MVCC e isolamento são conceitos distintos: multiversão pode implementar níveis de isolamento diferentes sem implicar serializabilidade automaticamente.
 
+**Capítulos relacionados:** [Consistência de bancos](/pt/topics/database-consistency/) explica isolamento e snapshots MVCC. [Planejamento SQL](/pt/topics/sql-query-planning/) explica escolhas entre index scan, leituras do heap e varredura sequencial. [Consenso](/pt/topics/raft-consensus/) trata outro problema de ordem e falhas entre nós.
+
 ## Exercícios e verificação
 
 1. Recalcule capacidade ideal com cabeçalho 24 B, ponteiro 4 B e tupla 96 B numa página de 8.192 B. Explique o que foi ignorado.

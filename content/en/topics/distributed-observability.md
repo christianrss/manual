@@ -90,6 +90,8 @@ If the latency increase follows a rise in database lock waits, inspect lock owne
 | All spans have local IDs only | Cross-service causal chain lost | W3C context propagation |
 | Dashboard has no SLO definition | Cannot decide impact or budget | Written population, window, success rule |
 
+**Related reading:** [Reliable APIs](/en/topics/api-reliability/) defines deadlines and observable failures; [capacity estimation](/en/topics/capacity-estimation/) covers measurement under saturation; [networking fundamentals](/en/topics/network-protocols/) locates connection, TLS and HTTP time budgets.
+
 ## Exercises and verification
 
 1. Derive the 99.9%-availability request error budget for 50,000 eligible calls. Answer: 50 failures; identify what counts as failure.

@@ -79,6 +79,8 @@ A predicate written with an implicit type conversion can prevent an intended acc
 
 Avoid interpreting one warm-cache benchmark as a robust performance guarantee. Query plans can change after ANALYZE, schema migrations and large shifts in data skew. The correct feedback loop is hypothesis → plan inspection → representative measurement → carefully scoped index/query change → regression verification.
 
+**Prerequisite connections:** [Database pages and WAL](/en/topics/database-storage-wal/) explain physical tuples and index pointers; [complexity analysis](/en/topics/complexity-analysis/) distinguishes cost models from empirical time; [caching](/en/topics/caching/) discusses how warm data changes actual latency.
+
 ## Exercises and verification
 
 1. For N=50,000 and independent predicates with selectivities 0.2 and 0.05, estimate 500 rows. Explain why correlation can invalidate the answer.

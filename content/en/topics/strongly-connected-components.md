@@ -102,6 +102,8 @@ For a huge dependency graph with millions of edges, memory layout and locality m
 
 Union-Find cannot simply replace SCC algorithms: DSU records undirected connectivity under merges, while strong connectivity requires directed paths **both ways**. Ordinary BFS from one source also fails to partition a graph containing unreachable vertices. A directed edge from A to B is not evidence that A and B belong to the same SCC. Marking nodes as visited on only the first pass and reusing that set without clearing it is another implementation bug.
 
+**Conceptual dependencies:** [DFS and BFS](/en/topics/graph-traversal/) establish reachability and finishing order. [Union-Find](/en/topics/disjoint-set-union/) solves a different, undirected connectivity problem; [shortest paths](/en/topics/shortest-paths/) optimizes a weighted path rather than partitioning mutual reachability.
+
 ## Exercises and verification
 
 1. List SCCs of the chain 0→1→2 with no reverse edges. Answer: three singleton components.

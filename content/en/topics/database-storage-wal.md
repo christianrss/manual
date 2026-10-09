@@ -91,6 +91,8 @@ Now reverse the ordering: if the modified page reached storage while its require
 
 A shared transaction database has different guarantees from a globally distributed system. WAL can make one engine recoverable, but it does not itself establish consensus between replicas. Likewise, snapshot visibility and isolation are distinct: MVCC can implement multiple isolation levels without guaranteeing serializability automatically.
 
+**Related chapters:** [Database consistency](/en/topics/database-consistency/) explains transaction isolation and MVCC snapshots. [SQL query planning](/en/topics/sql-query-planning/) explains when the optimizer selects an index scan, heap fetches or a sequential scan. [Consensus](/en/topics/raft-consensus/) covers a distinct cross-node ordering and failure problem.
+
 ## Exercises and verification
 
 1. Recompute the idealized page capacity for header=24 B, item pointer=4 B and tuple=96 B in an 8,192 B page. Explain what the model excludes.

@@ -14,13 +14,13 @@ tracks:
       - title: {en: Mathematical foundations & data structures, pt: Fundamentos matemáticos e estruturas de dados}
         articles: [complexity-analysis, hash-tables, heaps-priority-queues, tries-prefix-search, graph-traversal, disjoint-set-union]
       - title: {en: Algorithmic problem solving, pt: Resolução de problemas algorítmicos}
-        articles: [binary-search, sliding-window, dynamic-programming, backtracking-search, shortest-paths]
+        articles: [binary-search, sliding-window, dynamic-programming, backtracking-search, shortest-paths, strongly-connected-components]
       - title: {en: Runtime, operating systems & correctness, pt: Runtime, sistemas operacionais e correção}
         articles: [testing-maintainability, processes-virtual-memory, concurrency-synchronization]
       - title: {en: System design & distributed architecture, pt: Projeto de sistemas e arquitetura distribuída}
-        articles: [capacity-estimation, caching, database-consistency, asynchronous-messaging, load-balancing, rate-limiting, network-protocols, api-security, api-reliability, raft-consensus, url-shortener]
+        articles: [capacity-estimation, caching, database-consistency, database-storage-wal, sql-query-planning, asynchronous-messaging, load-balancing, rate-limiting, network-protocols, api-security, api-reliability, raft-consensus, distributed-observability, url-shortener]
       - title: {en: Engineering judgment & communication, pt: Julgamento técnico e comunicação}
         articles: [low-level-design, evidence-based-interviews]
     planned_topics:
-      en: Advanced graph algorithms, advanced database internals, low-level networking internals, system observability and deeper security mechanisms remain planned for later editions.
-      pt: Algoritmos avançados de grafos, internals de bancos, detalhes de redes, observabilidade e mecanismos avançados de segurança permanecem planejados.
+      en: Network flow and matching algorithms, distributed storage replication, advanced authorization protocols, memory ordering and production incident response remain planned for later editions.
+      pt: Fluxos e emparelhamentos em grafos, replicação de armazenamento distribuído, protocolos avançados de autorização, ordem de memória e resposta a incidentes permanecem planejados.
