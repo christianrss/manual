@@ -37,9 +37,9 @@ def validate():
                 u=urlparse(s.get('url',''))
                 if u.scheme!='https' or not u.hostname: errors.append(f'{p}: bad source URL {ix}')
                 if f'[{ix}]' not in body: errors.append(f'{p}: source [{ix}] is not cited inline')
-            prose = re.sub(r'(?ms)^```[^\n]*\n.*?^```\s*$', '', body)
+            prose = re.sub(r'(?ms)^(```|~~~)[^\n]*\n.*?^\1\s*$', '', body)
             prose = re.sub(r'`[^`\n]*`', '', prose)
-            for number in re.findall(r'\[(\d+)\]',prose):
+            for number in re.findall(r'(?<![A-Za-z0-9_])\[(\d+)\]',prose):
                 if int(number)<1 or int(number)>len(sources): errors.append(f'{p}: invalid inline source index [{number}]')
             for img in re.findall(r'!\[[^\]]+\]\(([^)]+)\)',body):
                 if img.startswith('/') and not (ROOT/'static'/img.lstrip('/')).is_file():errors.append(f'{p}: missing image {img}')
