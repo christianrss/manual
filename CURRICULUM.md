@@ -23,7 +23,7 @@ This is a dependency graph: reuse is expected across different learning tracks, 
 | Data structures and algorithms | Arrays, lists, maps, heaps, trees, graph problems, DP, sorting and search | Independent adversarial unseen exercises, additional proof methods | P0 |
 | Software quality and design | Clean Code/cohesion/coupling worked primer, OOP, SOLID, patterns, refactoring, tests and LLD | Additional specialized patterns, independent review, assessed refactorings | P0 |
 | System design | Capacity, service boundaries, caching, queues, complete cases | More entry-level-to-intermediate worked reviews and independent evaluations | P0 |
-| Computer architecture | No standalone material | Bits, binary arithmetic, ISA, CPU, caches, DRAM and memory hierarchy | P1 |
+| Computer architecture | Introductory binary representation, ISA/modelled instruction execution and direct-mapped cache mapping | Digital logic, pipeline, branch prediction, cache coherence, DRAM and detailed memory hierarchy | P1 |
 | Operating systems and concurrency | Processes, virtual memory, locks, atomics | Scheduling, runtime threading, allocation, file systems and I/O | P1 |
 | Computer networks | Network protocols survey | TCP/IP in depth, routing, DNS, HTTP and TLS details | P1 |
 | Cryptography and security | API security and OAuth/PKCE | Cryptographic primitives, key exchange, AEAD, signatures, certificates | P1 |
@@ -66,3 +66,7 @@ New bilingual chapter `clean-code-cohesion-coupling` establishes concrete behavi
 ## 2026-10-10 — Pattern families integrated
 
 Added bilingual `design-pattern-families` after `refactoring-design-patterns` in both core tracks. New examples test Builder's immutable snapshot and validation, Facade's missing-data contracts, and Observer's callback mutation and failure semantics. Advanced GoF families are **not** fully covered. Fixed the CS-core ordering of capacity estimation before the general system-design method. See `tests/test_pattern_family_contracts.py` for independently authored behavior probes.
+
+## 2026-10-10 — First computer-architecture dependency
+
+The new EN/PT chapter `machine-representation-isa-cache` fills the previously empty `computer-architecture` module with a tightly scoped introduction to two's complement, byte order, ISA versus implementation, a **non-RISC-V toy executor**, and a **direct-mapped cache model**. Both algorithm/CS reading paths place it before virtual-memory and concurrency. The processes-and-virtual-memory chapter now explicitly depends on it and distinguishes cache tags from page tables. Source-based claims are grounded in the RISC-V ratified RV32I document, Intel optimization manuals, and Python byte-conversion documentation. Exhaustive eight-bit arithmetic and independent cache trace tests enforce the stated contracts. The material is **not** full CPU architecture coverage, and its simplified models are not hardware timing or ISA conformance tests.

@@ -4,13 +4,16 @@ title: "Processos, memória virtual e chamadas de sistema"
 description: "Deduza isolamento de processos, tradução de endereços, tabelas de páginas, TLB, troca de contexto e proteção do kernel."
 category: foundations
 difficulty: intermediate
-updated: 2026-10-09
-prerequisites: [complexity-analysis]
+updated: 2026-10-10
+prerequisites: [complexity-analysis, machine-representation-isa-cache]
 sources:
   - {title: "MIT 6.1810 — xv6 teaching operating system", url: "https://pdos.csail.mit.edu/6.1810/2025/xv6.html", kind: "university reference"}
   - {title: "Operating Systems: Three Easy Pieces", url: "https://pages.cs.wisc.edu/~remzi/OSTEP/", kind: "university textbook"}
 ---
 Um sistema operacional oferece compartilhamento controlado de CPUs, memória e dispositivos, mantendo isolados programas que não devem confiar uns nos outros. Um **processo** não é apenas executável em execução: possui espaço de endereçamento, estado de CPU, recursos abertos, permissões e identidade mantida pelo kernel. Uma **thread** representa fluxo de execução dentro de um processo; threads normalmente compartilham memória do processo, mas possuem registradores e pilhas próprios [1][2].
+
+O capítulo anterior sobre [representação e ISA](/pt/topics/machine-representation-isa-cache/) estabelece endereçamento por bytes e estado arquitetural. Agora avançamos de camada: endereços **virtuais** e proteção do kernel não são tags de cache nem índices físicos de uma máquina didática. Essa distinção vem antes da derivação de tabelas de páginas [1][2].
+
 
 ## Por que o isolamento existe
 
