@@ -25,6 +25,7 @@ algorithms:
   - two-pointers-prefix-sums
 operating-systems:
   - processes-virtual-memory
+  - heap-allocation-fragmentation
   - cpu-scheduling-fcfs-round-robin
   - mlfq-priority-inheritance
   - concurrency-synchronization

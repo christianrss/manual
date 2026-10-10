@@ -21,6 +21,8 @@ Duas aplicações podem usar o *mesmo número de endereço virtual* sem acessar 
 
 Um executável em disco é passivo; o processo mantém estado dinâmico: contador de programa, registradores, mapeamentos e descritores. Carregar um programa cria imagem inicial e prepara a execução em modo usuário. Escalonamento define qual thread executa, e troca de contexto salva/restaura estado para outra prosseguir. Cache e TLB podem sofrer impactos, portanto trocar contexto não é sempre uma instrução gratuita [2]. O capítulo de [escalonamento de CPU](/pt/topics/cpu-scheduling-fcfs-round-robin/) deduz FCFS e Round Robin separadamente do mecanismo de troca de contexto.
 
+O capítulo de [gerenciamento de espaço livre no heap](/pt/topics/heap-allocation-fragmentation/) estuda separadamente como um runtime administra **intervalos livres dentro de uma arena**. Um buraco no heap não é sinônimo de página virtual não mapeada ou quadro físico livre: política de alocação e tradução de endereços resolvem problemas distintos.
+
 ## Dedução da tradução virtual para física
 
 O endereço virtual não designa diretamente uma célula física arbitrária. Para página de tamanho P, decomponha endereço v em número de página virtual floor(v/P) e deslocamento v mod P. A tabela de páginas liga página virtual ao número de quadro físico e aos bits de permissão/validade. Se o mapeamento existe e autoriza a operação, endereço físico = quadro×P + deslocamento. Páginas virtuais distintas podem apontar ao mesmo quadro quando compartilhamento intencional é permitido; daí a necessidade de sincronizar acessos.
