@@ -4,14 +4,16 @@ title: "Fundamentos de redes: DNS, TCP, TLS e HTTP"
 description: "Acompanhe uma requisição por DNS, transporte, TLS e HTTP; derive custos de latência e falhas e diferencie TCP de QUIC."
 category: system-design
 difficulty: intermediate
-updated: 2026-10-09
-prerequisites: [capacity-estimation, processes-virtual-memory]
+updated: 2026-10-10
+prerequisites: [capacity-estimation, processes-virtual-memory, ip-routing-dns-resolution]
 sources:
   - {title: "RFC 9293 — Transmission Control Protocol", url: "https://www.rfc-editor.org/info/rfc9293", kind: "internet standard"}
   - {title: "RFC 9846 — TLS Protocol Version 1.3", url: "https://www.rfc-editor.org/info/rfc9846", kind: "internet standard"}
   - {title: "RFC 9114 — HTTP/3", url: "https://www.rfc-editor.org/info/rfc9114", kind: "internet standard"}
   - {title: "RFC 8305 — Happy Eyeballs Version 2", url: "https://www.rfc-editor.org/info/rfc8305", kind: "internet standard"}
 ---
+O capítulo de [roteamento IP e DNS](/pt/topics/ip-routing-dns-resolution/) deduz seleção por prefixo, responsabilidades de resolução e cache positivo com TTL, preparando esta visão ponta a ponta.
+
 Uma requisição web atravessa protocolos com garantias diferentes. **DNS** ajuda a descobrir destinos; **IP** encaminha pacotes; **TCP** fornece fluxo confiável e ordenado de bytes; **TLS** protege uma conexão contra interceptação e adulteração sob suas hipóteses de autenticação; **HTTP** define semântica de requisições e respostas. Misturar essas camadas leva a diagnósticos errados, como acreditar que uma conexão TCP aceita garante aplicação saudável [1][2].
 
 ## Caminho explícito de uma requisição
