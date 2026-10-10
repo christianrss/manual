@@ -1,0 +1,11 @@
+# TLS 1.3 and HKDF — technical editorial review (2026-10-10)
+
+Scope: one detailed bilingual security chapter, prerequisite-led placement after networking/TCP, and independent finite tests of HKDF-SHA256 and TLS `HKDF-Expand-Label`. This is **not** a TLS stack, a cryptographic audit or a production handshake experiment.
+
+**Normative references:** [RFC 9846](https://www.rfc-editor.org/info/rfc9846) (published July 2026, **obsoletes RFC 8446**, adds clarity and forbids KeyShare reuse across connections); [RFC 5869](https://www.rfc-editor.org/info/rfc5869) extract/expand and Appendix A test vectors; [RFC 9525](https://www.rfc-editor.org/info/rfc9525) service identity; [RFC 9114](https://www.rfc-editor.org/info/rfc9114) HTTP/3 over QUIC. Python's `hashlib` and `hmac` are reference library building blocks.
+
+**Executable contracts:** only bytes input to HMAC-SHA256 HKDF, default 32-zero-byte salt for empty input; SHA-256 PRK length at least 32; expand counter bounded by 255 blocks (8160 output bytes); canonical TLS label structure uses two-byte big-endian output length, a one-byte-length-prefixed ASCII `tls13 ` label, a one-byte-length-prefixed context. Labels must be nonempty ASCII and prefixed label <=255; contexts <=255 bytes. This does **not** derive actual ECDHE or PSK secrets nor protect records.
+
+**Evidence:** `tests/test_tls13_hkdf_contracts.py` compares **RFC 5869 SHA-256 cases A.1/A.3**, all combinations of 4 salts × 4 IKM × 4 info × 11 output lengths = **704 cases per language** to a separate manual SHA-256 HMAC reference implemented using ipad/opad (not `hmac.new`). It compares 5 labels × 4 contexts × 7 sizes = **140 TLS-label cases per language** against independent `struct.pack` serialization, including the 249-byte maximum user label and 255-byte context, plus negative boundary cases. The full 8160-byte upper bound is also exercised.
+
+**Limits:** no RNG/entropy validation, ECDHE key-share implementation, X.509 hostname/certificate-chain validation, authenticated encryption/record nonces, constant-time guarantees, secret zeroization, 0-RTT replay prevention or TLS interoperability. Correct HKDF bytes prove **neither** a secure channel **nor** client identity/authentication. Further discrete crypto and PKI curricula remain gaps.
