@@ -37,6 +37,23 @@ class SiteTests(unittest.TestCase):
    self.assertIn(text,html)
   self.assertTrue((ROOT/'dist'/'CNAME').is_file())
   self.assertIn('sitemap.xml',(ROOT/'dist'/'robots.txt').read_text())
+ def test_author_signature_in_both_languages(self):
+  for lang, label, role, education in [
+   ('en','Authored and edited by','Data Science Technologist','Postgraduate Degree in Electronic Engineering and Robotics'),
+   ('pt','Autoria e edição técnica','Tecnólogo em Ciência de Dados','Pós-graduado em Engenharia Eletrônica e Robótica'),
+  ]:
+   with self.subTest(lang=lang):
+    s=BeautifulSoup((ROOT/'dist'/lang/'index.html').read_text(encoding='utf-8'),'html.parser')
+    signature=s.select_one('footer.site-footer .author-signature')
+    self.assertIsNotNone(signature)
+    self.assertEqual(signature.select_one('.author-signature-name').get_text(strip=True),'Christian Rafael de Souza Silva')
+    self.assertEqual(signature.select_one('.author-signature-label').get_text(strip=True),label)
+    self.assertIn(role,signature.select_one('.author-signature-role').get_text())
+    self.assertIn(education,signature.select_one('.author-signature-education').get_text())
+    image=signature.select_one('img')
+    self.assertEqual(image.get('src'),'https://me.christiansoftware.org/assets/christian-rafael-photo.jpg')
+    self.assertEqual(image.get('width'),'46')
+    self.assertIsNotNone(s.select_one('footer.site-footer .site-footer-meta'))
  def test_analytics_on_all_generated_pages(self):
   pages=list((ROOT/'dist').rglob('*.html'))
   self.assertGreaterEqual(len(pages), 45)
