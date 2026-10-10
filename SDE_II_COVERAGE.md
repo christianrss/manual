@@ -88,3 +88,13 @@ Advanced chapters such as `raft-consensus`, `memory-ordering-atomics` and `forma
 - `examples/python/sqlite_process_race.py` and `tests/test_sqlite_multiprocess.py` create an actual file-backed SQLite authority. Two separate OS processes compete for a conditional reservation. Another process exits with code 23 after commit, and a new process confirms durable idempotent replay.
 - `examples/python/unsolved_drills.py` intentionally retains `NotImplementedError`; `examples/python/drill_grader.py` contains twelve public baseline cases. CI confirms the grader catches wrong answers, **not** that either unsolved problem has already been implemented.
 - CI success does not prove business correctness for all interleavings, crash modes or compiler/OS combinations. `EDITORIAL.md` still requires human technical review and honest limitations.
+
+
+## New integration edition: actual PostgreSQL and RabbitMQ services
+
+- `postgresql-concurrency-integration` (EN/PT): PostgreSQL 17 on GitHub Actions, independent checkout processes, conditional stock update, transaction with outbox, replay after postcommit process exit and conflicting operation keys. Executable CLI: `examples/python/postgres_checkout.py`, tests: `tests/test_postgres_integration.py`.
+- `rabbitmq-durable-consumer-integration` (EN/PT): RabbitMQ 4 service and PostgreSQL inbox in the same CI build. Test: `tests/test_rabbitmq_postgres_integration.py`; creates a durable queue, publishes with confirms, commits an inbox effect, disconnects before ACK, observes redelivery, and verifies no duplicate effect.
+- `adaptive-system-design-assessment` (EN/PT): hypothetical multi-tenant document-processing design with changing load, noisy neighbors, outages, geographic residency, deletion races and measurable recovery objectives. Its numbers are **examples**, not performance claims.
+- Required packages: `psycopg[binary]` and `pika`; service containers defined in `.github/workflows/pages.yml`.
+- Verified boundary: two real services on one Linux CI runner and a single broker node. **Not tested:** PostgreSQL leader failover or durability under power loss; RabbitMQ clustered quorum and broker disk crash; production tenant credentials and TLS; distributed end-to-end exactly-once effects.
+- Interview drills are original; publishing and validating tests do not establish readiness for unfamiliar interviews.

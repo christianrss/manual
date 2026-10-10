@@ -28,7 +28,7 @@ An upload and SQL metadata commit usually are not one ACID transaction. Plan sta
 
 ## Round one: quantify workload
 
-Assume **120,000 new documents/day**, average size **4 MiB**, and average extraction time **2 seconds of worker CPU** per document, before indexing and I/O. That's about 1.39 jobs/s average, 468,750 MiB/day (roughly 468.75 GiB/day) of new input bytes, and 240,000 CPU-seconds/day for extraction. At 20× peak-to-average job rate, the peak is approximately 27.8 jobs/s. To keep up with peak on dedicated workers that each deliver **one CPU-second per wall-second**, a simplistic CPU budget requires around 56 continuously utilized cores before headroom and overhead.
+Assume **120,000 new documents/day**, average size **4 MiB**, and average extraction time **2 seconds of worker CPU** per document, before indexing and I/O. That's about 1.39 jobs/s average, 480,000 MiB/day (roughly 468.75 GiB/day) of new input bytes, and 240,000 CPU-seconds/day for extraction. At 20× peak-to-average job rate, the peak is approximately 27.8 jobs/s. To keep up with peak on dedicated workers that each deliver **one CPU-second per wall-second**, a simplistic CPU budget requires around 56 continuously utilized cores before headroom and overhead.
 
 This is a hypothetical exercise. A real OCR workload varies dramatically with scanned pages, language, compression, file types and hardware; **mean seconds per document may hide long-tail tasks**. Measure p95 processing time and bound memory use rather than buying machines based only on mean. Make explicit whether OCR is included and define maximum accepted file size.
 

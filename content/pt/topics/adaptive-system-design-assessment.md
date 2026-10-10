@@ -28,7 +28,7 @@ Upload e commit SQL normalmente não são uma transação ACID única. Faça per
 
 ## Primeira mudança: dimensione carga
 
-Considere **120 mil documentos novos/dia**, tamanho médio **4 MiB** e tempo médio de extração **2 segundos de CPU por documento**, sem indexação e I/O. Isso representa 1,39 jobs/s em média, 468.750 MiB/dia (aproximadamente 468,75 GiB/dia) em bytes de entrada e 240 mil segundos de CPU por dia. Em pico 20×, a taxa é 27,8 jobs/s. Para suportá-la em workers que entregam **um segundo de CPU por segundo real**, cálculo simplificado exige aproximadamente 56 núcleos ocupados antes de folga e overhead.
+Considere **120 mil documentos novos/dia**, tamanho médio **4 MiB** e tempo médio de extração **2 segundos de CPU por documento**, sem indexação e I/O. Isso representa 1,39 jobs/s em média, 480.000 MiB/dia (aproximadamente 468,75 GiB/dia) em bytes de entrada e 240 mil segundos de CPU por dia. Em pico 20×, a taxa é 27,8 jobs/s. Para suportá-la em workers que entregam **um segundo de CPU por segundo real**, cálculo simplificado exige aproximadamente 56 núcleos ocupados antes de folga e overhead.
 
 É exercício hipotético. Carga OCR muda muito conforme páginas escaneadas, idiomas, compressão e hardware; **média pode esconder tarefas muito lentas**. Meça p95 do processamento e memória, não compre servidores apenas pela média. Declare se OCR faz parte do contrato e limite tamanho de arquivo.
 
