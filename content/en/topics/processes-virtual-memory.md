@@ -4,13 +4,16 @@ title: "Processes, Virtual Memory and System Calls"
 description: "Derive process isolation, virtual-address translation, page tables, TLBs, context switching, syscalls and protection guarantees."
 category: foundations
 difficulty: intermediate
-updated: 2026-10-09
-prerequisites: [complexity-analysis]
+updated: 2026-10-10
+prerequisites: [complexity-analysis, machine-representation-isa-cache]
 sources:
   - {title: "MIT 6.1810 — xv6 teaching operating system", url: "https://pdos.csail.mit.edu/6.1810/2025/xv6.html", kind: "university reference"}
   - {title: "Operating Systems: Three Easy Pieces", url: "https://pages.cs.wisc.edu/~remzi/OSTEP/", kind: "university textbook"}
 ---
 An operating system provides controlled sharing of CPUs, memory and devices while isolating programs that should not trust one another. A **process** is more than a running executable file: it has an address space, execution state, open resources, permissions and a kernel-maintained identity. A **thread** is a sequence of execution within a process; multiple threads typically share the process address space while keeping separate registers and stacks [1][2].
+
+The preceding [machine-representation and ISA chapter](/en/topics/machine-representation-isa-cache/) develops byte addressing and architectural state. Here we move one abstraction layer up: **virtual** addresses and kernel-managed protection are not CPU cache-line tags or a toy machine's physical byte indices. This distinction is essential before deriving page tables [1][2].
+
 
 ## Why isolation is needed
 

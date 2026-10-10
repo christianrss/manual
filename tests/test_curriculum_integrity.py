@@ -8,7 +8,7 @@ class CurriculumIntegrityTests(unittest.TestCase):
         a=load_articles()
         self.assertEqual(set(modules),set(a['en']))
         self.assertEqual(set(a['en']),set(a['pt']))
-        self.assertEqual(set(modules.values()) | {'computer-architecture'}, {c['id'] for c in load_taxonomy()})
+        self.assertEqual(set(modules.values()), {c['id'] for c in load_taxonomy()})
     def test_interview_track_is_fundamental(self):
         tracks=load_tracks()
         self.assertEqual([t['id'] for t in tracks],['amazon-sde-ii','computer-science-core','specialized-systems-labs'])
@@ -21,6 +21,8 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertFalse(set(core)&set(labs))
         self.assertLess(core.index('complexity-analysis'),core.index('system-design-process'))
         self.assertLess(core.index('object-oriented-design'),core.index('system-design-process'))
+        self.assertLess(core.index('machine-representation-isa-cache'),core.index('processes-virtual-memory'))
+        self.assertEqual(load_modules()['machine-representation-isa-cache'],'computer-architecture')
         self.assertTrue(all(load_modules()[x]!='advanced-labs' for x in core))
         # Targeted prerequisite audit of the foundational software-design block.
         self.assertLess(core.index('testing-maintainability'), core.index('clean-code-cohesion-coupling'))
@@ -38,4 +40,5 @@ class CurriculumIntegrityTests(unittest.TestCase):
         cs=[ident for section in load_tracks()[1]['sections'] for ident in section['articles']]
         self.assertLess(cs.index('refactoring-design-patterns'), cs.index('design-pattern-families'))
         self.assertLess(cs.index('capacity-estimation'), cs.index('system-design-process'))
+        self.assertLess(cs.index('machine-representation-isa-cache'),cs.index('processes-virtual-memory'))
 if __name__=='__main__':unittest.main()

@@ -97,4 +97,5 @@ interview-practice:
   - independent-coding-assessment-ii
   - system-design-interview-workshop
   - adaptive-system-design-assessment
-computer-architecture: []
+computer-architecture:
+  - machine-representation-isa-cache
