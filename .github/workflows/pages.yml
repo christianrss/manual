@@ -54,6 +54,8 @@ jobs:
         env:
           RABBITMQ_CONTAINER_ID: ${{ job.services.rabbitmq.id }}
         run: python scripts/verify_rabbitmq_restart.py
+      - name: Test three-node RabbitMQ quorum failover
+        run: python scripts/verify_rabbitmq_quorum.py
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
