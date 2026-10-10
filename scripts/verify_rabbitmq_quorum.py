@@ -16,7 +16,7 @@ COOKIE=uuid.uuid4().hex+uuid.uuid4().hex
 PORTS=(25673,25674,25675)
 QUEUE="manual.quorum."+TOKEN
 EVENT="confirmed-"+TOKEN
-IMAGE="rabbitmq:4.1-management"
+IMAGE="rabbitmq:4.1"
 
 def docker(*args,timeout=90):
     proc=subprocess.run(["docker",*args],capture_output=True,text=True,timeout=timeout)
@@ -32,15 +32,23 @@ def connect(port):
         socket_timeout=5,stack_timeout=10,blocked_connection_timeout=8,
         heartbeat=0))
 
-def until_ready(node,seconds=90):
-    end=time.monotonic()+seconds
-    while time.monotonic()<end:
-        out=subprocess.run(["docker","exec",node,"rabbitmq-diagnostics","-q","ping"],
-                           capture_output=True,timeout=15)
-        if out.returncode==0:
+def until_ready(node,port,seconds=100):
+    # A real AMQP login tests readiness without spawning a new Erlang VM on
+    # every poll. Repeated CLI diagnostic invocations can starve small runners.
+    deadline=time.monotonic()+seconds
+    last=None
+    while time.monotonic()<deadline:
+        try:
+            conn=connect(port)
+            conn.close()
             return
-        time.sleep(2)
-    raise TimeoutError(f"RabbitMQ node failed to become ready: {node}")
+        except (pika.exceptions.AMQPError,OSError,TimeoutError) as exc:
+            last=exc
+            time.sleep(2)
+    details=subprocess.run(["docker","logs","--tail","45",node],
+                           capture_output=True,text=True,timeout=15)
+    raise TimeoutError(f"RabbitMQ AMQP login not ready: {node}: {last}; "
+                       f"logs: {details.stderr[-4000:]}")
 
 def receive_on_survivor(port,seconds=90):
     end=time.monotonic()+seconds
@@ -75,9 +83,10 @@ def main():
                    "-e",f"RABBITMQ_ERLANG_COOKIE={COOKIE}",
                    "-e","RABBITMQ_DEFAULT_USER=manual",
                    "-e","RABBITMQ_DEFAULT_PASS=manual",
+                   "-e","RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=+S 2:2 +A 8",
+                   "-e","RABBITMQ_CTL_ERL_ARGS=+S 2:2",
                    IMAGE,timeout=150)
-        for node in NODES:
-            until_ready(node)
+            until_ready(node,PORTS[i])
         for node in NODES[1:]:
             docker("exec",node,"rabbitmqctl","join_cluster","rabbit@mq1",timeout=90)
         status=docker("exec",NODES[0],"rabbitmqctl","cluster_status")
