@@ -4,7 +4,7 @@ title: "Low-Level Design: Contracts, State Machines and Dependency Boundaries"
 description: "Design maintainable components from invariants, state transitions, interfaces and dependency direction, with a tested reservation model."
 category: engineering
 difficulty: advanced
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [testing-maintainability, database-consistency]
 sources:
   - {title: "Microsoft Learn — Architectural principles", url: "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/architectural-principles", kind: "official engineering guide"}
@@ -99,14 +99,40 @@ Two API workers may load the same pending reservation, both decide it can be con
 
 Authorization should be checked against the loaded reservation's tenant and owner, not a caller-supplied tenant identifier. A cancelled reservation existing in memory is not proof that cancellation was durably committed. After a crash, reload must reconstruct the same permitted state; test serialization/mapping and data migrations accordingly.
 
-## Choose tests that prove contracts
+## Test every transition, not just the happy path
 
-Unit tests should enumerate all state/event pairs, not just a happy path: confirm pending succeeds; confirm confirmed fails; confirm cancelled fails; cancel pending succeeds; cancel confirmed succeeds; cancel cancelled returns false. Test identifier immutability through the public interface, and reject empty IDs. Integration tests must verify uniqueness, optimistic-concurrency conflict handling, and atomic event persistence when relevant.
+The state machine above has three states and two operations: just six combinations. The contract specifies the allowed transitions and the meaning of a repeated cancellation.
 
-A design review should ask what observable behavior changes if a provider is replaced, if persistence fails halfway through a workflow, and if a call is repeated with the same idempotency key. Google engineering guidelines emphasize improving the overall health of the code rather than requiring theoretical perfection before every change [2].
+```python
+def create_in_state(status):
+    r = Reservation("R-test")
+    if status == Status.CONFIRMED:
+        r.confirm()
+    elif status == Status.CANCELLED:
+        r.cancel()
+    return r
 
-**Related chapters:** [Testing and maintainability](/en/topics/testing-maintainability/) develops contracts and test boundaries; [database consistency](/en/topics/database-consistency/) explains why local object invariants do not suffice for distributed state.
+for status in Status:
+    r = create_in_state(status)
+    if status == Status.PENDING:
+        r.confirm()
+        assert r.status == Status.CONFIRMED
+    else:
+        try:
+            r.confirm()
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("forbidden transition")
 
+for status in Status:
+    r = create_in_state(status)
+    assert r.cancel() == (status != Status.CANCELLED)
+    assert r.status == Status.CANCELLED
+    assert not r.cancel()
+```
+
+These checks cover every **local** state/event pair, not concurrency or durability. Idempotent cancellation on a Python object does not prove that a service with a database, network and retries preserves an equivalent outcome. That needs transactional conditions, uniqueness, persistence, ownership authorization and failure tests. An independent reviewer should be able to derive the transition table before reading code [2].
 ## Exercises and verification
 
 1. Build a transition matrix with current state as rows and confirm/cancel as columns. Compare each entry with the executable code.

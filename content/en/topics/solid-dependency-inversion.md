@@ -4,7 +4,7 @@ title: "SOLID, Dependency Inversion and Behavioral Contracts"
 description: "Apply SRP, OCP, LSP, ISP and DIP pragmatically with Python protocols, stable boundaries and verified behavior tests."
 category: engineering
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [object-oriented-design, low-level-design]
 sources:
   - {title: "Microsoft Learn — Architectural principles", url: "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/architectural-principles", kind: "official engineering guide"}
@@ -91,12 +91,34 @@ The **composition root** is the application boundary that creates objects and wi
 
 Dependency injection is simply one way to supply dependencies. It does not require a container framework or service locator. Passing a collaborator through a constructor, as above, is often sufficient. A service locator hidden inside the domain can make dependencies harder to discover and test, despite claiming to support inversion.
 
-## Test seams and contract tests
+## Test boundaries and behavioral substitution
 
-A fake sender tests that the policy invokes the right action when the threshold is exceeded. It cannot prove that SMTP, HTTP, authentication or remote quotas work. **Adapter contract tests** should verify each real sender obeys the expected semantics; integration tests are needed for network behavior. The domain policy can be verified with exact boundary values such as 30, 30.01 and negative threshold rejection.
+A Python `Protocol` states the shape of methods for static typing; it does not guarantee behavior, effect order or network delivery [2]. State an observable contract: at the threshold, no request; above it, **exactly one request** to the sender. The recording fake defined earlier makes this testable.
 
-Good tests also seek **substitutability failures**: an implementation that sends twice for one call or mutates destination may violate the declared contract. Test observable outputs and error behavior rather than specific private method names, which makes refactoring safer [3].
+```python
+def sender_contract(factory):
+    sender = factory()
+    rule = AlertRule(sender, Decimal("30"))
+    assert rule.check("ops", Decimal("30")) is False
+    assert rule.check("ops", Decimal("31")) is True
+    assert sender.messages == [("ops", "above 30")]
 
+sender_contract(CollectingSender)
+
+class DuplicatingSender(CollectingSender):
+    def send(self, destination, message):
+        super().send(destination, message)
+        super().send(destination, message)
+
+try:
+    sender_contract(DuplicatingSender)
+except AssertionError:
+    pass
+else:
+    raise AssertionError("LSP: duplicate request undetected")
+```
+
+The second sender has a compatible signature but violates the specified cardinality. This does not establish SMTP authentication or delivery; adapters require separate contract and integration tests. A network exception can indicate an uncertain outcome, not necessarily permanent failure. Review observable effects rather than private attributes during refactoring [3]. Add an abstraction only when it protects genuine, independent kinds of change.
 ## Costs, failure modes and overengineering
 
 | Principle | Targeted change | Failure when overused |

@@ -4,7 +4,7 @@ title: "System Design Method: Requirements, Sizing, Interfaces and Failures"
 description: "Learn a complete system design method through requirements, workload estimation, APIs, data ownership, failure handling and verifiable SLOs."
 category: system-design
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [capacity-estimation]
 sources:
   - {title: "Google SRE Workbook — Implementing SLOs", url: "https://sre.google/workbook/implementing-slos/", kind: "official engineering workbook"}
@@ -84,12 +84,27 @@ A client timeout after a committed write is an **ambiguous outcome**: the client
 
 Do not promise 'exactly once' end-to-end merely because an event bus acknowledges a message. State which durable effect is exactly-once under which key and which downstream work is at-least-once with idempotent consumers.
 
-## Step 8: validate, then iterate
+## Step 8: validate saturation and recovery
 
-Verify authorization with cross-tenant negative tests; data consistency with concurrent creates and repeated keys; throughput with realistic reads/writes at 1,000 requests/s; latency at p50, p95 and p99; and recovery with node termination. Instrument request outcomes, saturated queues, database latency and replication lag. Compare observed SLIs with the stated SLO and adjust the design on evidence [1].
+Test cross-tenant authorization, concurrent writes using one idempotency key, read-your-writes, body limits and uncertain outcomes after timeouts. Measure p50/p95/p99 latency, errors and utilization by component, not only aggregate RPS; then induce a controlled outage and observe recovery [1][2].
 
-For an interview explanation, an effective order is: **scope → measurable requirements → order-of-magnitude estimates → API/data model → minimal architecture → key bottlenecks → failures and validation**. Each assumption must be challengeable and each extra component justified.
+Queues **do not create capacity**. In a hypothetical scenario, a dependency receives 1,000 jobs/s for 60 seconds but handles only 700/s; assuming constant rates with no rejection or retries, backlog grows to 18,000 jobs. If arrivals fall to 400/s and processing stays at 700/s, the queue takes another 60 seconds to drain. When arrival equals service rate, backlog never declines.
 
+```python
+def queue_balance(arrival, service, seconds, initial=0):
+    if min(arrival, service, seconds, initial) < 0:
+        raise ValueError("nonnegative parameters required")
+    return max(0, initial + (arrival - service) * seconds)
+
+peak = queue_balance(1000, 700, 60)
+assert peak == 18000
+assert queue_balance(400, 700, 60, peak) == 0
+assert queue_balance(700, 700, 60, peak) == peak
+```
+
+This fluid model gives an order-of-magnitude estimate, **not** queue latency percentiles or actual broker failures. Discuss bounded queues, backpressure, explicit rejection, priority, retries and recovery of the dependency before adding consumers. Record incoming, completion, backlog, wait-time and failure metrics separately. A request-success SLO never permits loss of committed data.
+
+Interview explanation order: **scope → invariants → estimates → APIs/data → minimal architecture → bottlenecks → failures → validation**. Justify each additional component quantitatively.
 ## Exercises and verification
 
 1. Recompute peak RPS if the daily request count doubles and peak multiplier becomes eight; state which inputs are assumptions.

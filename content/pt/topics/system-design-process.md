@@ -4,7 +4,7 @@ title: "Método de System Design: requisitos, capacidade, interfaces e falhas"
 description: "Aprenda um método completo de projeto de sistemas com requisitos, dimensionamento, APIs, dados, tratamento de falhas e SLOs verificáveis."
 category: system-design
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [capacity-estimation]
 sources:
   - {title: "Google SRE Workbook — Implementing SLOs", url: "https://sre.google/workbook/implementing-slos/", kind: "official engineering workbook"}
@@ -84,12 +84,27 @@ Timeout após commit representa **resultado ambíguo**: o cliente não recebeu c
 
 Não prometa 'exactly once' ponta a ponta só porque o broker confirma uma mensagem. Declare qual efeito é único sob qual chave e quais operações posteriores podem ser reexecutadas.
 
-## Etapa 8: valide e revise
+## Etapa 8: valide saturação e recuperação
 
-Teste autorização negando acesso entre tenants; consistência com criações concorrentes e chaves repetidas; vazão com mistura real no pico de 1.000 RPS; latência p50, p95 e p99; recuperação desligando uma instância. Instrumente resultados, saturação de filas, latência do banco e lag de replicação. Compare SLIs medidos com SLO e evolua com evidências [1].
+Teste autorização entre tenants, escritas concorrentes com a mesma chave idempotente, read-your-writes, limites de corpo e resultados ambíguos após timeout. Meça latências p50/p95/p99, erro e utilização por componente, não somente RPS agregado; então provoque indisponibilidade controlada e observe recuperação [1][2].
 
-Numa apresentação técnica, a sequência eficaz é **escopo → requisitos mensuráveis → estimativas → APIs/dados → arquitetura mínima → gargalos → falhas e testes**. Cada hipótese deve poder ser questionada, e cada componente extra precisa ter justificativa.
+Filas **não criam capacidade**. Num cenário hipotético, uma dependência recebe 1.000 tarefas/s durante 60 s mas processa 700/s; assumindo taxas constantes, sem rejeições nem retries, acumula 18.000 tarefas. Se a entrada depois cair a 400/s e o processamento continuar em 700/s, são mais 60 s para esvaziar. Com entrada igual à saída, a fila não se reduz.
 
+```python
+def saldo_fila(entrada, saida, segundos, inicial=0):
+    if min(entrada, saida, segundos, inicial) < 0:
+        raise ValueError("parametros nao negativos")
+    return max(0, inicial + (entrada - saida) * segundos)
+
+pico = saldo_fila(1000, 700, 60)
+assert pico == 18000
+assert saldo_fila(400, 700, 60, pico) == 0
+assert saldo_fila(700, 700, 60, pico) == pico
+```
+
+Esse modelo fluido é uma estimativa de ordem de grandeza, **não** uma previsão de percentis de espera ou falhas de broker. Antes de acrescentar consumidores, discuta limite de fila, backpressure, rejeição explícita, prioridade, retry e recuperação da dependência. Exponha métricas distintas para entrada, conclusão, backlog, espera e falhas. Um SLO de sucesso não autoriza perder dados confirmados.
+
+Ordem de explicação para a entrevista: **escopo → invariantes → estimativas → APIs/dados → arquitetura mínima → gargalos → falhas → validação**. Cada componente adicional exige motivação quantitativa.
 ## Exercícios e verificação
 
 1. Recalcule RPS de pico se o volume diário dobrar e o multiplicador se tornar oito; diferencie hipóteses de medidas.

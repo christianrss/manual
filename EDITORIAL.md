@@ -43,3 +43,7 @@ A basic topic deserves its own complete article when the reader cannot derive it
 ## Curriculum-first release gate (2026-10-10)
 
 Read `CURRICULUM.md` and map the subject in `content/data/modules.yml` before writing. P0 foundations, coding, maintainable design and system design take precedence over new infrastructure laboratories. Every chapter needs an independently verifiable exercise, assumptions, derivation, counterexample and evidence. Automated test success is not a peer or human review. Avoid retrospective edition-log appendices and filler added to reach a word count.
+
+## Substantive correction before expansion (2026-10-10)
+
+Inspect existing chapters for duplicate derivations and superficial exercises; replace weak passages rather than appending release logs or increasing word count. Preserve published URLs and EN/PT contracts. New executable checks must cover counterexamples and name their assumptions. Record limited reviews in `CORE_REVIEW_2026-10-10.md` and do not claim independent peer review from successful CI.

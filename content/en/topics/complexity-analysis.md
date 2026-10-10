@@ -4,7 +4,7 @@ title: "Asymptotic Analysis and Algorithmic Cost"
 description: "Derive time and space complexity from loops, recurrences and invariants, while distinguishing worst-case, amortized and expected costs."
 category: foundations
 difficulty: foundational
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: []
 sources:
   - {title: 'MIT 6.006 — Introduction to Algorithms', url: 'https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/', kind: university course}
@@ -53,12 +53,29 @@ A divide-and-conquer algorithm often obeys a recurrence. Merge sort, in an ideal
 - Claiming `O(1)` memory for a recursive algorithm that can recurse `n` levels.
 - Assuming asymptotic superiority automatically means lower real latency on small inputs.
 
-## Deriving bounds from precise cost models
+## Counting operations under an explicit cost model
 
-A cost statement requires (a) an input-size function, (b) a primitive-operation model, and (c) a quantifier over inputs. For a comparison-based algorithm, one may count comparisons; for an external-memory algorithm, block transfers often dominate. The same program can be `O(n)` in RAM operations and far slower when it performs `n` synchronous disk reads. Distinguish worst-case `W(n)=max_{|x|=n}T(x)` from expected `E[T(X_n)]` under a specified distribution. Neither is implied by elapsed time on a single input [1].
+The earlier example already proves the triangular sum and quadratic bound. Consider a different algorithm: two nested loops, but the inner loop doubles its counter. The existence of two loops does not imply `n²` work; count actual iterations [1].
 
-For nested loops with `j` running from `i+1` to `n-1`, count `S(n)=Σ(i=0..n-1)(n-i-1)=n(n-1)/2`. To prove `S(n)=Θ(n²)`, observe `n²/4 ≤ S(n) ≤ n²/2` for sufficiently large `n`; this supplies constants for both upper and lower bounds. Merely observing two nested loops is not a proof: a loop doubling its index can have only logarithmically many iterations.
+```python
+def power_visits(n):
+    if n < 0:
+        raise ValueError("negative n")
+    total = 0
+    for _ in range(n):
+        step = 1
+        while step <= n:
+            total += 1
+            step *= 2
+    return total
 
+assert power_visits(0) == 0
+assert power_visits(8) == 32
+for n in range(1, 65):
+    assert power_visits(n) == n * n.bit_length()
+```
+
+For `n >= 1`, the inner loop executes `floor(log₂ n)+1` times per outer iteration. Thus `T(n)=n(floor(log₂ n)+1)=Theta(n log(n+1))` under a unit-cost RAM model, with `Theta(1)` auxiliary space. Actual Python integers have arbitrary precision; enormous values require bit-complexity analysis. Indexing a linked list, executing a SQL query and reading RAM use different cost models. Declare primitive-operation costs and whether recursive stack frames count as auxiliary memory before assigning an asymptotic bound.
 ## Recurrences: expansion, substitution and hypotheses
 
 For a balanced divide-and-conquer recurrence `T(n)=2T(n/2)+cn` on powers of two with `T(1)=d`, a recursion tree has `log₂n` internal levels, each costing `cn`, plus `n` leaves costing `d`. Consequently `T(n)=cn log₂n + dn = Θ(n log n)`. This is a proof using a particular recurrence, not a rule for every divide-and-conquer algorithm [2].
