@@ -87,7 +87,20 @@ def main():
             if time.monotonic()>deadline:
                 raise TimeoutError("standby did not replay the committed marker")
             time.sleep(1)
+        # Suspected unreachability is not fencing. Promotion must refuse
+        # while the original instance is still in Docker's running state.
+        def require_verified_stop():
+            state=docker("inspect","--format","{{.State.Running}}",PRIMARY)
+            if state != "false":
+                raise RuntimeError("refusing promotion: old primary still running")
+        try:
+            require_verified_stop()
+        except RuntimeError:
+            pass
+        else:
+            raise AssertionError("live primary incorrectly passed the fence gate")
         docker("stop","-t","5",PRIMARY,timeout=40)
+        require_verified_stop()
         with psycopg.connect(STANDBY_DSN,autocommit=True) as promoted:
             result=promoted.execute("SELECT pg_promote(true, 40)").fetchone()[0]
             if not result:
