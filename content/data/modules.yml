@@ -36,6 +36,7 @@ operating-systems:
 networking:
   - ip-routing-dns-resolution
   - network-protocols
+  - tcp-byte-stream-framing-flow-control
 security:
   - api-security
   - oauth-pkce-token-security
