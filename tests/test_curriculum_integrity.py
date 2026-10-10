@@ -22,4 +22,15 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(core.index('complexity-analysis'),core.index('system-design-process'))
         self.assertLess(core.index('object-oriented-design'),core.index('system-design-process'))
         self.assertTrue(all(load_modules()[x]!='advanced-labs' for x in core))
+        # Targeted prerequisite audit of the foundational software-design block.
+        self.assertLess(core.index('testing-maintainability'), core.index('clean-code-cohesion-coupling'))
+        self.assertLess(core.index('clean-code-cohesion-coupling'), core.index('object-oriented-design'))
+        self.assertLess(core.index('object-oriented-design'), core.index('low-level-design'))
+        self.assertLess(core.index('low-level-design'), core.index('solid-dependency-inversion'))
+        self.assertLess(core.index('testing-strategies'), core.index('refactoring-design-patterns'))
+        self.assertLess(core.index('rate-limiting'), core.index('maintainable-implementation-workshop'))
+        self.assertLess(core.index('capacity-estimation'), core.index('system-design-process'))
+        for article in ['clean-code-cohesion-coupling', 'object-oriented-design', 'low-level-design', 'solid-dependency-inversion', 'testing-strategies', 'refactoring-design-patterns']:
+            for prereq in load_articles()['en'][article]['meta']['prerequisites']:
+                self.assertLess(core.index(prereq), core.index(article), f'{prereq} must precede {article}')
 if __name__=='__main__':unittest.main()

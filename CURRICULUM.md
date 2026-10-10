@@ -21,7 +21,7 @@ This is a dependency graph: reuse is expected across different learning tracks, 
 | Domain | Already published | Not yet adequately covered | Priority |
 | --- | --- | --- | --- |
 | Data structures and algorithms | Arrays, lists, maps, heaps, trees, graph problems, DP, sorting and search | Independent adversarial unseen exercises, additional proof methods | P0 |
-| Software quality and design | OOP, SOLID, patterns, refactoring, tests and LLD | Cohesion/coupling, full Clean Code foundations, design-pattern families | P0 |
+| Software quality and design | Clean Code/cohesion/coupling worked primer, OOP, SOLID, patterns, refactoring, tests and LLD | Broader design-pattern families, independent review, assessed refactorings | P0 |
 | System design | Capacity, service boundaries, caching, queues, complete cases | More entry-level-to-intermediate worked reviews and independent evaluations | P0 |
 | Computer architecture | No standalone material | Bits, binary arithmetic, ISA, CPU, caches, DRAM and memory hierarchy | P1 |
 | Operating systems and concurrency | Processes, virtual memory, locks, atomics | Scheduling, runtime threading, allocation, file systems and I/O | P1 |
@@ -58,3 +58,7 @@ Read the [official SDE II OA guide](https://amazon.jobs/content/en/how-we-hire/s
 The source of truth for precise subject assignment is `content/data/modules.yml`. Existing chapter frontmatter contains a legacy coarse category field, retained temporarily for backward compatibility; the builder applies the precise module registry at load time. Before removing this compatibility, migrate frontmatter in a separately tested change. The registry must classify each published semantic ID exactly once.
 
 Do not publish another specialized lab while P0/P1 foundations remain missing unless correcting a verified defect. Do not append historical release logs to topic chapters; Git history already preserves changes.
+
+## 2026-10-10: Clean Code prerequisite added
+
+New bilingual chapter `clean-code-cohesion-coupling` establishes concrete behavioral contracts, cohesion and coupling with a locally deterministic inventory planner. It precedes object design and SOLID in both the Amazon and the general CS track. The LLD chapter now treats `database-consistency` as an important follow-up rather than a hard prerequisite for its local state-machine example. The implementation workshop was moved behind the rate-limiting section, which it uses as a prerequisite. These are **curricular improvements**, not evidence of complete prerequisite ordering across every advanced chapter. New regression tests verify the relevant relationships.

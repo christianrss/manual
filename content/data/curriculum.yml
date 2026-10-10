@@ -16,18 +16,18 @@ tracks:
       - title: {en: "Algorithm design and coding", pt: "Projeto de algoritmos e programação"}
         articles: [sorting-algorithms, binary-search, two-pointers-prefix-sums, sliding-window, monotonic-stacks, tree-algorithms, shortest-paths, greedy-intervals, backtracking-search, dynamic-programming]
       - title: {en: "Object design, SOLID and maintainability", pt: "Projeto orientado a objetos, SOLID e manutenibilidade"}
-        articles: [object-oriented-design, solid-dependency-inversion, low-level-design, refactoring-design-patterns, testing-strategies, testing-maintainability, debugging-profiling, maintainable-implementation-workshop]
+        articles: [testing-maintainability, clean-code-cohesion-coupling, object-oriented-design, low-level-design, solid-dependency-inversion, testing-strategies, refactoring-design-patterns, debugging-profiling]
       - title: {en: "Runtime, databases, networking and security", pt: "Execução, bancos de dados, redes e segurança"}
         articles: [processes-virtual-memory, concurrency-synchronization, network-protocols, database-consistency, transactional-indexing-isolation, sql-query-planning, database-storage-wal, api-security, oauth-pkce-token-security]
       - title: {en: "System design from requirements to failures", pt: "Projeto de sistemas: dos requisitos às falhas"}
-        articles: [system-design-process, capacity-estimation, api-contracts-pagination, storage-selection, service-boundaries, caching, load-balancing, rate-limiting, asynchronous-messaging, database-replication-failover, data-partitioning-sharding, api-reliability, system-design-notifications, url-shortener, system-design-order-service, system-design-feed, system-design-architecture-review]
+        articles: [capacity-estimation, system-design-process, api-contracts-pagination, storage-selection, service-boundaries, caching, load-balancing, rate-limiting, asynchronous-messaging, database-replication-failover, data-partitioning-sharding, api-reliability, system-design-notifications, url-shortener, system-design-order-service, system-design-feed, system-design-architecture-review]
       - title: {en: "Independent exercises and communication", pt: "Exercícios independentes e comunicação"}
-        articles: [algorithm-interview-workshop, independent-coding-assessment, independent-coding-assessment-ii, system-design-interview-workshop, adaptive-system-design-assessment, evidence-based-interviews]
+        articles: [algorithm-interview-workshop, maintainable-implementation-workshop, independent-coding-assessment, independent-coding-assessment-ii, system-design-interview-workshop, adaptive-system-design-assessment, evidence-based-interviews]
     planned_topics:
       en: >-
-        Missing dedicated foundational chapters: discrete mathematics, programming language semantics, CPU/ISA and cache architecture, OS scheduling, TCP/IP and DNS, TLS and cryptographic primitives, Clean Code foundations and independent timed evaluations. CI does not certify interview readiness.
+        Missing dedicated foundational chapters: discrete mathematics, programming language semantics, CPU/ISA and cache architecture, OS scheduling, TCP/IP and DNS, TLS and cryptographic primitives, a broader design-pattern taxonomy and independently proctored timed evaluations. CI does not certify interview readiness.
       pt: >-
-        Faltam capítulos fundamentais próprios: matemática discreta, semântica de linguagens, CPU/ISA e caches, escalonamento de SO, TCP/IP e DNS, TLS e primitivas criptográficas, fundamentos de Clean Code e avaliações inéditas cronometradas. CI não certifica preparação para entrevistas.
+        Faltam capítulos fundamentais próprios: matemática discreta, semântica de linguagens, CPU/ISA e caches, escalonamento de SO, TCP/IP e DNS, TLS e primitivas criptográficas, famílias adicionais de padrões de projeto e avaliações inéditas cronometradas. CI não certifica preparação para entrevistas.
   - id: computer-science-core
     title: {en: "Computer Science — Core Curriculum", pt: "Ciência da Computação — Currículo Fundamental"}
     description:
@@ -40,7 +40,7 @@ tracks:
       - title: {en: "Mathematics, algorithms and implementation", pt: "Matemática, algoritmos e implementação"}
         articles: [complexity-analysis, recursion-call-stack, arrays-and-strings, linked-lists, stacks-queues, sorting-algorithms, binary-search, hash-tables, heaps-priority-queues, binary-trees-bst, graph-traversal, dynamic-programming]
       - title: {en: "Software design and engineering", pt: "Projeto e engenharia de software"}
-        articles: [object-oriented-design, solid-dependency-inversion, refactoring-design-patterns, low-level-design, testing-strategies, debugging-profiling, software-project-lifecycle, ci-cd-release-engineering]
+        articles: [testing-maintainability, clean-code-cohesion-coupling, object-oriented-design, low-level-design, solid-dependency-inversion, testing-strategies, refactoring-design-patterns, debugging-profiling, software-project-lifecycle, ci-cd-release-engineering]
       - title: {en: "Processes, threads, memory and networks", pt: "Processos, threads, memória e redes"}
         articles: [processes-virtual-memory, concurrency-synchronization, memory-ordering-atomics, cpp17-concurrency-implementation, network-protocols]
       - title: {en: "Security, storage and distributed systems", pt: "Segurança, armazenamento e sistemas distribuídos"}

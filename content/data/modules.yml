@@ -49,6 +49,7 @@ distributed-systems:
   - caching
   - rate-limiting
 engineering:
+  - clean-code-cohesion-coupling
   - object-oriented-design
   - solid-dependency-inversion
   - testing-maintainability
