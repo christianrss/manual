@@ -4,10 +4,12 @@ The script verifies one record has REPLAYED before stopping the primary, then
 promotes standby and performs a new write. This is MANUAL promotion after one
 process stop; it is NOT automatic failover or a zero-data-loss proof.
 """
+import json
 import subprocess
 import time
 import uuid
 import psycopg
+from failover_metrics import FailoverTiming
 
 TAG=uuid.uuid4().hex[:10]
 NETWORK="manual-pgrep-"+TAG
@@ -75,6 +77,7 @@ def main():
             primary.execute("CREATE TABLE manual_probe(id int PRIMARY KEY, payload text NOT NULL)")
             primary.execute("INSERT INTO manual_probe VALUES (1,'replayed-before-stop')")
         # Explicitly wait until standby HAS the row before killing primary.
+        replay_started=time.monotonic()
         deadline=time.monotonic()+60
         while True:
             try:
@@ -87,6 +90,27 @@ def main():
             if time.monotonic()>deadline:
                 raise TimeoutError("standby did not replay the committed marker")
             time.sleep(1)
+        # REAL DATA-PLANE PARTITION: old primary keeps running locally.
+        # This is NOT a fence; it illustrates why timeout != stopped writer.
+        docker("network","disconnect",NETWORK,PRIMARY,timeout=30)
+        try:
+            running=docker("inspect","--format","{{.State.Running}}",PRIMARY)
+            assert running=="true","network disconnect unexpectedly stopped primary"
+            # Docker exec communicates through the container runtime, not its
+            # database network. A transactional write still succeeds locally.
+            probe=docker("exec",PRIMARY,"psql","-U","manual","-d","manual",
+                "-tAc","CREATE TEMP TABLE manual_isolated_test(v integer); "
+                "INSERT INTO manual_isolated_test VALUES (7); "
+                "SELECT SUM(v) FROM manual_isolated_test")
+            assert probe.strip().endswith("7"),probe
+        finally:
+            docker("network","connect","--alias","pgprimary",NETWORK,PRIMARY,timeout=45)
+        assert docker("inspect","--format","{{.State.Running}}",PRIMARY)=="true"
+        # A previously connected standby should catch up when network heals.
+        # The same row used for the earlier RPO marker remains available.
+        with psycopg.connect(STANDBY_DSN) as replica:
+            assert replica.execute("SELECT payload FROM manual_probe WHERE id=1").fetchone()==("replayed-before-stop",)
+        replay_observed_s=round(time.monotonic()-replay_started,3)
         # Suspected unreachability is not fencing. Promotion must refuse
         # while the original instance is still in Docker's running state.
         def require_verified_stop():
@@ -99,17 +123,25 @@ def main():
             pass
         else:
             raise AssertionError("live primary incorrectly passed the fence gate")
+        failover_started=time.monotonic()
         docker("stop","-t","5",PRIMARY,timeout=40)
         require_verified_stop()
+        stopped_at=time.monotonic()
         with psycopg.connect(STANDBY_DSN,autocommit=True) as promoted:
             result=promoted.execute("SELECT pg_promote(true, 40)").fetchone()[0]
             if not result:
                 raise AssertionError("promotion was not completed")
             assert not promoted.execute("SELECT pg_is_in_recovery()").fetchone()[0]
+            promoted_at=time.monotonic()
             promoted.execute("INSERT INTO manual_probe VALUES (2,'new-primary-write')")
+            wrote_at=time.monotonic()
             rows=promoted.execute("SELECT id,payload FROM manual_probe ORDER BY id").fetchall()
             assert rows==[(1,"replayed-before-stop"),(2,"new-primary-write")],rows
-        print("PASS: standby replayed observed marker, primary stopped, standby promoted and accepted a write")
+        timings=FailoverTiming(failover_started,stopped_at,promoted_at,wrote_at).phases()
+        timings["marker_replay_observed_s"]=replay_observed_s
+        timings["scope"]="one runner; planned stop; manual promotion; not end-to-end RTO or general zero-loss RPO"
+        print("POSTGRES_FAILOVER_METRICS "+json.dumps(timings,sort_keys=True))
+        print("PASS: primary still writable during network isolation; fenced via controlled stop; standby promoted")
     finally:
         for name in (STANDBY,PRIMARY):
             subprocess.run(["docker","rm","-f",name],capture_output=True,text=True,timeout=45)
