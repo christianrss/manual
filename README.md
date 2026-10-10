@@ -35,3 +35,7 @@ The Google tag is managed in `templates/base.html` (all localized documentation,
 
 ## Scope
 Initial chapters are the foundation, not a claim to a complete interview syllabus. The named interview path includes disclosed coverage gaps. This site is independently produced and unaffiliated with employers.
+
+## Curriculum governance
+
+[CURRICULUM.md](CURRICULUM.md) is the editorial contract: prerequisite graph, quality gates, Amazon SDE II priority and explicit unpublished foundations. `content/data/modules.yml` classifies chapters. Track separation preserves the full technical archive while preventing specialized infrastructure labs from substituting for core CS material.

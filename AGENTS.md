@@ -40,3 +40,7 @@ This is a public, bilingual, referenced technical manual. The repository is the 
 - Before choosing a new advanced topic, read `SDE_II_COVERAGE.md`. Close missing **basic data structures, algorithm patterns, software engineering/OOP and systematic system design** first. Do not claim a topic is taught because its name appears in another article.
 - Prioritize foundations needed for coding without an IDE, correctness arguments, edge cases and testing, then system-design trade-offs and complete worked architectures. Keep already published advanced material accessible as electives.
 - Each published pair must satisfy EDITORIAL.md and all existing checks. Track `planned_topics` must list material that remains unimplemented instead of marking it finished.
+
+## Curriculum governance (2026-10-10)
+
+`CURRICULUM.md` defines release priorities and teaching order. Use `content/data/modules.yml` as authoritative subject assignment; never insert an article outside it. Preserve article IDs and EN/PT correspondence. Keep advanced labs elective, do not infer completeness from CI or chapter counts, and do not displace basic algorithms, programming, architecture, OS, networking or security with edge-case infrastructure experiments.

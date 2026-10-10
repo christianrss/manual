@@ -1,30 +1,74 @@
-version: 1
-updated: 2026-10-09
+version: 2
+updated: 2026-10-10
 tracks:
   - id: amazon-sde-ii
-    title: {en: Amazon Software Development Engineer II, pt: Amazon Software Development Engineer II}
+    title: {en: "Amazon SDE II — Core Interview Path", pt: "Amazon SDE II — Formação Central"}
     description:
-      en: A targeted study itinerary mapped to publicly documented competencies; it does not imply endorsement or guaranteed outcomes.
-      pt: Itinerário de estudos baseado em competências documentadas publicamente; não implica endosso nem aprovação garantida.
+      en: "Ordered coding, maintainable design and system design; no hiring guarantee."
+      pt: "Estudo sequencial de algoritmos, design manutenível e sistemas; sem garantia de contratação."
     reference_urls:
-      - https://amazon.jobs/content/en/how-we-hire/sde-ii-interview-prep
       - https://amazon.jobs/content/en/how-we-hire/sde-ii-oa-prep
+      - https://amazon.jobs/content/en/how-we-hire/sde-ii-interview-prep
       - https://amazon.jobs/content/en/how-we-hire/interview-prep/software-development-topics
     sections:
-      - title: {en: Mathematical foundations & data structures, pt: Fundamentos matemáticos e estruturas de dados}
-        articles: [complexity-analysis, arrays-and-strings, stacks-queues, recursion-call-stack, linked-lists, hash-tables, binary-trees-bst, heaps-priority-queues, tries-prefix-search, graph-traversal, disjoint-set-union]
-      - title: {en: Algorithmic problem solving, pt: Resolução de problemas algorítmicos}
-        articles: [sorting-algorithms, two-pointers-prefix-sums, binary-search, sliding-window, greedy-intervals, monotonic-stacks, tree-algorithms, algorithm-interview-workshop, property-based-algorithm-testing, independent-coding-assessment, independent-coding-assessment-ii, dynamic-programming, backtracking-search, shortest-paths, strongly-connected-components, maximum-flow-matching]
-      - title: {en: Software engineering & object-oriented design, pt: Engenharia de software e design orientado a objetos}
-        articles: [object-oriented-design, solid-dependency-inversion, testing-maintainability, testing-strategies, maintainable-implementation-workshop, cpp17-concurrency-implementation, postgresql-concurrency-integration, postgresql-serializable-retry-lab, rabbitmq-durable-consumer-integration, rabbitmq-broker-restart-lab, rabbitmq-quorum-leader-failover, rabbitmq-quorum-majority-loss, rabbitmq-live-network-partition-lab, postgresql-streaming-promotion, postgresql-failover-fencing-gates, postgresql-failover-rpo-rto-measurements, debugging-profiling, refactoring-design-patterns, ci-cd-release-engineering, software-project-lifecycle, low-level-design]
-      - title: {en: Runtime, operating systems & correctness, pt: Runtime, sistemas operacionais e correção}
-        articles: [processes-virtual-memory, concurrency-synchronization, concurrency-interview-workshop, memory-ordering-atomics]
-      - title: {en: System design & distributed architecture, pt: Projeto de sistemas e arquitetura distribuída}
-        articles: [capacity-estimation, system-design-process, adaptive-system-design-assessment, system-design-architecture-review, network-partition-quorum-models, storage-selection, service-boundaries, caching, database-consistency, database-storage-wal, sql-query-planning, transactional-indexing-isolation, database-replication-failover, data-partitioning-sharding, asynchronous-messaging, load-balancing, rate-limiting, network-protocols, api-security, oauth-pkce-token-security, api-reliability, api-contracts-pagination, system-design-notifications, system-design-order-service, system-design-feed, system-design-interview-workshop, raft-consensus, distributed-observability, url-shortener]
-      - title: {en: Engineering judgment & communication, pt: Julgamento técnico e comunicação}
-        articles: [formal-model-checking, failure-recovery-workshop, sqlite-multiprocess-recovery, production-incident-response, evidence-based-interviews]
+      - title: {en: "Computational foundations and data structures", pt: "Fundamentos computacionais e estruturas de dados"}
+        articles: [complexity-analysis, arrays-and-strings, recursion-call-stack, linked-lists, stacks-queues, hash-tables, binary-trees-bst, heaps-priority-queues, graph-traversal, tries-prefix-search, disjoint-set-union]
+      - title: {en: "Algorithm design and coding", pt: "Projeto de algoritmos e programação"}
+        articles: [sorting-algorithms, binary-search, two-pointers-prefix-sums, sliding-window, monotonic-stacks, tree-algorithms, shortest-paths, greedy-intervals, backtracking-search, dynamic-programming]
+      - title: {en: "Object design, SOLID and maintainability", pt: "Projeto orientado a objetos, SOLID e manutenibilidade"}
+        articles: [object-oriented-design, solid-dependency-inversion, low-level-design, refactoring-design-patterns, testing-strategies, testing-maintainability, debugging-profiling, maintainable-implementation-workshop]
+      - title: {en: "Runtime, databases, networking and security", pt: "Execução, bancos de dados, redes e segurança"}
+        articles: [processes-virtual-memory, concurrency-synchronization, network-protocols, database-consistency, transactional-indexing-isolation, sql-query-planning, database-storage-wal, api-security, oauth-pkce-token-security]
+      - title: {en: "System design from requirements to failures", pt: "Projeto de sistemas: dos requisitos às falhas"}
+        articles: [system-design-process, capacity-estimation, api-contracts-pagination, storage-selection, service-boundaries, caching, load-balancing, rate-limiting, asynchronous-messaging, database-replication-failover, data-partitioning-sharding, api-reliability, system-design-notifications, url-shortener, system-design-order-service, system-design-feed, system-design-architecture-review]
+      - title: {en: "Independent exercises and communication", pt: "Exercícios independentes e comunicação"}
+        articles: [algorithm-interview-workshop, independent-coding-assessment, independent-coding-assessment-ii, system-design-interview-workshop, adaptive-system-design-assessment, evidence-based-interviews]
     planned_topics:
       en: >-
-        Priority gaps: human technical review, genuinely unseen algorithm assessment, independently enforced production PostgreSQL fencing and automatic failover, multi-host disaster recovery, asymmetric network packet faults, client-visible RTO/RPO and security. Docker CI now disconnects an otherwise-running RabbitMQ quorum member and verifies loss/restoration of publication confirms. PostgreSQL CI isolates a still-writable primary, refuses promotion until stopped, and reports controlled phase timings, not end-to-end RTO or zero-data-loss RPO.
+        Missing dedicated foundational chapters: discrete mathematics, programming language semantics, CPU/ISA and cache architecture, OS scheduling, TCP/IP and DNS, TLS and cryptographic primitives, Clean Code foundations and independent timed evaluations. CI does not certify interview readiness.
       pt: >-
-        Lacunas prioritárias: revisão técnica humana, algoritmos inéditos privados, fencing PostgreSQL independente e failover automático em produção, recuperação entre hosts, perda assimétrica de pacotes, RTO/RPO percebidos pelo cliente e segurança. CI Docker agora desconecta nó quorum RabbitMQ que continua em execução e verifica perda/retorno de confirms. PostgreSQL isola primário ainda gravável, recusa promoção até sua parada e registra tempos de etapas controladas, não RTO end-to-end ou RPO zero.
+        Faltam capítulos fundamentais próprios: matemática discreta, semântica de linguagens, CPU/ISA e caches, escalonamento de SO, TCP/IP e DNS, TLS e primitivas criptográficas, fundamentos de Clean Code e avaliações inéditas cronometradas. CI não certifica preparação para entrevistas.
+  - id: computer-science-core
+    title: {en: "Computer Science — Core Curriculum", pt: "Ciência da Computação — Currículo Fundamental"}
+    description:
+      en: "A general prerequisite-led education with explicitly documented gaps."
+      pt: "Formação geral orientada por pré-requisitos e lacunas explicitadas."
+    reference_urls:
+      - https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/
+      - https://pages.cs.wisc.edu/~remzi/OSTEP/
+    sections:
+      - title: {en: "Mathematics, algorithms and implementation", pt: "Matemática, algoritmos e implementação"}
+        articles: [complexity-analysis, recursion-call-stack, arrays-and-strings, linked-lists, stacks-queues, sorting-algorithms, binary-search, hash-tables, heaps-priority-queues, binary-trees-bst, graph-traversal, dynamic-programming]
+      - title: {en: "Software design and engineering", pt: "Projeto e engenharia de software"}
+        articles: [object-oriented-design, solid-dependency-inversion, refactoring-design-patterns, low-level-design, testing-strategies, debugging-profiling, software-project-lifecycle, ci-cd-release-engineering]
+      - title: {en: "Processes, threads, memory and networks", pt: "Processos, threads, memória e redes"}
+        articles: [processes-virtual-memory, concurrency-synchronization, memory-ordering-atomics, cpp17-concurrency-implementation, network-protocols]
+      - title: {en: "Security, storage and distributed systems", pt: "Segurança, armazenamento e sistemas distribuídos"}
+        articles: [api-security, oauth-pkce-token-security, database-storage-wal, sql-query-planning, database-consistency, transactional-indexing-isolation, asynchronous-messaging, raft-consensus, network-partition-quorum-models]
+      - title: {en: "Architecture and operational judgment", pt: "Arquitetura e julgamento operacional"}
+        articles: [system-design-process, capacity-estimation, storage-selection, service-boundaries, production-incident-response, formal-model-checking]
+    planned_topics:
+      en: >-
+        Not published: discrete logic, computability, P/NP, digital logic, CPU, cache hierarchy, memory allocators, filesystems, packet-level networking, cryptography, P2P and optional blockchain.
+      pt: >-
+        Não publicados: lógica discreta, computabilidade, P/NP, lógica digital, CPU, caches, alocadores de memória, sistemas de arquivos, redes por pacotes, criptografia, P2P e blockchain opcional.
+  - id: specialized-systems-labs
+    title: {en: "Advanced Systems — Optional Laboratories", pt: "Sistemas Avançados — Laboratórios Opcionais"}
+    description:
+      en: "Infrastructure and adversarial experiments after the core curriculum."
+      pt: "Experimentos de infraestrutura e falhas após o currículo fundamental."
+    reference_urls:
+      - https://www.postgresql.org/docs/current/
+      - https://www.rabbitmq.com/docs
+    sections:
+      - title: {en: "Database concurrency and recovery", pt: "Concorrência e recuperação de bancos"}
+        articles: [postgresql-concurrency-integration, postgresql-serializable-retry-lab, sqlite-multiprocess-recovery, postgresql-streaming-promotion, postgresql-failover-fencing-gates, postgresql-failover-rpo-rto-measurements]
+      - title: {en: "Broker durability, quorum and partitions", pt: "Durabilidade, quórum e partições em brokers"}
+        articles: [rabbitmq-durable-consumer-integration, rabbitmq-broker-restart-lab, rabbitmq-quorum-leader-failover, rabbitmq-quorum-majority-loss, rabbitmq-live-network-partition-lab]
+      - title: {en: "Advanced exercises", pt: "Exercícios avançados"}
+        articles: [concurrency-interview-workshop, failure-recovery-workshop, property-based-algorithm-testing, strongly-connected-components, maximum-flow-matching, distributed-observability]
+    planned_topics:
+      en: >-
+        Experiments only establish their stated lab conditions, not cross-host production fault tolerance or universally correct systems.
+      pt: >-
+        Experimentos comprovam apenas suas condições de laboratório, não tolerância a falhas multi-host em produção nem correção universal.

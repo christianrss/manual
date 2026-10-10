@@ -1,20 +1,48 @@
 - id: foundations
   order: 10
-  title: {en: Foundations, pt: Fundamentos}
-  description: {en: Mathematical and computational foundations., pt: Fundamentos matemáticos e computacionais.}
-- id: algorithms
+  title: {en: "Foundations of Computing", pt: "Fundamentos da Computação"}
+  description: {en: "Mathematical and computational reasoning.", pt: "Raciocínio matemático e computacional."}
+- id: computer-architecture
   order: 20
-  title: {en: Data Structures & Algorithms, pt: Estruturas de Dados e Algoritmos}
-  description: {en: Algorithms, invariants, proofs and complexity., pt: Algoritmos, invariantes, provas e complexidade.}
-- id: system-design
+  title: {en: "Computer Architecture", pt: "Arquitetura de Computadores"}
+  description: {en: "CPU, ISA and memory hierarchy; currently a publication gap.", pt: "CPU, ISA e hierarquia de memória; lacuna de publicação."}
+- id: algorithms
   order: 30
-  title: {en: System Design, pt: Projeto de Sistemas}
-  description: {en: Distributed systems, scale and operational trade-offs., pt: Sistemas distribuídos, escala e decisões operacionais.}
-- id: engineering
+  title: {en: "Data Structures & Algorithms", pt: "Estruturas de Dados e Algoritmos"}
+  description: {en: "Data representation, proofs and algorithms.", pt: "Representação de dados, provas e algoritmos."}
+- id: operating-systems
   order: 40
-  title: {en: Software Engineering, pt: Engenharia de Software}
-  description: {en: Code quality, validation and operational correctness., pt: Qualidade, validação e correção operacional.}
-- id: communication
+  title: {en: "Operating Systems & Concurrency", pt: "Sistemas Operacionais e Concorrência"}
+  description: {en: "Processes, memory, threads and synchronization.", pt: "Processos, memória, threads e sincronização."}
+- id: networking
   order: 50
-  title: {en: Engineering Communication, pt: Comunicação em Engenharia}
-  description: {en: Explaining decisions and evidence precisely., pt: Comunicação de decisões e evidências com precisão.}
+  title: {en: "Computer Networks", pt: "Redes de Computadores"}
+  description: {en: "Protocols and network models; fundamentals to expand.", pt: "Protocolos e modelos de redes; fundamentos a ampliar."}
+- id: security
+  order: 60
+  title: {en: "Security & Cryptography", pt: "Segurança e Criptografia"}
+  description: {en: "Security protocols; cryptographic foundations still missing.", pt: "Protocolos de segurança; criptografia fundamental ainda ausente."}
+- id: engineering
+  order: 70
+  title: {en: "Software Engineering & Design", pt: "Engenharia e Projeto de Software"}
+  description: {en: "OOP, SOLID, patterns, testing and quality.", pt: "POO, SOLID, padrões, testes e qualidade."}
+- id: databases
+  order: 80
+  title: {en: "Databases & Storage", pt: "Bancos de Dados e Armazenamento"}
+  description: {en: "Queries, transactions, indexes and recovery.", pt: "Consultas, transações, índices e recuperação."}
+- id: distributed-systems
+  order: 90
+  title: {en: "Distributed Systems", pt: "Sistemas Distribuídos"}
+  description: {en: "Messaging, replication, coordination and resilience.", pt: "Mensageria, replicação, coordenação e resiliência."}
+- id: system-design
+  order: 100
+  title: {en: "System Design", pt: "Projeto de Sistemas"}
+  description: {en: "Requirements, capacity, APIs and architectures.", pt: "Requisitos, capacidade, APIs e arquiteturas."}
+- id: interview-practice
+  order: 110
+  title: {en: "Assessment & Engineering Judgment", pt: "Avaliação e Raciocínio de Engenharia"}
+  description: {en: "Exercises, design reviews and communication.", pt: "Exercícios, revisões de projeto e comunicação."}
+- id: advanced-labs
+  order: 120
+  title: {en: "Specialized Systems Laboratories", pt: "Laboratórios Especializados de Sistemas"}
+  description: {en: "Elective infrastructure experiments.", pt: "Experimentos opcionais de infraestrutura."}
