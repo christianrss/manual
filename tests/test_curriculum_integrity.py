@@ -21,8 +21,11 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertFalse(set(core)&set(labs))
         self.assertLess(core.index('complexity-analysis'),core.index('system-design-process'))
         self.assertLess(core.index('object-oriented-design'),core.index('system-design-process'))
-        self.assertLess(core.index('machine-representation-isa-cache'),core.index('processes-virtual-memory'))
+        self.assertLess(core.index('machine-representation-isa-cache'),core.index('cpu-pipeline-hazards-branch-prediction'))
+        self.assertLess(core.index('cpu-pipeline-hazards-branch-prediction'),core.index('processes-virtual-memory'))
         self.assertEqual(load_modules()['machine-representation-isa-cache'],'computer-architecture')
+        self.assertEqual(load_modules()['cpu-pipeline-hazards-branch-prediction'],'computer-architecture')
+        self.assertIn('machine-representation-isa-cache',load_articles()['en']['cpu-pipeline-hazards-branch-prediction']['meta']['prerequisites'])
         self.assertTrue(all(load_modules()[x]!='advanced-labs' for x in core))
         # Targeted prerequisite audit of the foundational software-design block.
         self.assertLess(core.index('testing-maintainability'), core.index('clean-code-cohesion-coupling'))
@@ -40,5 +43,6 @@ class CurriculumIntegrityTests(unittest.TestCase):
         cs=[ident for section in load_tracks()[1]['sections'] for ident in section['articles']]
         self.assertLess(cs.index('refactoring-design-patterns'), cs.index('design-pattern-families'))
         self.assertLess(cs.index('capacity-estimation'), cs.index('system-design-process'))
-        self.assertLess(cs.index('machine-representation-isa-cache'),cs.index('processes-virtual-memory'))
+        self.assertLess(cs.index('machine-representation-isa-cache'),cs.index('cpu-pipeline-hazards-branch-prediction'))
+        self.assertLess(cs.index('cpu-pipeline-hazards-branch-prediction'),cs.index('processes-virtual-memory'))
 if __name__=='__main__':unittest.main()

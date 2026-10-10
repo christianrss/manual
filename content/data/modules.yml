@@ -99,3 +99,4 @@ interview-practice:
   - adaptive-system-design-assessment
 computer-architecture:
   - machine-representation-isa-cache
+  - cpu-pipeline-hazards-branch-prediction
