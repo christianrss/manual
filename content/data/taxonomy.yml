@@ -5,7 +5,7 @@
 - id: computer-architecture
   order: 20
   title: {en: "Computer Architecture", pt: "Arquitetura de Computadores"}
-  description: {en: "Bits, ISA and memory hierarchy; CPU pipelines and coherence remain gaps.", pt: "Bits, ISA e hierarquia de memória; pipelines e coerência ainda faltam."}
+  description: {en: "Bits, ISA, cache mapping and pipeline hazard models; coherence remains a gap.", pt: "Bits, ISA, cache e modelo de pipeline; coerência ainda não foi publicada."}
 - id: algorithms
   order: 30
   title: {en: "Data Structures & Algorithms", pt: "Estruturas de Dados e Algoritmos"}
