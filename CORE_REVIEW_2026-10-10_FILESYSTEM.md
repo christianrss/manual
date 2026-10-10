@@ -1,0 +1,13 @@
+# Filesystem inode allocation and redo journaling — 2026-10-10
+
+Scope: new substantial PT/EN OS chapter, prerequisite-led inclusion in Amazon SDE II and CS core, reciprocal links with the earlier descriptor and WAL chapters, and independent finite state oracles. This is **not** a native filesystem, kernel patch or crash-consistency experiment on real devices.
+
+**Filesystem model:** one flat directory mapping unique names to inode IDs; one inode per name, no hard links or open descriptors; fixed-size memory-only block slots using `None` for free, bytes for occupied. Append preflights allocation capacity, allows noncontiguous block IDs, fills trailing bytes with zero, and leaves state unchanged on ENOSPC; rename preserves inode identity, unlink immediately frees blocks **only under the no-open-FD/no-hard-link restriction**.
+
+**Filesystem verification:** independent `IndependentNamespace` oracle stores name-to-(inode ID, immutable byte payload), deriving required block count from content length instead of reproducing a block allocator. Every sequence of up to four actions over eight actions is compared for two block sizes: **9,362 histories per language**. Checks also reconstruct actual inode allocation ownership, exclusivity of block IDs, full/empty state and no-mutation after exceptions/ENOSPC.
+
+**Journal model:** integer-valued metadata records, abstract durable commit marker, idempotent redo and partial installation before crash. The model presumes all journal records and marker are stable before commit; no torn writes, concurrent transactions, filesystem data writeback or actual fsync implementation. The independent oracle applies assignments to a separate dictionary, validating **258 possible record sequences per language** (length 1–3 from six record forms) across all commit and partial-installation crash windows; repeated recovery and checkpoint effects also checked.
+
+Primary sources: [MIT xv6 filesystem/log](https://mit-pdos.github.io/xv6-riscv-book/), [OSTEP](https://pages.cs.wisc.edu/~remzi/OSTEP/), [Linux ext4 jbd2](https://www.kernel.org/doc/html/latest/filesystems/ext4/journal.html), [Linux ext4 admin guide](https://www.kernel.org/doc/html/latest/admin-guide/ext4.html), and [fsync(2)](https://man7.org/linux/man-pages/man2/fsync.2.html). Metadata journaling alone **does not guarantee durable file bytes** under general failure models.
+
+Remaining: inode metadata serialization, directory trees, symlinks, hard-link/open-reference lifetime, real filesystem journaling and cache ordering, extents, checksums, fsck, controlled power-loss tests, multicore write races and storage device error semantics. CI is bounded functional evidence, not human peer review.
