@@ -19,3 +19,5 @@ Filesystem foundations now include a bilingual inode/directory/block model and a
 A dedicated bilingual IPv4 prefix-routing and positive DNS TTL-cache chapter now precedes the network request overview; its finite reference tests do not certify DNSSEC, resolver correctness, real routing policy or TCP reliability.
 
 TCP fundamentals now include a bilingual independently tested stream-framing decoder and a finite relative-sequence cumulative-ACK example with sender window bounds. No claim of real TCP socket stack, loss recovery, congestion-control implementation, fairness, throughput benchmarks or network packet tracing.
+
+A dedicated PT/EN TCP RTO lesson now derives RFC 6298 smoothing and Karn/backoff using an independent decimal-state reference, alongside a clearly labeled non-RFC-conformant aggregate congestion-window teaching sketch; complete ACK-driven retransmission and congestion-control implementations are not covered.

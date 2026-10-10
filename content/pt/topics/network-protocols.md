@@ -30,7 +30,7 @@ TCP identifica conexões por endereços e portas e oferece **fluxo confiável e 
 
 Separe **controle de fluxo**, que limita dados em trânsito segundo capacidade do receptor, de **controle de congestionamento**, que restringe o envio para proteger a rede compartilhada. Janela de recepção ampla não significa banda infinita. Da mesma forma, completar o handshake TCP não impede o servidor de rejeitar ou exceder o timeout de requisição depois.
 
-O capítulo de [fluxo TCP e enquadramento de mensagens](/pt/topics/tcp-byte-stream-framing-flow-control/) agora deduz frames, sequência relativa, ACK cumulativo e cálculo simplificado de limites de envio. O modelo testado não corresponde à pilha TCP do kernel nem simula retransmissão ou congestionamento real [1].
+O capítulo de [fluxo TCP e enquadramento de mensagens](/pt/topics/tcp-byte-stream-framing-flow-control/) agora deduz frames, sequência relativa, ACK cumulativo e cálculo simplificado de limites de envio. O modelo testado não corresponde à pilha TCP do kernel nem simula retransmissão ou congestionamento real [1]. O capítulo de [temporizadores e congestionamento](/pt/topics/tcp-rto-retransmission-congestion/) modela separadamente a suavização de RTT da RFC 6298 e a evolução agregada de cwnd, sem implementar recuperação real por ACK.
 
 ## TLS e fronteira de confiança
 

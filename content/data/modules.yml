@@ -37,6 +37,7 @@ networking:
   - ip-routing-dns-resolution
   - network-protocols
   - tcp-byte-stream-framing-flow-control
+  - tcp-rto-retransmission-congestion
 security:
   - api-security
   - oauth-pkce-token-security
