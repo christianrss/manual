@@ -28,7 +28,7 @@ The employer describes coding, data structures, algorithms, design, maintainable
 - `monotonic-stacks` — next greater, daily temperatures, histogram and amortized analysis.
 - `tree-algorithms` — BFS levels, LCA, diameter and ancestor-bound BST validation.
 
-**Next priority:** expand from the published system-design method and notification case into storage selection, order-service and feed designs; then debugging/profiling and release engineering. Object-oriented design, SOLID and testing already have separate EN/PT chapters. Published fundamentals still require sustained problem-solving practice and technical review.
+**Next priority:** complete service-boundary decisions, debugging/profiling, safe CI/CD releases and refactoring, then reinforce these systems through targeted design exercises. Storage selection, orders/payment saga and a hybrid social feed have standalone bilingual studies. Published fundamentals require continued technical review.
 
 ## P1 — Problem-solving and coding competency
 
@@ -57,11 +57,15 @@ Existing: `capacity-estimation`, `caching`, `asynchronous-messaging`, `load-bala
 - `data-partitioning-sharding` — partition keys, hotspots, stable rendezvous mapping, migration protocol and global-uniqueness boundaries.
 - `system-design-notifications` — full worked multi-channel design, durable transactional outbox, provider ambiguity, backlog math and recovery.
 
-**Core chapters still needed:**
-1. `storage-selection` — relational/document/key-value choices driven by concrete access patterns and consistency.
-2. `system-design-order-service` — complete system with inventory, payment coordination, concurrency and recovery.
-3. `system-design-feed` — high-read content feed with fanout alternatives, hotspots and freshness.
-4. `service-boundaries` — synchronous versus asynchronous collaboration and separation criteria.
+**Newly published end-to-end cases and decisions:**
+- `storage-selection` — relational/document/key-value/object/search trade-offs, workload-derived sizing and authority boundaries.
+- `system-design-order-service` — atomic stock reservation, checkout idempotency, payment saga, compensation and fulfillment failures.
+- `system-design-feed` — read/write fanout, hybrid candidate materialization, privacy filters, cursor pagination and repair.
+
+**Core chapter still needed:**
+1. `service-boundaries` — when to split services, synchronous vs asynchronous collaboration, ownership and failure trade-offs.
+
+**Practice still required:** justify storage choices under changed workloads; design order cancellation races; scale feeds under skew and privacy requirements. Publication does not substitute for independently solving new design prompts.
 
 Advanced chapters such as `raft-consensus`, `memory-ordering-atomics` and `formal-model-checking` are **optional enrichment** until the core path is complete.
 
