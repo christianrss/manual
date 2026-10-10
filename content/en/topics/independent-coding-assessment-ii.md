@@ -28,7 +28,7 @@ A high-level hint: identify which capacity values are *feasible* and prove wheth
 
 ## Changed constraints and tempting mistakes
 
-If k exceeds the number of tasks, do not invent empty batches as mandatory work. The contract permits **at most** k, not exactly k, so the optimum may use fewer batches. If loads contain zeros, a zero capacity may be feasible; code assuming positive sums can fail. If tasks are [10] and k=10, capacity ten remains required.
+If k exceeds the number of tasks, do not invent empty batches as mandatory work. The contract permits **at most** k, not exactly k, so the optimum may use fewer batches. If loads contain zeros, a zero capacity may be feasible; code assuming positive sums can fail. If tasks are a single load of ten and k=10, capacity ten remains required.
 
 Do not sort loads: doing so changes contiguous order and the problem being solved. Do not use floating-point accumulation for large integers when exact totals are part of the contract. When reporting complexity, separate the number of loads n, the batch limit k, and the numerical range of candidate capacities. A binary search over a numerical answer domain is only justified **after** proving monotonicity.
 

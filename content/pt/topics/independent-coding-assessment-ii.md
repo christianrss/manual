@@ -28,7 +28,7 @@ Uma pista geral: determine quais valores de capacidade são *viáveis* e prove s
 
 ## Mudanças de regra e respostas tentadoras
 
-Se k supera a quantidade de tarefas, não invente lotes vazios obrigatórios. O contrato permite **até** k, não exatamente k, e o ótimo pode usar menos grupos. Quando cargas são zero, capacidade zero pode ser possível; código que presume somas positivas falha. Se há apenas tarefa [10] e k=10, o limite ainda precisa ser dez.
+Se k supera a quantidade de tarefas, não invente lotes vazios obrigatórios. O contrato permite **até** k, não exatamente k, e o ótimo pode usar menos grupos. Quando cargas são zero, capacidade zero pode ser possível; código que presume somas positivas falha. Se há apenas tarefa uma única carga de dez e k=10, o limite ainda precisa ser dez.
 
 Não ordene cargas: isso altera a contiguidade e resolve outro problema. Não acumule valores inteiros muito grandes em ponto flutuante quando o contrato exige resultado exato. Na complexidade, distinga quantidade de tarefas n, limite k e amplitude numérica das capacidades candidatas. Busca binária sobre valores só se justifica **depois da prova de monotonicidade**.
 
