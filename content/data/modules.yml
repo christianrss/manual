@@ -57,6 +57,7 @@ engineering:
   - maintainable-implementation-workshop
   - debugging-profiling
   - refactoring-design-patterns
+  - design-pattern-families
   - ci-cd-release-engineering
   - software-project-lifecycle
   - low-level-design
