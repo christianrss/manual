@@ -1,4 +1,5 @@
 // C++17 teaching example. Compile: g++ -std=c++17 -O2 -Wall -Wextra -Werror -pthread token_bucket.cpp -o token_bucket
+#include <algorithm>
 #include <atomic>
 #include <cassert>
 #include <chrono>
@@ -7,6 +8,7 @@
 #include <mutex>
 #include <stdexcept>
 #include <thread>
+#include <utility>
 #include <vector>
 
 class TokenBucket {
