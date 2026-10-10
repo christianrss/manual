@@ -26,6 +26,11 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(core.index('processes-virtual-memory'),core.index('cpu-scheduling-fcfs-round-robin'))
         self.assertLess(core.index('cpu-scheduling-fcfs-round-robin'),core.index('concurrency-synchronization'))
         self.assertEqual(load_modules()['cpu-scheduling-fcfs-round-robin'],'operating-systems')
+        self.assertLess(core.index('concurrency-synchronization'),core.index('mlfq-priority-inheritance'))
+        self.assertEqual(load_modules()['mlfq-priority-inheritance'],'operating-systems')
+        for lang in ('en','pt'):
+            meta=load_articles()[lang]['mlfq-priority-inheritance']['meta']
+            self.assertEqual(set(meta['prerequisites']), {'cpu-scheduling-fcfs-round-robin','concurrency-synchronization'})
         self.assertEqual(load_modules()['machine-representation-isa-cache'],'computer-architecture')
         self.assertEqual(load_modules()['cpu-pipeline-hazards-branch-prediction'],'computer-architecture')
         self.assertIn('machine-representation-isa-cache',load_articles()['en']['cpu-pipeline-hazards-branch-prediction']['meta']['prerequisites'])
@@ -50,4 +55,5 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(cs.index('cpu-pipeline-hazards-branch-prediction'),cs.index('processes-virtual-memory'))
         self.assertLess(cs.index('processes-virtual-memory'),cs.index('cpu-scheduling-fcfs-round-robin'))
         self.assertLess(cs.index('cpu-scheduling-fcfs-round-robin'),cs.index('concurrency-synchronization'))
+        self.assertLess(cs.index('concurrency-synchronization'),cs.index('mlfq-priority-inheritance'))
 if __name__=='__main__':unittest.main()

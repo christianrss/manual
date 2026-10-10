@@ -7,3 +7,5 @@ The core focuses on correctness, data structures, algorithms, maintainable imple
 Official sources: [OA preparation](https://amazon.jobs/content/en/how-we-hire/sde-ii-oa-prep), [interview preparation](https://amazon.jobs/content/en/how-we-hire/sde-ii-interview-prep), [interview topics](https://amazon.jobs/content/en/how-we-hire/interview-prep/software-development-topics).
 
 A bilingual FCFS/Round Robin chapter now precedes concurrency, with exhaustive finite tick-oracle verification. Real kernel context switching, unbounded fairness, multi-CPU priority scheduling and I/O remain uncovered.
+
+Advanced scheduling now distinguishes MLFQ promotion/aging from transitive lock priority inheritance, with bounded executable tests. It is a model rather than a live Linux scheduler benchmark or real-time guarantee.

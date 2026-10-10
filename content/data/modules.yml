@@ -26,6 +26,7 @@ algorithms:
 operating-systems:
   - processes-virtual-memory
   - cpu-scheduling-fcfs-round-robin
+  - mlfq-priority-inheritance
   - concurrency-synchronization
   - memory-ordering-atomics
   - cpp17-concurrency-implementation
