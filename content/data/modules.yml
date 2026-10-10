@@ -34,6 +34,7 @@ operating-systems:
   - memory-ordering-atomics
   - cpp17-concurrency-implementation
 networking:
+  - ip-routing-dns-resolution
   - network-protocols
 security:
   - api-security

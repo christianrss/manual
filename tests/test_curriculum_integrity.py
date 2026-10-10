@@ -43,6 +43,10 @@ class CurriculumIntegrityTests(unittest.TestCase):
         for lang in ('en','pt'):
             meta=load_articles()[lang]['mlfq-priority-inheritance']['meta']
             self.assertEqual(set(meta['prerequisites']), {'cpu-scheduling-fcfs-round-robin','concurrency-synchronization'})
+        self.assertLess(core.index('ip-routing-dns-resolution'),core.index('network-protocols'))
+        self.assertEqual(load_modules()['ip-routing-dns-resolution'],'networking')
+        for lang in ('en','pt'):
+            self.assertIn('ip-routing-dns-resolution',load_articles()[lang]['network-protocols']['meta']['prerequisites'])
         self.assertEqual(load_modules()['machine-representation-isa-cache'],'computer-architecture')
         self.assertEqual(load_modules()['cpu-pipeline-hazards-branch-prediction'],'computer-architecture')
         self.assertIn('machine-representation-isa-cache',load_articles()['en']['cpu-pipeline-hazards-branch-prediction']['meta']['prerequisites'])
@@ -71,4 +75,5 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(cs.index('inode-directories-journaling-recovery'),cs.index('cpu-scheduling-fcfs-round-robin'))
         self.assertLess(cs.index('cpu-scheduling-fcfs-round-robin'),cs.index('concurrency-synchronization'))
         self.assertLess(cs.index('concurrency-synchronization'),cs.index('mlfq-priority-inheritance'))
+        self.assertLess(cs.index('ip-routing-dns-resolution'),cs.index('network-protocols'))
 if __name__=='__main__':unittest.main()

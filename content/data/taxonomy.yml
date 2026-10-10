@@ -17,7 +17,7 @@
 - id: networking
   order: 50
   title: {en: "Computer Networks", pt: "Redes de Computadores"}
-  description: {en: "Protocols and network models; fundamentals to expand.", pt: "Protocolos e modelos de redes; fundamentos a ampliar."}
+  description: {en: "IPv4 prefix routing and DNS cache fundamentals; transport mechanics remain to expand.", pt: "Roteamento por prefixos IPv4 e cache DNS; transporte ainda requer aprofundamento."}
 - id: security
   order: 60
   title: {en: "Security & Cryptography", pt: "Segurança e Criptografia"}
