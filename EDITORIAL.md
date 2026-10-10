@@ -39,3 +39,7 @@ Sources: ordered list of `{title, url, kind}`; citation numbers are one-based po
 
 ## Priority and article granularity for the SDE II curriculum
 A basic topic deserves its own complete article when the reader cannot derive its operations, costs, invariants and failure cases from another existing chapter. In particular, don't skip arrays, list nodes, stacks, queues, tree traversal, sorting, recursion or object design to publish another specialized distributed-systems extension. Include code that runs without an IDE, edge cases and an independent correctness check. System-design chapters must connect requirements, sizing, API/data contracts, failure handling, trade-offs and verification. The hiring organization is referenced only in the dedicated track, not in universal technical chapters.
+
+## Curriculum-first release gate (2026-10-10)
+
+Read `CURRICULUM.md` and map the subject in `content/data/modules.yml` before writing. P0 foundations, coding, maintainable design and system design take precedence over new infrastructure laboratories. Every chapter needs an independently verifiable exercise, assumptions, derivation, counterexample and evidence. Automated test success is not a peer or human review. Avoid retrospective edition-log appendices and filler added to reach a word count.

@@ -1,0 +1,98 @@
+foundations:
+  - complexity-analysis
+  - recursion-call-stack
+algorithms:
+  - arrays-and-strings
+  - backtracking-search
+  - binary-search
+  - binary-trees-bst
+  - disjoint-set-union
+  - dynamic-programming
+  - graph-traversal
+  - greedy-intervals
+  - hash-tables
+  - heaps-priority-queues
+  - linked-lists
+  - maximum-flow-matching
+  - monotonic-stacks
+  - shortest-paths
+  - sliding-window
+  - sorting-algorithms
+  - stacks-queues
+  - strongly-connected-components
+  - tree-algorithms
+  - tries-prefix-search
+  - two-pointers-prefix-sums
+operating-systems:
+  - processes-virtual-memory
+  - concurrency-synchronization
+  - memory-ordering-atomics
+  - cpp17-concurrency-implementation
+networking:
+  - network-protocols
+security:
+  - api-security
+  - oauth-pkce-token-security
+databases:
+  - database-consistency
+  - database-replication-failover
+  - database-storage-wal
+  - sql-query-planning
+  - transactional-indexing-isolation
+distributed-systems:
+  - asynchronous-messaging
+  - network-partition-quorum-models
+  - raft-consensus
+  - data-partitioning-sharding
+  - distributed-observability
+  - load-balancing
+  - caching
+  - rate-limiting
+engineering:
+  - object-oriented-design
+  - solid-dependency-inversion
+  - testing-maintainability
+  - testing-strategies
+  - maintainable-implementation-workshop
+  - debugging-profiling
+  - refactoring-design-patterns
+  - ci-cd-release-engineering
+  - software-project-lifecycle
+  - low-level-design
+  - production-incident-response
+  - formal-model-checking
+  - property-based-algorithm-testing
+system-design:
+  - capacity-estimation
+  - system-design-process
+  - system-design-architecture-review
+  - system-design-feed
+  - system-design-notifications
+  - system-design-order-service
+  - url-shortener
+  - service-boundaries
+  - storage-selection
+  - api-contracts-pagination
+  - api-reliability
+advanced-labs:
+  - postgresql-concurrency-integration
+  - postgresql-serializable-retry-lab
+  - postgresql-streaming-promotion
+  - postgresql-failover-fencing-gates
+  - postgresql-failover-rpo-rto-measurements
+  - rabbitmq-broker-restart-lab
+  - rabbitmq-durable-consumer-integration
+  - rabbitmq-live-network-partition-lab
+  - rabbitmq-quorum-leader-failover
+  - rabbitmq-quorum-majority-loss
+  - sqlite-multiprocess-recovery
+interview-practice:
+  - algorithm-interview-workshop
+  - concurrency-interview-workshop
+  - evidence-based-interviews
+  - failure-recovery-workshop
+  - independent-coding-assessment
+  - independent-coding-assessment-ii
+  - system-design-interview-workshop
+  - adaptive-system-design-assessment
+computer-architecture: []

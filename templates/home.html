@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="breadcrumb">{{tr.homepage}} / {{tr.index}}</div>
-<h1>{{tr.site}}</h1>
-<p class="lead">{{tr.intro}}</p>
+<div class="breadcrumb">{{tr.homepage}} / {{tr.index}}</div><h1>{{tr.site}}</h1>
+<p class="lead">{{'A structured course: foundations, implementation, operating systems, networks, security and architecture. Specialist labs are electives.' if lang=='en' else 'Um curso estruturado: fundamentos, implementação, sistemas operacionais, redes, segurança e arquitetura. Laboratórios especializados são opcionais.'}}</p>
 <div class="quick-search"><form action="/{{lang}}/search/" method="get" role="search"><label for="q-home">{{tr.search}}</label><div class="search-inline"><input id="q-home" name="q" type="search" placeholder="{{tr.search_hint}}" autocomplete="off"><button type="submit">{{tr.search}} →</button></div></form></div>
-<div class="text-note"><strong>{{'Reading model' if lang=='en' else 'Modelo de leitura'}}:</strong> {{'Each chapter explains assumptions, formal reasoning, worked examples, failure modes and original references. Tracks select chapters without copying them.' if lang=='en' else 'Cada capítulo apresenta hipóteses, raciocínio formal, exemplos, falhas e fontes originais. As trilhas selecionam capítulos sem duplicá-los.'}}</div>
-<h2 id="chapters">{{tr.browse}}</h2>
-<div class="catalog">
-{% for c in categories %}<section class="category"><h3 id="{{c.category.id}}">{{c.category.title[lang]}} <small>({{c["items"]|length}})</small></h3><p>{{c.category.description[lang]}}</p><ul class="chapter-list">{% for item in c["items"] %}<li><a href="{{item.url}}">{{item.title}}</a><span>{{item.description}}</span></li>{% endfor %}</ul></section>{% endfor %}
-</div>
-<h2>{{tr.tracks}}</h2><ul class="chapter-list">{% for track in tracks %}<li><a href="/{{lang}}/tracks/{{track.id}}/">{{track.title[lang]}}</a><span>{{track.description[lang]}}</span></li>{%endfor%}</ul>
-{% endblock %}
+<h2>{{'Start here: Amazon SDE II' if lang=='en' else 'Comece aqui: Amazon SDE II'}}</h2>
+<p>{{'This curated path prioritizes coding, maintainable design, databases, concurrency and system design before specialized infrastructure.' if lang=='en' else 'Esta trilha prioriza programação, design manutenível, bancos de dados, concorrência e projeto de sistemas antes de infraestrutura especializada.'}}</p>
+<ol class="learning-outline">{% for section in tracks[0].sections %}
+<li><a href="/{{lang}}/tracks/{{tracks[0].id}}/#unit-{{loop.index}}">{{section.title[lang]}}</a><small>{{section.articles|length}} {{'published chapters' if lang=='en' else 'capítulos publicados'}}</small></li>
+{% endfor %}</ol>
+<p><a href="/{{lang}}/tracks/amazon-sde-ii/">{{'Open the complete study path' if lang=='en' else 'Abrir a trilha completa'}} →</a></p>
+<h2>{{tr.tracks}}</h2><ul class="chapter-list">{%for track in tracks[1:]%}<li><a href="/{{lang}}/tracks/{{track.id}}/">{{track.title[lang]}}</a><span>{{track.description[lang]}}</span></li>{%endfor%}</ul>
+<p class="text-note">{{'Unpublished topics remain explicit gaps; passing an automated test does not certify a chapter as technically complete.' if lang=='en' else 'Assuntos não publicados permanecem lacunas explícitas; passar em teste automatizado não comprova a completude técnica de um capítulo.'}}</p>
+<h2 id="chapters">{{tr.browse}}</h2><div class="catalog">{% for c in categories %}<section class="category"><h3 id="{{c.category.id}}">{{c.category.title[lang]}} <small>({{c["items"]|length}})</small></h3><p>{{c.category.description[lang]}}</p>
+{% if c["items"] %}<ul class="chapter-list">{% for item in c["items"] %}<li><a href="{{item.url}}">{{item.title}}</a><span>{{item.description}}</span></li>{% endfor %}</ul>{% else %}<p class="muted">{{'Not yet published: curriculum gap.' if lang=='en' else 'Ainda não publicado: lacuna curricular.'}}</p>{% endif %}
+</section>{% endfor %}</div>{%endblock%}

@@ -13,3 +13,7 @@
 - **Design system:** old-school academic/Unix manuals, white background, blue/purple anchors, monochrome rules, compact tables, restrained monospace metadata; modern HTML/CSS internals.
 - **Deployment:** GitHub Actions validation and Pages publishing; custom domain CNAME needs DNS configuration and repository settings.
 - **Constraint:** builder favors reproducible minimal dependencies over a large front-end framework. If future exercise sandbox needs isolated compilation, build it as a separate application/API, not inside the static manual.
+
+## Course architecture (2026-10-10)
+
+The editorial structure now distinguishes precise subject modules (authoritative ID registry in `content/data/modules.yml`) from three curated study tracks. The legacy frontmatter category is retained but overridden for rendering until its migration. The front page leads with the Amazon SDE II core, and optional infrastructure labs remain accessible separately. Stable article URLs and bilingual IDs are unchanged. Details: [CURRICULUM.md](CURRICULUM.md).

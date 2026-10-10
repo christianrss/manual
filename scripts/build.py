@@ -71,6 +71,11 @@ def build():
     templates={k:env.get_template(k+'.html') for k in ['base','home','article','track','track-index','search']}
     arts=load_articles(); cats=load_taxonomy(); tracks=load_tracks()
     cat_map={x['id']:x for x in cats}
+    reading_order={}
+    for tr in tracks:
+        for section in tr['sections']:
+            for ident in section['articles']:
+                if ident not in reading_order:reading_order[ident]=len(reading_order)
     # stable category grouping and backlinks
     refs={k:[] for k in arts['en']}
     for ident,obj in arts['en'].items():
@@ -79,7 +84,7 @@ def build():
     sitemap=[]
     for lang in LANGS:
         catalog={key:dict(value['meta'],url=article_url(lang,key)) for key,value in arts[lang].items()}
-        organized=[dict(category=c,items=sorted([m for m in catalog.values() if m['category']==c['id']],key=lambda m:m['title'].lower())) for c in cats]
+        organized=[dict(category=c,items=sorted([m for m in catalog.values() if m['category']==c['id']],key=lambda m:(reading_order.get(m['id'],9999),m['title'].lower()))) for c in cats]
         sidebar=[dict(label=x['category']['title'][lang],items=x['items']) for x in organized if x['items']]
         shared={'categories':organized,'sidebar':sidebar,'tracks':tracks,'catalog':catalog,'lang':lang,'tr':I18N[lang]}
         path=f'/{lang}/'
