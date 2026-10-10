@@ -4,6 +4,7 @@ Intentionally stops an ephemeral leader node. Run ONLY on a disposable Docker ho
 Uses separate Docker network/containers and cleans them up even after failure.
 """
 import os
+import sys
 import subprocess
 import time
 import uuid
@@ -118,7 +119,65 @@ def main():
                 properties=pika.BasicProperties(delivery_mode=2))
         finally:
             survivor.close()
-        print("PASS: three-node quorum retains confirmed event and accepts new writes after one node stops")
+        # Remove a SECOND member. Only mq2 is alive: 1/3 is not a quorum.
+        docker("stop","-t","5",NODES[2],timeout=35)
+        health=connect(PORTS[1])
+        health.channel()
+        health.close()
+        # Exercise the actual publisher-confirm code path as a bounded process.
+        # An unconfirmed call can hang while quorum is absent; only a positive
+        # confirmation would be success, and that must NOT occur here.
+        probe=r"""
+import sys, pika
+port=int(sys.argv[1])
+name=sys.argv[2]
+conn=pika.BlockingConnection(pika.ConnectionParameters(
+    "127.0.0.1",port=port,heartbeat=0,socket_timeout=4,
+    stack_timeout=8,blocked_connection_timeout=6,
+    credentials=pika.PlainCredentials("manual","manual")))
+try:
+    ch=conn.channel()
+    ch.confirm_delivery()
+    ch.basic_publish(exchange="",routing_key=name,body=b"minority-unsafe",
+        mandatory=True,properties=pika.BasicProperties(delivery_mode=2))
+    print("UNEXPECTED POSITIVE CONFIRM",flush=True)
+finally:
+    if conn.is_open: conn.close()
+"""
+        try:
+            minority=subprocess.run(
+                [sys.executable,"-c",probe,str(PORTS[1]),QUEUE],
+                capture_output=True,text=True,timeout=14)
+        except subprocess.TimeoutExpired:
+            # Time-limited loss of progress is expected without a majority.
+            minority=None
+        if minority is not None and minority.returncode==0:
+            raise AssertionError("quorum queue positively confirmed an unsafe minority write")
+        # Restore a second member and demonstrate a fresh confirmed write again.
+        docker("start",NODES[2],timeout=40)
+        until_ready(NODES[2],PORTS[2])
+        deadline=time.monotonic()+75
+        last=None
+        while time.monotonic()<deadline:
+            conn=None
+            try:
+                conn=connect(PORTS[1])
+                ch=conn.channel()
+                ch.confirm_delivery()
+                ch.basic_publish(exchange="",routing_key=QUEUE,
+                    body=b"after-majority-restore",mandatory=True,
+                    properties=pika.BasicProperties(delivery_mode=2))
+                last=None
+                break
+            except (pika.exceptions.AMQPError,OSError,TimeoutError) as exc:
+                last=exc
+                time.sleep(2)
+            finally:
+                if conn is not None and conn.is_open:
+                    conn.close()
+        else:
+            raise TimeoutError(f"new publish not confirmed after majority restore: {last}")
+        print("PASS: 3-node quorum preserved prior event, denied minority positive confirms, and resumed writes after majority restore")
     finally:
         for node in reversed(NODES):
             subprocess.run(["docker","rm","-f",node],capture_output=True,
