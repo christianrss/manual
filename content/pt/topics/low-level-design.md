@@ -5,7 +5,7 @@ description: "Projete componentes sustentáveis a partir de invariantes, transi�
 category: engineering
 difficulty: advanced
 updated: 2026-10-10
-prerequisites: [testing-maintainability, database-consistency]
+prerequisites: [object-oriented-design, testing-maintainability]
 sources:
   - {title: "Microsoft Learn — Architectural principles", url: "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/architectural-principles", kind: "official engineering guide"}
   - {title: "Google Engineering Practices — The Standard of Code Review", url: "https://google.github.io/eng-practices/review/reviewer/standard.html", kind: "engineering guideline"}
