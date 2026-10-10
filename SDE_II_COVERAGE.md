@@ -28,11 +28,11 @@ The employer describes coding, data structures, algorithms, design, maintainable
 - `monotonic-stacks` — next greater, daily temperatures, histogram and amortized analysis.
 - `tree-algorithms` — BFS levels, LCA, diameter and ancestor-bound BST validation.
 
-**Newly published:** `software-project-lifecycle` traces a privacy-sensitive export from requirements through review, release, telemetry and postmortem; `algorithm-interview-workshop` derives rooms-by-heap and shortest signed-subarray-by-deque with bounded exhaustive oracles; `system-design-interview-workshop` develops a multi-tenant webhook service with controlled requirement changes and queue recovery. New follow-ups published: `concurrency-interview-workshop`, `failure-recovery-workshop`, and `maintainable-implementation-workshop` expand interleaving exploration, crash injection and testable state ownership. Further real multi-process integration and unfamiliar coding drills remain needed. Publication is not proof of interview readiness.
+**Newly published:** `software-project-lifecycle` traces a privacy-sensitive export from requirements through review, release, telemetry and postmortem; `algorithm-interview-workshop` derives rooms-by-heap and shortest signed-subarray-by-deque with bounded exhaustive oracles; `system-design-interview-workshop` develops a multi-tenant webhook service with controlled requirement changes and queue recovery. New follow-ups published: `concurrency-interview-workshop`, `failure-recovery-workshop`, and `maintainable-implementation-workshop` expand interleaving exploration, crash injection and testable state ownership. Now also published: `cpp17-concurrency-implementation` compiles and runs a native threaded bucket; `sqlite-multiprocess-recovery` launches independent Python workers with a durable database file and a postcommit hard-exit test; `independent-coding-assessment` supplies two unsolved original graph challenges and a public grading harness. Production-grade cross-service testing, unseen private cases, and expert review remain needed. Publication is not proof of interview readiness.
 
 ## P1 — Problem-solving and coding competency
 
-Already published: `recursion-call-stack`, `sorting-algorithms`, `two-pointers-prefix-sums`, `greedy-intervals`, `monotonic-stacks`, `tree-algorithms`, `algorithm-interview-workshop`, `binary-search`, `sliding-window`, `dynamic-programming`, `backtracking-search`, `graph-traversal`, `shortest-paths`, `strongly-connected-components`, `maximum-flow-matching`.
+Already published: `recursion-call-stack`, `sorting-algorithms`, `two-pointers-prefix-sums`, `greedy-intervals`, `monotonic-stacks`, `tree-algorithms`, `algorithm-interview-workshop`, `independent-coding-assessment` (unsolved starter and public grader), `binary-search`, `sliding-window`, `dynamic-programming`, `backtracking-search`, `graph-traversal`, `shortest-paths`, `strongly-connected-components`, `maximum-flow-matching`.
 
 Still required: repeated unfamiliar problems, timed review of greedy, monotonic-stack and tree algorithms; boundaries, duplicates, overflow, adversarial complexity, language-specific collections and mutation semantics. Published workshops increase coverage but independent reasoning remains essential.
 
@@ -47,7 +47,7 @@ Still required: repeated unfamiliar problems, timed review of greedy, monotonic-
 - `ci-cd-release-engineering` — immutable artifacts, automated gates, cautious canary evaluation, schema expand/migrate/contract and rollback.
 - `refactoring-design-patterns` — behavior-preserving changes, Strategy, Adapter and comparison with Decorator.
 
-**Additional published chapters:** `software-project-lifecycle` (discovery through operational learning); `concurrency-interview-workshop` (deterministic read/commit interleavings, CAS, lock and barrier tests); `failure-recovery-workshop` (SQLite transaction fault injection, outbox replay, receiver deduplication); `maintainable-implementation-workshop` (token bucket, clock injection, boundary tests, distributed-state limitations). Follow-up practice should implement unfamiliar specifications and verify concurrency against separate processes and real datastores.
+**Additional published chapters:** `software-project-lifecycle` (discovery through operational learning); `concurrency-interview-workshop` (deterministic schedules, CAS and locks); `failure-recovery-workshop` (transactional-outbox fault injection); `maintainable-implementation-workshop` (Python token bucket and testable clock); `cpp17-concurrency-implementation` (g++-compiled C++17 token bucket, native threads and mutex); `sqlite-multiprocess-recovery` (independent processes, SQLite file, post-commit hard exit, durable replay). Cross-process tests are real for local SQLite but not a validation of networked PostgreSQL or external brokers.
 
 ## P1 — System design methodology and worked solutions
 
@@ -68,7 +68,7 @@ Existing: `capacity-estimation`, `caching`, `asynchronous-messaging`, `load-bala
 
 **Additional published chapter:** `system-design-interview-workshop` — original webhook delivery design, changing tenant skew and ordering requirements, quantitative retry/backlog analysis, security, and recovery questions.
 
-**Practice still required:** justify storage choices under changed workloads; design order cancellation races; scale feeds under skew and privacy requirements; test durable state using process termination, real databases, and providers. Independently solving unseen design prompts remains essential.
+**Practice still required:** justify storage choices under changed workloads; design order cancellation races; scale feeds under skew and privacy requirements. Beyond tested SQLite process termination, verify real networked database/broker failure modes and private unseen coding cases. Independently solving fresh design prompts remains essential.
 
 Advanced chapters such as `raft-consensus`, `memory-ordering-atomics` and `formal-model-checking` are **optional enrichment** until the core path is complete.
 
@@ -80,3 +80,11 @@ Advanced chapters such as `raft-consensus`, `memory-ordering-atomics` and `forma
 - For code, CI runs Python fences in both languages; diagrams and other languages need additional relevant validation before claiming execution.
 - Tracks should list only published article IDs; `planned_topics` remains honest about gaps.
 - Passing CI establishes syntactic/build checks, not theoretical correctness or suitability for a real interview.
+
+
+## Verification added in this edition
+
+- The published `examples/cpp/token_bucket.cpp` is compiled using `g++ -std=c++17 -Wall -Wextra -Werror -pthread` and executed by `tests/test_cpp_token_bucket.py` on the Linux runner. The C++ source asserts deterministic refill behavior and a twelve-thread shared-bucket quota. This is **compiled native code**, not merely a Markdown snippet.
+- `examples/python/sqlite_process_race.py` and `tests/test_sqlite_multiprocess.py` create an actual file-backed SQLite authority. Two separate OS processes compete for a conditional reservation. Another process exits with code 23 after commit, and a new process confirms durable idempotent replay.
+- `examples/python/unsolved_drills.py` intentionally retains `NotImplementedError`; `examples/python/drill_grader.py` contains twelve public baseline cases. CI confirms the grader catches wrong answers, **not** that either unsolved problem has already been implemented.
+- CI success does not prove business correctness for all interleavings, crash modes or compiler/OS combinations. `EDITORIAL.md` still requires human technical review and honest limitations.
