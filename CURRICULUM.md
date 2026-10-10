@@ -21,7 +21,7 @@ This is a dependency graph: reuse is expected across different learning tracks, 
 | Domain | Already published | Not yet adequately covered | Priority |
 | --- | --- | --- | --- |
 | Data structures and algorithms | Arrays, lists, maps, heaps, trees, graph problems, DP, sorting and search | Independent adversarial unseen exercises, additional proof methods | P0 |
-| Software quality and design | Clean Code/cohesion/coupling worked primer, OOP, SOLID, patterns, refactoring, tests and LLD | Broader design-pattern families, independent review, assessed refactorings | P0 |
+| Software quality and design | Clean Code/cohesion/coupling worked primer, OOP, SOLID, patterns, refactoring, tests and LLD | Additional specialized patterns, independent review, assessed refactorings | P0 |
 | System design | Capacity, service boundaries, caching, queues, complete cases | More entry-level-to-intermediate worked reviews and independent evaluations | P0 |
 | Computer architecture | No standalone material | Bits, binary arithmetic, ISA, CPU, caches, DRAM and memory hierarchy | P1 |
 | Operating systems and concurrency | Processes, virtual memory, locks, atomics | Scheduling, runtime threading, allocation, file systems and I/O | P1 |
@@ -62,3 +62,7 @@ Do not publish another specialized lab while P0/P1 foundations remain missing un
 ## 2026-10-10: Clean Code prerequisite added
 
 New bilingual chapter `clean-code-cohesion-coupling` establishes concrete behavioral contracts, cohesion and coupling with a locally deterministic inventory planner. It precedes object design and SOLID in both the Amazon and the general CS track. The LLD chapter now treats `database-consistency` as an important follow-up rather than a hard prerequisite for its local state-machine example. The implementation workshop was moved behind the rate-limiting section, which it uses as a prerequisite. These are **curricular improvements**, not evidence of complete prerequisite ordering across every advanced chapter. New regression tests verify the relevant relationships.
+
+## 2026-10-10 — Pattern families integrated
+
+Added bilingual `design-pattern-families` after `refactoring-design-patterns` in both core tracks. New examples test Builder's immutable snapshot and validation, Facade's missing-data contracts, and Observer's callback mutation and failure semantics. Advanced GoF families are **not** fully covered. Fixed the CS-core ordering of capacity estimation before the general system-design method. See `tests/test_pattern_family_contracts.py` for independently authored behavior probes.
