@@ -98,3 +98,12 @@ Advanced chapters such as `raft-consensus`, `memory-ordering-atomics` and `forma
 - Required packages: `psycopg[binary]` and `pika`; service containers defined in `.github/workflows/pages.yml`.
 - Verified boundary: two real services on one Linux CI runner and a single broker node. **Not tested:** PostgreSQL leader failover or durability under power loss; RabbitMQ clustered quorum and broker disk crash; production tenant credentials and TLS; distributed end-to-end exactly-once effects.
 - Interview drills are original; publishing and validating tests do not establish readiness for unfamiliar interviews.
+
+
+## Edition: adversarial property tests, PostgreSQL SSI and broker restart
+
+- `property-based-algorithm-testing`: Hypothesis-generated lists and targets exercise EN/PT binary-search bounds and signed-subarray deque implementations against independent `bisect` and quadratic oracles. The test is `tests/test_property_based_sde_algorithms.py`. This is **sampled testing**, not formal proof and not a hidden private OA grader.
+- `postgresql-serializable-retry-lab`: two independent PostgreSQL connections synchronize reads with `threading.Barrier`; READ COMMITTED permits both doctors to leave (write skew), while SERIALIZABLE aborts one with 40001. The failed operation re-runs the **entire transaction** and is then denied. Source `examples/python/postgres_serializable_lab.py`; test `tests/test_postgres_serializable.py`.
+- `rabbitmq-broker-restart-lab`: the separate CI step `scripts/verify_rabbitmq_restart.py` publishes a persistent message to a durable classic queue with publisher confirmation, restarts **the same** RabbitMQ Docker container, then reconnects and retrieves the original message by ID. This tests single-node process/container restart with preserved storage, **not** quorum replication or data-center failure.
+- `system-design-architecture-review`: systematic order-system critique with overselling, non-atomic dual writes, PSP ambiguous outcomes, quota isolation, capacity and queue recovery arithmetic.
+- Pending reference-grade work: independent human review, unknown assessments without solutions, multi-node PostgreSQL replication/failover, RabbitMQ majority-election under node loss, network partitions and full production security validation. CI pass confirms the described exercises only.
