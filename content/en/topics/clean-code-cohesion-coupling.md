@@ -135,7 +135,7 @@ Extracting `subtract(a,b)` into a class `SubtractionStrategyFactory` without a r
 
 Conversely, keeping business calculations inside a vendor SDK callback couples testing and release cycles to external infrastructure. If there are genuinely multiple vendors with independent API revisions, an adapter may be valuable. The engineering judgment lies in finding the **smallest boundary that isolates a demonstrated source of change** [1][2].
 
-## Independent exercises and verification
+## Exercises and independent verification
 
 1. **Contract table:** enumerate `available` = 0, 2, 5 and `minimum` = 0, 2, 5; compute all nine expected replenishments independently of the code.
 2. **Adversarial cases:** reject duplicate SKUs even when no replenishment is needed; reject `True` for quantity (Python `bool` subclasses `int`); reject negative and fractional quantities.
