@@ -26,7 +26,9 @@ class BrokerIntegration(unittest.TestCase):
         ch.queue_declare(queue=queue,durable=True,auto_delete=False)
         self.addCleanup(self._delete_queue,params,queue)
         ch.confirm_delivery()
-        assert ch.basic_publish(exchange="",routing_key=queue,
+        # With confirm_delivery(), Pika raises on negative publish confirmation;
+        # a successful call is not a truthy return value.
+        ch.basic_publish(exchange="",routing_key=queue,
                 body=event.encode(),
                 properties=pika.BasicProperties(delivery_mode=2,message_id=event),
                 mandatory=True)
