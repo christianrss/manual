@@ -44,11 +44,12 @@ Assume **150,000 orders/day**, each producing **two asynchronous processing task
 
 ~~~python
 from math import ceil
+from fractions import Fraction
 
 def peak_task_rate(orders_per_day, tasks_per_order, peak_factor):
     if orders_per_day < 0 or tasks_per_order < 0 or peak_factor < 0:
         raise ValueError("negative workload")
-    return orders_per_day * tasks_per_order * peak_factor / 86400
+    return Fraction(orders_per_day * tasks_per_order * peak_factor, 86400)
 
 def backlog_after_peak(arrival_rate, worker_capacity, seconds):
     if min(arrival_rate, worker_capacity, seconds) < 0:
@@ -56,7 +57,7 @@ def backlog_after_peak(arrival_rate, worker_capacity, seconds):
     return ceil(max(0, arrival_rate - worker_capacity) * seconds)
 
 peak = peak_task_rate(150_000, 2, 30)
-assert round(peak, 2) == 104.17
+assert round(float(peak), 2) == 104.17
 assert backlog_after_peak(peak, 80, 3600) == 87000
 ~~~
 

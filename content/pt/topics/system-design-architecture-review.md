@@ -44,11 +44,12 @@ Considere **150 mil pedidos/dia**, **duas tarefas assíncronas por pedido** e **
 
 ~~~python
 from math import ceil
+from fractions import Fraction
 
 def taxa_pico(pedidos_por_dia, tarefas_por_pedido, fator_pico):
     if pedidos_por_dia < 0 or tarefas_por_pedido < 0 or fator_pico < 0:
         raise ValueError("carga negativa")
-    return pedidos_por_dia * tarefas_por_pedido * fator_pico / 86400
+    return Fraction(pedidos_por_dia * tarefas_por_pedido * fator_pico, 86400)
 
 def acumulo_no_pico(chegada, capacidade, segundos):
     if min(chegada, capacidade, segundos) < 0:
@@ -56,7 +57,7 @@ def acumulo_no_pico(chegada, capacidade, segundos):
     return ceil(max(0, chegada-capacidade) * segundos)
 
 pico = taxa_pico(150_000, 2, 30)
-assert round(pico, 2) == 104.17
+assert round(float(pico), 2) == 104.17
 assert acumulo_no_pico(pico, 80, 3600) == 87000
 ~~~
 
