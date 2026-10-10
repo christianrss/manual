@@ -24,7 +24,7 @@ This is a dependency graph: reuse is expected across different learning tracks, 
 | Software quality and design | Clean Code/cohesion/coupling worked primer, OOP, SOLID, patterns, refactoring, tests and LLD | Additional specialized patterns, independent review, assessed refactorings | P0 |
 | System design | Capacity, service boundaries, caching, queues, complete cases | More entry-level-to-intermediate worked reviews and independent evaluations | P0 |
 | Computer architecture | Binary representation, ISA, direct-mapped cache mapping, plus modeled pipeline hazards, forwarding and two-bit prediction | Digital logic, detailed processor implementations, branch target structures, cache coherence, DRAM and quantitative memory hierarchy | P1 |
-| Operating systems and concurrency | Processes, virtual memory, independently tested FCFS/Round Robin, locks and atomics | Multicore and priority scheduling, runtime threading, allocation, file systems and I/O | P1 |
+| Operating systems and concurrency | Processes, virtual memory, FCFS/Round Robin, introductory MLFQ with boosts, priority donation, locks and atomics | Real multicore/priority kernel scheduling, I/O blocking, memory allocation and file systems | P1 |
 | Computer networks | Network protocols survey | TCP/IP in depth, routing, DNS, HTTP and TLS details | P1 |
 | Cryptography and security | API security and OAuth/PKCE | Cryptographic primitives, key exchange, AEAD, signatures, certificates | P1 |
 | Theory of computation | Asymptotic analysis | Automata, computability, reductions, P, NP and NP-completeness | P2 |
@@ -78,3 +78,7 @@ Added bilingual `cpu-pipeline-hazards-branch-prediction` to the computer-archite
 ## 2026-10-10 — FCFS and Round Robin scheduling
 
 Bilingual `cpu-scheduling-fcfs-round-robin` is placed between processes/virtual memory and concurrency in both core tracks. The single-CPU event-driven models define strict arrivals, positive bursts, idle gaps, and explicit arrival-before-requeue behavior at quantum boundaries. Tests compare exact CPU-owner timelines and three job metrics with an independent tick-by-tick oracle. This proves only those finite checked contracts: no claims about real context switching, priorities, multicore behavior, blocked I/O or unbounded-stream starvation.
+
+## 2026-10-10 — MLFQ and priority inversion
+
+Published `mlfq-priority-inheritance` in both languages after scheduling and concurrency prerequisites, with explicitly defined tick order, three priority queues, preemption with retained allotment, optional periodic global boosts, and a **separate** acyclic wait-graph priority inheritance calculation. The independent test uses a different ready-queue representation and priority-ticket comparator to validate finite MLFQ traces, and compares donation to graph traversal under small acyclic waiting configurations. References: OSTEP MLFQ, official Linux rt-mutex and EEVDF docs. EEVDF is **not** modeled by the teaching MLFQ. Kernel context switches, real mutexes, infinite arrival streams and deadlines remain outside this evidence.

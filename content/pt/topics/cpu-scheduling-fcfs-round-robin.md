@@ -186,4 +186,4 @@ O teste compara o simulador com **oráculo independente por unidade de tempo**, 
 7. Introduza custo de troca de contexto e decida quando fatias adjacentes da mesma tarefa necessitam troca.
 8. Construa fluxo adversarial de chegadas para SJF e proponha invariante de aging ou serviço mínimo que reduza starvation.
 
-**Continuação:** [concorrência e sincronização](/pt/topics/concurrency-synchronization/) mostra a correção necessária sob intercalações, e [processos e memória virtual](/pt/topics/processes-virtual-memory/) descreve isolamento e limites do kernel. Sistemas de arquivos, I/O, escalonadores de deadlines e balanceamento multicore exigem aprofundamentos separados [1][2][3].
+**Continuação:** [MLFQ e herança de prioridade](/pt/topics/mlfq-priority-inheritance/) aprofunda estas políticas após estudar locks; [concorrência e sincronização](/pt/topics/concurrency-synchronization/) mostra a correção necessária sob intercalações, e [processos e memória virtual](/pt/topics/processes-virtual-memory/) descreve isolamento e limites do kernel. Sistemas de arquivos, I/O, escalonadores de deadlines e balanceamento multicore exigem aprofundamentos separados [1][2][3].
