@@ -1,0 +1,11 @@
+# MLFQ and priority inheritance — technical publication review (2026-10-10)
+
+**Scope:** complete chapter PT/EN on scheduling feedback, priority boosting, starvation boundaries and priority inversion, with independently testable computational examples. Integrated after the already published FCFS/Round Robin and synchronization articles in the two principal curricula.
+
+**MLFQ contract:** one CPU and three ready queues with priority 0 highest; finite CPU-only tasks, integer work and arrivals; FIFO within levels; explicit global boost before arrivals; cumulative per-level budgets retained across higher-priority preemption; idle ticks represented by None. No real context switching, voluntary yielding or I/O. The independent oracle uses **numeric queue-position tickets and a set of ready names**, not the article's per-level deques, and checks every workload of up to three jobs (arrivals 0..2, bursts 1..3), two quanta sets and three boost choices: **4,920 cases per language**.
+
+**Priority inversion contract:** base priorities are model-specific nonnegative ranks, larger rank means greater scheduling priority. Fixed acyclic wait-for edges represent blockers and lock owners. Donation is computed transitively, recomputed on every call, and rejects cycles. The independent oracle propagates **each waiter's original base priority along its owner path**, rather than reusing repeated relaxation. All three-task owner arrangements and ranks 0..2 are checked. No claim that the function implements an rt-mutex.
+
+**Authoritative sources:** [OSTEP Chapter 8 MLFQ](https://pages.cs.wisc.edu/~remzi/OSTEP/cpu-sched-mlfq.pdf), [Linux rt-mutex implementation design](https://docs.kernel.org/locking/rt-mutex-design.html), [Linux EEVDF](https://docs.kernel.org/scheduler/sched-eevdf.html) and [Python deque](https://docs.python.org/3/library/collections.html#collections.deque).
+
+**Remaining work:** individual wait-based aging with blocking and wakeups, scheduler timing and fairness bounds under dynamic arrivals, multi-CPU migrations, deadlines, priority inheritance in actual kernel locks, file systems and I/O. CI success is bounded evidence, not independent human review or a real-time correctness certificate.
