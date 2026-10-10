@@ -21,6 +21,8 @@ Two ordinary applications may use the *same numerical virtual address* without a
 
 An executable on disk is passive; a process has dynamic state including program counter, register values, memory mappings and descriptors. Loading a program constructs an initial process image and arranges for instructions to begin in user mode. Scheduling determines when a runnable thread executes, and context switching saves/restores state so another can run. A switch can involve cache and TLB costs and is not always a cheap single instruction [2]. The [CPU scheduling chapter](/en/topics/cpu-scheduling-fcfs-round-robin/) derives FCFS and Round Robin separately from the context-switch mechanism.
 
+The [heap free-space allocation chapter](/en/topics/heap-allocation-fragmentation/) separately studies how a library or runtime manages free **intervals inside an arena**. An unused heap interval is not the same concept as an unmapped virtual page or a free physical page: address translation and allocation policy answer different questions.
+
 ## Virtual-to-physical address derivation
 
 A virtual address does not directly name an arbitrary physical cell. For a page size P, decompose virtual address v into virtual page number floor(v/P) and offset v mod P. The page table maps the virtual page to a physical frame number, together with permission and validity bits. Translation becomes physical = frame×P + offset when the mapping exists and allows the requested operation. Different virtual pages can map the same frame intentionally, enabling shared memory, although aliasing then requires synchronization.

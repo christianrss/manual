@@ -9,3 +9,5 @@ Official sources: [OA preparation](https://amazon.jobs/content/en/how-we-hire/sd
 A bilingual FCFS/Round Robin chapter now precedes concurrency, with exhaustive finite tick-oracle verification. Real kernel context switching, unbounded fairness, multi-CPU priority scheduling and I/O remain uncovered.
 
 Advanced scheduling now distinguishes MLFQ promotion/aging from transitive lock priority inheritance, with bounded executable tests. It is a model rather than a live Linux scheduler benchmark or real-time guarantee.
+
+A new bilingual introductory allocator model distinguishes external/internal fragmentation and virtual/physical address spaces, with first-fit, best-fit and independent bitmap verification. Production allocator engineering, file descriptors, kernel I/O and real-time/multicore behavior remain beyond the current teaching examples.
