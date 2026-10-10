@@ -39,6 +39,7 @@ networking:
   - tcp-byte-stream-framing-flow-control
   - tcp-rto-retransmission-congestion
 security:
+  - tls13-hkdf-handshake
   - api-security
   - oauth-pkce-token-security
 databases:

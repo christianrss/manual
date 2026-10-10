@@ -83,7 +83,7 @@ This calculation teaches units and decomposition; it does **not** measure a live
 
 Do not assume one timeout setting covers DNS, connect, TLS handshake, first byte and complete response. Use separate budgets when the client library supports them. Closing an idle connection can save resources but increases future handshake cost; pooling reduces handshakes but needs limits and health policies.
 
-**Related chapters:** [Load balancing](/en/topics/load-balancing/) addresses traffic routing; [capacity estimation](/en/topics/capacity-estimation/) quantifies demand; [reliable APIs](/en/topics/api-reliability/) develops timeout and retry contracts.
+**Related chapters:** [TLS 1.3 handshake and HKDF](/en/topics/tls13-hkdf-handshake/) derives authenticated transport keys and its precise limits; [load balancing](/en/topics/load-balancing/) addresses traffic routing; [capacity estimation](/en/topics/capacity-estimation/) quantifies demand; [reliable APIs](/en/topics/api-reliability/) develops timeout and retry contracts.
 
 ## Exercises and verification
 

@@ -83,7 +83,7 @@ A conta ensina unidades e decomposição; **não** mede rede real nem representa
 
 Um timeout único não cobre necessariamente DNS, conexão, TLS, primeiro byte e resposta completa. Use orçamentos distintos se a biblioteca permitir. Fechar conexão ociosa reduz uso de recursos, mas aumenta custo de próximo handshake; pooling economiza handshakes, exigindo limites e política de saúde.
 
-**Capítulos relacionados:** [Balanceamento de carga](/pt/topics/load-balancing/) trata roteamento; [estimativa de capacidade](/pt/topics/capacity-estimation/) quantifica demanda; [APIs confiáveis](/pt/topics/api-reliability/) aprofunda timeouts e retries.
+**Capítulos relacionados:** [TLS 1.3 e HKDF](/pt/topics/tls13-hkdf-handshake/) aprofunda chaves do transporte autenticado e suas limitações; [balanceamento de carga](/pt/topics/load-balancing/) trata roteamento; [estimativa de capacidade](/pt/topics/capacity-estimation/) quantifica demanda; [APIs confiáveis](/pt/topics/api-reliability/) aprofunda timeouts e retries.
 
 ## Exercícios e verificação
 
