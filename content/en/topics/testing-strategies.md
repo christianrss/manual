@@ -4,7 +4,7 @@ title: "Software Testing Strategies: Units, Contracts, Integration and E2E"
 description: "Separate unit, property, integration, contract and end-to-end tests with executable examples and clear limits of evidence."
 category: engineering
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [object-oriented-design, testing-maintainability]
 sources:
   - {title: "Martin Fowler — The Practical Test Pyramid", url: "https://martinfowler.com/articles/practical-test-pyramid.html", kind: "engineering article"}
@@ -31,12 +31,14 @@ import unittest
 from decimal import Decimal, ROUND_HALF_UP
 
 def billed_total(lines, tax_rate):
-    if not Decimal("0") <= tax_rate <= Decimal("1"):
-        raise ValueError("invalid tax rate")
+    if (not isinstance(tax_rate, Decimal) or not tax_rate.is_finite()
+            or not Decimal("0") <= tax_rate <= Decimal("1")):
+        raise ValueError("tax rate must be a finite Decimal in [0, 1]")
     subtotal = Decimal("0")
     for price, quantity in lines:
-        if price < 0 or quantity <= 0:
-            raise ValueError("invalid line")
+        if (not isinstance(price, Decimal) or not price.is_finite()
+                or price < 0 or type(quantity) is not int or quantity <= 0):
+            raise ValueError("price must be finite Decimal and quantity positive int")
         subtotal += price * quantity
     return (subtotal * (1 + tax_rate)).quantize(
         Decimal("0.01"), rounding=ROUND_HALF_UP)
@@ -59,6 +61,16 @@ class BillingTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             billed_total([(Decimal("1"), 0)], Decimal("0"))
 
+    def test_boundary_and_nonfinite_inputs(self):
+        self.assertEqual(billed_total([(Decimal("1.00"), 1)], Decimal("1")), Decimal("2.00"))
+        for rate in (Decimal("NaN"), Decimal("Infinity"), Decimal("-0.01"), Decimal("1.01")):
+            with self.subTest(rate=str(rate)), self.assertRaises(ValueError):
+                billed_total([], rate)
+        for line in ((Decimal("NaN"), 1), (Decimal("Infinity"), 1),
+                     (Decimal("1.00"), True), (Decimal("1.00"), 1.5)):
+            with self.subTest(line=str(line)), self.assertRaises(ValueError):
+                billed_total([line], Decimal("0"))
+
 result = unittest.TextTestRunner(
     stream=io.StringIO(), verbosity=0
 ).run(unittest.defaultTestLoader.loadTestsFromTestCase(BillingTests))
@@ -66,6 +78,8 @@ assert result.wasSuccessful()
 ~~~
 
 A passing suite verifies the listed examples and validations in the **local model**. It does not establish the correctness of accounting regulations, exchange rates or database settlement. The implementation assumes all prices share one currency and that tax_rate was already authorized and sourced correctly.
+
+**Validation matters before any assertion about business logic.** The original example treated negative numbers as invalid but did not explicitly define a numeric domain. Decimal supports `NaN` and infinities, while Python `bool` is a subclass of `int`; both can defeat careless range/type checks. The revised local contract deliberately accepts finite `Decimal` prices and rates and exact positive `int` quantities. It is a teaching contract, not a complete monetary or tax implementation: it has no upper bound on total magnitude, fixed currency code, or provider settlement semantics. The tests now include both malformed and boundary inputs [2].
 
 ## Property and metamorphic tests
 

@@ -4,7 +4,7 @@ title: "Oficina de algoritmos: salas para intervalos e janelas com negativos"
 description: "Resolva dois exercícios originais com heap e deque monotônica, provas, contraexemplos e testes exaustivos independentes."
 category: algorithms
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [heaps-priority-queues, two-pointers-prefix-sums, monotonic-stacks]
 sources:
   - {title: "Amazon SDE II Interview Preparation", url: "https://amazon.jobs/content/en/how-we-hire/sde-ii-interview-prep", kind: "official preparation overview"}
@@ -149,6 +149,12 @@ for n in range(6):
 Deque monotônica resolve esse problema **estático unidimensional** de somas prefixadas. Não é estrutura genérica para atualizações arbitrárias em faixas e não substitui escalonamento de intervalos. Se valores mudam entre consultas, outras estruturas e garantias podem ser necessárias.
 
 ## Rubrica de revisão e variações
+
+**Aprender com código resolvido não é o mesmo que demonstrar autonomia.** Os dois problemas deste capítulo ensinam invariantes, mas suas soluções estão visíveis; reproduzi-las não constitui avaliação inédita. Uma simulação defensável utiliza duas tarefas escolhidas de forma independente com a restrição de **90 minutos para duas questões** da seção de programação SDE II; a distribuição interna abaixo é *modelo de treino*, não previsão das perguntas da Amazon [1]. Registre contrato, hipóteses e testes antes de consultar qualquer solução editorial.
+
+Distribuição sugerida: 5 minutos para ler ambas as tarefas, 35 minutos por tarefa e 15 minutos para testes e revisão. Avalie validação de entrada, correção, casos-limite, custo de execução e memória auxiliar. Os verificadores públicos do repositório cobrem apenas os casos expostos, não entradas inéditas. Utilize [avaliação independente I](/pt/topics/independent-coding-assessment/) e [avaliação independente II](/pt/topics/independent-coding-assessment-ii/) como **pontos de partida ainda não resolvidos**, mas alterne com questões realmente desconhecidas de fontes selecionadas independentemente para simular uma avaliação cega.
+
+
 
 | Critério | Salas | Subarray mínimo |
 | --- | --- | --- |

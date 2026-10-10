@@ -4,7 +4,7 @@ title: "Refactoring and Design Patterns: Strategy, Adapter and Behavior Preserva
 description: "Refactor safely with behavioral tests; compare Strategy, Adapter and Decorator with concrete Python examples and trade-offs."
 category: engineering
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [object-oriented-design, solid-dependency-inversion, testing-strategies]
 sources:
   - {title: "Martin Fowler — Refactoring Boundary", url: "https://martinfowler.com/bliki/RefactoringBoundary.html", kind: "primary engineering essay"}
@@ -114,6 +114,41 @@ except ValueError:
 ~~~
 
 The example assumes the legacy API uses integer cents and adds a fixed 25-cent fee. In a real financial system, the adapter must specify currency, overflow range, failure behavior and whether fees are already included. Translating types does not guarantee the underlying provider is correct, authorized or durable.
+
+## Decorator: wrap behavior without changing the client's contract
+
+The chapter's first example is **Strategy**: choose among price rules. The legacy quote example is **Adapter**: translate incompatible interfaces. To illustrate **Decorator**, wrap the already adapted quote behind the *same* `total(amount)` interface, recording successful calls for this local demonstration. The caller can replace the original adapter with the wrapper without changing its argument/return contract. However, logging adds observable side effects and memory consumption, so it is not a universally transparent substitution [2][3].
+
+```python
+class RecordingQuote:
+    def __init__(self, wrapped):
+        self._wrapped = wrapped
+        self.successful_calls = []
+
+    def total(self, amount):
+        result = self._wrapped.total(amount)
+        self.successful_calls.append((amount, result))
+        return result
+
+recorded = RecordingQuote(LegacyAdapter(LegacyQuote()))
+assert recorded.total(Decimal("1.50")) == Decimal("1.75")
+assert recorded.successful_calls == [(Decimal("1.50"), Decimal("1.75"))]
+try:
+    recorded.total(Decimal("1.505"))
+except ValueError:
+    pass
+else:
+    raise AssertionError("invalid input must be rejected")
+assert len(recorded.successful_calls) == 1
+```
+
+Here recording occurs **after** a successful delegated call: failed invocations are deliberately excluded. If production metrics require observing failures too, the wrapper's semantics must change and be specified. Combining Decorator and Adapter does not automatically make retries safe: replaying an effectful operation may produce duplicates. For reference, the earlier discount rule also has an independent rounding oracle: `member(0.15)` yields `0.14` after multiplying by 0.90 and rounding half up once; comparing only `old_total` to `new_total` would not detect a shared incorrect rounding rule.
+
+```python
+for implementation in (old_total, new_total):
+    assert implementation(Decimal("0.15"), "member") == Decimal("0.14")
+    assert implementation(Decimal("0.05"), "member") == Decimal("0.05")
+```
 
 ## Incremental refactoring and verification
 

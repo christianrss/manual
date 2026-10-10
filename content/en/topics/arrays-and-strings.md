@@ -4,7 +4,7 @@ title: "Arrays and Strings: Representation, Costs and Correct Iteration"
 description: "Understand contiguous arrays, dynamic growth, indexing, slices, Unicode strings and boundary invariants with tested examples."
 category: foundations
 difficulty: beginner
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [complexity-analysis]
 sources:
   - {title: "Python Tutorial — Data Structures", url: "https://docs.python.org/3/tutorial/datastructures.html", kind: "official language documentation"}
@@ -75,14 +75,19 @@ assert len("é") == 2
 def filtered_ascii_letters(text):
     parts = []
     for char in text:
-        if "a" <= char.lower() <= "z":
-            parts.append(char.lower())
+        if "A" <= char <= "Z":
+            parts.append(chr(ord(char) + 32))
+        elif "a" <= char <= "z":
+            parts.append(char)
     return "".join(parts)
 
 assert filtered_ascii_letters("A-1 b!") == "ab"
+assert filtered_ascii_letters("İKÅABCz") == "abcz"
+assert filtered_ascii_letters("éΩ") == ""
+assert all("a" <= char <= "z" for char in filtered_ascii_letters("İKⒶAZ"))
 ~~~
 
-The last function deliberately handles **ASCII Latin letters only**; it is not a Unicode-aware identifier normalizer. Calling lower() on certain Unicode symbols can yield multi-code-point results, so production normalization must define its accepted alphabet. Security-sensitive comparisons also need policy for confusable characters and locale-independent matching.
+The contract is **strict ASCII input membership**, not a Unicode-aware identifier normalizer. Check the original code point *before* case conversion: U+0130 (Latin capital I with dot) lowercases to multiple code points, while U+212A (Kelvin sign) can lowercase to `k` even though neither input is ASCII. The previous implementation tested the converted string instead of the original character and accidentally admitted such inputs; the corrected version checks literal `A–Z` / `a–z` and maps ASCII uppercase deterministically. Unicode identifier normalization and protection against visually confusable names require a separate, explicit policy [2]. This filter is **not suitable for passwords, user identities or cryptographic canonicalization**.
 
 ## Representation-driven algorithm choices
 

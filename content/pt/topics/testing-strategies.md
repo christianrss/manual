@@ -4,7 +4,7 @@ title: "Estratégias de testes: unidades, contratos, integração e E2E"
 description: "Diferencie testes unitários, de propriedades, integração, contrato e E2E com exemplos executáveis e limites de evidência."
 category: engineering
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [object-oriented-design, testing-maintainability]
 sources:
   - {title: "Martin Fowler — The Practical Test Pyramid", url: "https://martinfowler.com/articles/practical-test-pyramid.html", kind: "engineering article"}
@@ -31,12 +31,14 @@ import unittest
 from decimal import Decimal, ROUND_HALF_UP
 
 def total_cobrado(itens, taxa):
-    if not Decimal("0") <= taxa <= Decimal("1"):
-        raise ValueError("taxa invalida")
+    if (not isinstance(taxa, Decimal) or not taxa.is_finite()
+            or not Decimal("0") <= taxa <= Decimal("1")):
+        raise ValueError("taxa deve ser Decimal finito em [0, 1]")
     subtotal = Decimal("0")
     for preco, quantidade in itens:
-        if preco < 0 or quantidade <= 0:
-            raise ValueError("item invalido")
+        if (not isinstance(preco, Decimal) or not preco.is_finite()
+                or preco < 0 or type(quantidade) is not int or quantidade <= 0):
+            raise ValueError("preco Decimal finito e quantidade int positiva")
         subtotal += preco * quantidade
     return (subtotal * (1 + taxa)).quantize(
         Decimal("0.01"), rounding=ROUND_HALF_UP)
@@ -59,6 +61,16 @@ class TestesCobranca(unittest.TestCase):
         with self.assertRaises(ValueError):
             total_cobrado([(Decimal("1"), 0)], Decimal("0"))
 
+    def test_limites_e_entradas_nao_finitas(self):
+        self.assertEqual(total_cobrado([(Decimal("1.00"), 1)], Decimal("1")), Decimal("2.00"))
+        for taxa in (Decimal("NaN"), Decimal("Infinity"), Decimal("-0.01"), Decimal("1.01")):
+            with self.subTest(taxa=str(taxa)), self.assertRaises(ValueError):
+                total_cobrado([], taxa)
+        for linha in ((Decimal("NaN"), 1), (Decimal("Infinity"), 1),
+                      (Decimal("1.00"), True), (Decimal("1.00"), 1.5)):
+            with self.subTest(linha=str(linha)), self.assertRaises(ValueError):
+                total_cobrado([linha], Decimal("0"))
+
 resultado = unittest.TextTestRunner(
     stream=io.StringIO(), verbosity=0
 ).run(unittest.defaultTestLoader.loadTestsFromTestCase(TestesCobranca))
@@ -66,6 +78,8 @@ assert resultado.wasSuccessful()
 ~~~
 
 A suíte aprovada confirma os exemplos e validações do **modelo local**. Não demonstra conformidade fiscal de uma jurisdição, câmbio ou liquidação financeira real. Pressupõe uma única moeda nos preços e taxa já obtida e autorizada corretamente.
+
+**A validação faz parte do contrato, não é detalhe do teste.** O exemplo anterior rejeitava números negativos sem definir totalmente o domínio numérico. `Decimal` também representa `NaN` e infinitos, enquanto `bool` herda de `int` em Python; verificações ingênuas de faixa e tipo podem ser insuficientes. O contrato local corrigido aceita somente preços e taxas `Decimal` finitos e quantidades positivas do tipo exato `int`. Trata-se de modelo didático, não implementação financeira completa: não há limite superior do total, código de moeda nem semântica de liquidação. Os testes agora incluem entradas inválidas e limites [2].
 
 ## Propriedades e testes metamórficos
 
