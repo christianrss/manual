@@ -177,7 +177,61 @@ finally:
                     conn.close()
         else:
             raise TimeoutError(f"new publish not confirmed after majority restore: {last}")
-        print("PASS: 3-node quorum preserved prior event, denied minority positive confirms, and resumed writes after majority restore")
+        # NETWORK PARTITION: mq3 remains RUNNING, but cannot reach the mq2
+        # queue member. mq1 is still STOPPED from the earlier experiment.
+        # This distinguishes a process failure from a data-plane split.
+        restart_before=docker("inspect","--format","{{.RestartCount}}",NODES[2])
+        assert docker("inspect","--format","{{.State.Running}}",NODES[2])=="true"
+        docker("network","disconnect",NETWORK,NODES[2],timeout=30)
+        try:
+            assert docker("inspect","--format","{{.State.Running}}",NODES[2])=="true"
+            assert docker("inspect","--format","{{.RestartCount}}",NODES[2])==restart_before
+            # Docker confirms membership of the isolated node in the bridge:
+            networks=docker("inspect","--format","{{json .NetworkSettings.Networks}}",NODES[2])
+            assert NETWORK not in networks, networks
+            # The surviving mq2 AMQP endpoint still accepts a client login.
+            with_connect=connect(PORTS[1])
+            with_connect.close()
+            # Reuse the bounded child publisher probe: no positive publisher
+            # confirm is allowed with one reachable voting member.
+            try:
+                partitioned=subprocess.run(
+                    [sys.executable,"-c",probe,str(PORTS[1]),QUEUE],
+                    capture_output=True,text=True,timeout=14)
+            except subprocess.TimeoutExpired:
+                partitioned=None
+            if partitioned is not None and partitioned.returncode==0:
+                raise AssertionError("network-isolated minority positively confirmed a new quorum write")
+        finally:
+            # Restore link even after assertion failures, then clean containers.
+            docker("network","connect","--alias","mq3",NETWORK,NODES[2],timeout=40)
+        assert docker("inspect","--format","{{.State.Running}}",NODES[2])=="true"
+        assert docker("inspect","--format","{{.RestartCount}}",NODES[2])==restart_before
+        # Node is still running, and a fresh confirmed write eventually
+        # progresses after the partition heals.
+        deadline=time.monotonic()+105
+        last=None
+        while time.monotonic()<deadline:
+            restored=None
+            try:
+                restored=connect(PORTS[1])
+                channel=restored.channel()
+                channel.confirm_delivery()
+                channel.basic_publish(exchange="",routing_key=QUEUE,
+                    body=b"after-network-heal",mandatory=True,
+                    properties=pika.BasicProperties(delivery_mode=2,
+                        message_id="network-healed-"+TOKEN))
+                last=None
+                break
+            except (pika.exceptions.AMQPError,OSError,TimeoutError) as exc:
+                last=exc
+                time.sleep(2)
+            finally:
+                if restored is not None and restored.is_open:
+                    restored.close()
+        else:
+            raise TimeoutError(f"partition healed but no positive quorum confirm: {last}")
+        print("PASS: quorum loses confirms on process-stop AND live network isolation, then recovers after reconnection")
     finally:
         for node in reversed(NODES):
             subprocess.run(["docker","rm","-f",node],capture_output=True,
