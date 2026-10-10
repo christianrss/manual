@@ -28,7 +28,7 @@ The employer describes coding, data structures, algorithms, design, maintainable
 - `monotonic-stacks` — next greater, daily temperatures, histogram and amortized analysis.
 - `tree-algorithms` — BFS levels, LCA, diameter and ancestor-bound BST validation.
 
-**Next priority:** complete service-boundary decisions, debugging/profiling, safe CI/CD releases and refactoring, then reinforce these systems through targeted design exercises. Storage selection, orders/payment saga and a hybrid social feed have standalone bilingual studies. Published fundamentals require continued technical review.
+**Next priority:** publish an end-to-end software project lifecycle and create applied algorithm/system design drills with independent expected outcomes. The formerly pending topics on service boundaries, debugging/profiling, CI/CD and refactoring now have standalone bilingual chapters. This is curriculum coverage, not proof of interview readiness.
 
 ## P1 — Problem-solving and coding competency
 
@@ -42,10 +42,12 @@ Still required: deliberate practice with greedy, monotonic-stack and tree algori
 
 **Now published:** `object-oriented-design` (identity, encapsulation and composition); `solid-dependency-inversion` (all five principles, behavioral substitution and ports); `testing-strategies` (unit, property, integration, contract and E2E scopes); `testing-maintainability`, `low-level-design`, `concurrency-synchronization` and `production-incident-response`.
 
-**Next engineering chapters needed:**
-1. `debugging-profiling` — reproducible defects, CPU/memory profiles, instrumentation and regression prevention.
-2. `ci-cd-release-engineering` — versioning, code review, automated gates, progressive rollout/rollback and safe schema evolution.
-3. `refactoring-design-patterns` — trade-offs with concrete before/after examples and design-pattern failures.
+**Additional published EN/PT chapters:**
+- `debugging-profiling` — minimize failures, prove a binary-search invariant, measure CPU/memory and use operational tracing.
+- `ci-cd-release-engineering` — immutable artifacts, automated gates, cautious canary evaluation, schema expand/migrate/contract and rollback.
+- `refactoring-design-patterns` — behavior-preserving changes, Strategy, Adapter and comparison with Decorator.
+
+**Next engineering chapter:** `software-project-lifecycle` — issue discovery through design, implementation, review, release, operations and technical debt. Also prepare independent engineering exercises.
 
 ## P1 — System design methodology and worked solutions
 
@@ -62,8 +64,7 @@ Existing: `capacity-estimation`, `caching`, `asynchronous-messaging`, `load-bala
 - `system-design-order-service` — atomic stock reservation, checkout idempotency, payment saga, compensation and fulfillment failures.
 - `system-design-feed` — read/write fanout, hybrid candidate materialization, privacy filters, cursor pagination and repair.
 
-**Core chapter still needed:**
-1. `service-boundaries` — when to split services, synchronous vs asynchronous collaboration, ownership and failure trade-offs.
+**Additional published EN/PT:** `service-boundaries` — modular monoliths versus microservices, synchronous failure, consistency, events and gradual extraction.
 
 **Practice still required:** justify storage choices under changed workloads; design order cancellation races; scale feeds under skew and privacy requirements. Publication does not substitute for independently solving new design prompts.
 

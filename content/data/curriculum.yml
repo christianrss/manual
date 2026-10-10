@@ -16,15 +16,15 @@ tracks:
       - title: {en: Algorithmic problem solving, pt: Resolução de problemas algorítmicos}
         articles: [sorting-algorithms, two-pointers-prefix-sums, binary-search, sliding-window, greedy-intervals, monotonic-stacks, tree-algorithms, dynamic-programming, backtracking-search, shortest-paths, strongly-connected-components, maximum-flow-matching]
       - title: {en: Software engineering & object-oriented design, pt: Engenharia de software e design orientado a objetos}
-        articles: [object-oriented-design, solid-dependency-inversion, testing-maintainability, testing-strategies, low-level-design]
+        articles: [object-oriented-design, solid-dependency-inversion, testing-maintainability, testing-strategies, debugging-profiling, refactoring-design-patterns, ci-cd-release-engineering, low-level-design]
       - title: {en: Runtime, operating systems & correctness, pt: Runtime, sistemas operacionais e correção}
         articles: [processes-virtual-memory, concurrency-synchronization, memory-ordering-atomics]
       - title: {en: System design & distributed architecture, pt: Projeto de sistemas e arquitetura distribuída}
-        articles: [capacity-estimation, system-design-process, storage-selection, caching, database-consistency, database-storage-wal, sql-query-planning, transactional-indexing-isolation, database-replication-failover, data-partitioning-sharding, asynchronous-messaging, load-balancing, rate-limiting, network-protocols, api-security, oauth-pkce-token-security, api-reliability, api-contracts-pagination, system-design-notifications, system-design-order-service, system-design-feed, raft-consensus, distributed-observability, url-shortener]
+        articles: [capacity-estimation, system-design-process, storage-selection, service-boundaries, caching, database-consistency, database-storage-wal, sql-query-planning, transactional-indexing-isolation, database-replication-failover, data-partitioning-sharding, asynchronous-messaging, load-balancing, rate-limiting, network-protocols, api-security, oauth-pkce-token-security, api-reliability, api-contracts-pagination, system-design-notifications, system-design-order-service, system-design-feed, raft-consensus, distributed-observability, url-shortener]
       - title: {en: Engineering judgment & communication, pt: Julgamento técnico e comunicação}
         articles: [formal-model-checking, production-incident-response, evidence-based-interviews]
     planned_topics:
       en: >-
-        Priority gaps for the SDE II track: service boundaries, debugging and profiling, CI/CD and release engineering, design pattern trade-offs, end-to-end project lifecycle and further architecture case drills. Storage selection, the order/payment saga and the hybrid feed case now have published bilingual chapters. Algorithm practice remains ongoing.
+        Priority gaps for the SDE II track: end-to-end software project lifecycle, design interview drills, testing system designs under realistic failures and further algorithm practice. Service boundaries, debugging/profiling, CI/CD release engineering and refactoring/design patterns now have standalone EN/PT chapters. Published material still needs review and practice.
       pt: >-
-        Lacunas prioritárias da trilha SDE II: fronteiras entre serviços, debugging e profiling, CI/CD, engenharia de releases, decisões sobre padrões de projeto, ciclo completo do software e novos exercícios arquiteturais. Seleção de armazenamento, saga de pedidos/pagamentos e projeto de feed híbrido agora têm capítulos próprios EN/PT. A prática de algoritmos continua.
+        Lacunas prioritárias da trilha SDE II: ciclo de vida completo de projetos, exercícios de entrevistas de arquitetura, testes de projetos sob falhas realistas e mais prática algorítmica. Fronteiras de serviços, debugging/profiling, CI/CD e refatoração/padrões já têm artigos próprios EN/PT. A revisão técnica continua.
