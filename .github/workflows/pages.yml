@@ -14,6 +14,32 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      POSTGRES_DSN: postgresql://manual:manual@127.0.0.1:5432/manual
+      RABBITMQ_HOST: 127.0.0.1
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: manual
+          POSTGRES_PASSWORD: manual
+          POSTGRES_DB: manual
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U manual -d manual"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+      rabbitmq:
+        image: rabbitmq:4-management
+        ports:
+          - 5672:5672
+        options: >-
+          --health-cmd "rabbitmq-diagnostics -q ping"
+          --health-interval 10s
+          --health-timeout 10s
+          --health-retries 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
