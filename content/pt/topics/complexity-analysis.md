@@ -4,7 +4,7 @@ title: Análise assintótica e custo de algoritmos
 description: Aprenda a deduzir custos de tempo e memória por contagens, invariantes e recorrências, distinguindo pior caso, custo amortizado e esperança matemática.
 category: foundations
 difficulty: foundational
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: []
 sources:
 - title: MIT 6.006 — Introduction to Algorithms
@@ -43,12 +43,29 @@ Também diferencie uma cópia `items[:]` de uma leitura: a primeira usa memória
 
 A disciplina de demonstrar limites por recorrências e análise de algoritmos também é aprofundada em MIT 6.046J [2].
 
-## Dedução dos limites a partir de um modelo de custo
+## Contar operações sob um modelo explícito
 
-Uma afirmação de complexidade exige (a) uma medida do tamanho da entrada, (b) um modelo de operações elementares e (c) um quantificador sobre as entradas. Em algoritmos por comparação, podemos contar comparações; em memória externa, transferências de blocos podem dominar. O mesmo programa pode ser `O(n)` em operações RAM e extremamente lento ao efetuar `n` leituras síncronas do disco. Diferencie pior caso `W(n)=max_{|x|=n}T(x)` de valor esperado `E[T(X_n)]` sob uma distribuição definida. Um cronômetro isolado não demonstra nenhum deles [1].
+O exemplo anterior prova a soma triangular e seu custo quadrático. Agora considere um segundo algoritmo: dois laços aninhados, mas o interno dobra seu contador. Não há `n²` operações só porque há dois `for/while`; é necessário contar iterações reais [1].
 
-Para laços com `j` de `i+1` até `n-1`, conte `S(n)=Σ(i=0..n-1)(n-i-1)=n(n-1)/2`. Para demonstrar `Θ(n²)`, use `n²/4 ≤ S(n) ≤ n²/2` para `n` suficientemente grande: há constantes válidas para os limites inferior e superior. Dois `for` aninhados, isoladamente, não provam custo quadrático: um índice dobrado a cada iteração percorre apenas um número logarítmico de valores.
+```python
+def visitas_potencias(n):
+    if n < 0:
+        raise ValueError("n negativo")
+    total = 0
+    for _ in range(n):
+        passo = 1
+        while passo <= n:
+            total += 1
+            passo *= 2
+    return total
 
+assert visitas_potencias(0) == 0
+assert visitas_potencias(8) == 32
+for n in range(1, 65):
+    assert visitas_potencias(n) == n * n.bit_length()
+```
+
+Para `n >= 1`, o laço interno executa `floor(log₂ n)+1` vezes por iteração externa, portanto `T(n)=n(floor(log₂ n)+1)=Theta(n log(n+1))` no modelo RAM de aritmética de custo constante. O espaço extra é `Theta(1)`. No Python real, inteiros têm precisão arbitrária; para magnitudes enormes, o custo em bits deve ser considerado. Uma busca indexada numa lista ligada, uma consulta SQL e um acesso a RAM também possuem modelos de custo diferentes. Declare os custos das primitivas e se a pilha recursiva integra a memória auxiliar antes de atribuir uma notação.
 ## Recorrências: expansão, substituição e hipóteses
 
 Considere `T(n)=2T(n/2)+cn` para potências de dois, com `T(1)=d`. A árvore de recursão tem `log₂n` níveis internos, cada qual realizando `cn` operações, e `n` folhas de custo `d`. Logo `T(n)=cn log₂n + dn = Θ(n log n)`. Isso deriva o resultado dessa recorrência; não constitui uma regra para qualquer divisão e conquista [2].

@@ -4,7 +4,7 @@ title: "Low-Level Design: contratos, máquinas de estados e dependências"
 description: "Projete componentes sustentáveis a partir de invariantes, transições, interfaces e direção de dependências, com modelo testado."
 category: engineering
 difficulty: advanced
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [testing-maintainability, database-consistency]
 sources:
   - {title: "Microsoft Learn — Architectural principles", url: "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/architectural-principles", kind: "official engineering guide"}
@@ -99,14 +99,40 @@ Dois workers podem ler a mesma reserva pendente, concluir simultaneamente que el
 
 Autorização deve conferir tenant e proprietário da reserva carregada, não tenant enviado arbitrariamente pelo cliente. Estado cancelado em memória não comprova commit durável. Após crash, recarregar precisa reconstruir estado permitido; teste serialização, mapping e migrações.
 
-## Testes dos contratos
+## Testar todas as transições, não apenas o caminho feliz
 
-Teste todas as combinações de estado/evento, não apenas o caminho feliz: confirmar pendente funciona; confirmar confirmada falha; confirmar cancelada falha; cancelar pendente funciona; cancelar confirmada funciona; cancelar cancelada retorna false. Verifique que identificador não muda pela interface pública, e rejeite IDs vazios. Testes de integração devem comprovar unicidade, conflito de concorrência otimista e persistência atômica de evento quando relevante.
+A máquina de estados descrita acima possui três estados e duas operações: são apenas seis combinações. O contrato especifica quais transições são permitidas e o que significa repetir um cancelamento.
 
-A revisão de projeto deve perguntar o que muda para clientes ao trocar provedor, o que ocorre se persistência cai no meio e como responder a chamada repetida com a mesma chave idempotente. Práticas de revisão do Google destacam melhorar a saúde geral do código, em vez de exigir perfeição teórica antes de qualquer alteração [2].
+```python
+def criar_no_estado(estado):
+    r = Reserva("R-teste")
+    if estado == Estado.CONFIRMADA:
+        r.confirmar()
+    elif estado == Estado.CANCELADA:
+        r.cancelar()
+    return r
 
-**Capítulos relacionados:** [Testes e manutenção](/pt/topics/testing-maintainability/) trata contratos e limites dos testes; [consistência de bancos](/pt/topics/database-consistency/) explica por que invariantes locais não protegem estado distribuído.
+for estado in Estado:
+    r = criar_no_estado(estado)
+    if estado == Estado.PENDENTE:
+        r.confirmar()
+        assert r.estado == Estado.CONFIRMADA
+    else:
+        try:
+            r.confirmar()
+        except ValueError:
+            pass
+        else:
+            raise AssertionError("transicao proibida")
 
+for estado in Estado:
+    r = criar_no_estado(estado)
+    assert r.cancelar() == (estado != Estado.CANCELADA)
+    assert r.estado == Estado.CANCELADA
+    assert not r.cancelar()
+```
+
+Esses ensaios abrangem todas as combinações locais, **não** concorrência ou durabilidade. Cancelamento idempotente em objeto Python não demonstra que um serviço com banco, rede e retries preserva exatamente o mesmo resultado. Essa propriedade requer índices, condições transacionais, persistência, autorização por titular e testes sob falha. A revisão independente deve conseguir derivar a tabela de transições antes de ler o código [2].
 ## Exercícios e verificação
 
 1. Construa tabela de transições com estados nas linhas e confirmar/cancelar nas colunas. Compare com o código.

@@ -4,7 +4,7 @@ title: "SOLID, inversão de dependências e contratos de comportamento"
 description: "Aplique SRP, OCP, LSP, ISP e DIP com contratos Python, fronteiras estáveis e testes de comportamento verificáveis."
 category: engineering
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [object-oriented-design, low-level-design]
 sources:
   - {title: "Microsoft Learn — Architectural principles", url: "https://learn.microsoft.com/en-us/dotnet/architecture/modern-web-apps-azure/architectural-principles", kind: "official engineering guide"}
@@ -91,12 +91,34 @@ A **composition root** é a fronteira da aplicação que cria objetos e conecta 
 
 Injeção de dependência é apenas uma maneira de fornecer dependências. Não requer container nem framework. Passar colaborador no construtor, como no exemplo, normalmente basta. Usar service locator oculto no domínio pode tornar dependências menos visíveis e testes mais difíceis, mesmo sob o discurso de inversão.
 
-## Fronteiras de testes e contratos
+## Fronteiras de teste e substituição comportamental
 
-O remetente falso comprova que a política invoca ação correta quando passa do limite. Não comprova SMTP, HTTP, autenticação ou quotas externas. **Testes de contrato do adaptador** devem verificar semântica de cada implementação; integrações exigem testes de rede. A política pode ser verificada com valores-limite 30, 30,01 e rejeição de limite negativo.
+O `Protocol` define forma de métodos para tipagem estática, não garante comportamento, ordem, efeitos nem entrega na rede [2]. Especifique a promessa observável: para valor igual ao limite, nenhuma solicitação; para valor acima, **uma única solicitação** ao remetente. Isso pode ser testado localmente usando o coletor definido anteriormente.
 
-Testes eficazes procuram também **violações de substituição**: implementação que envia duas mensagens numa chamada ou altera destino pode quebrar contrato. Verifique efeitos observáveis e erros, não nomes internos de métodos, para permitir refatoração segura [3].
+```python
+def contrato_remetente(fabrica):
+    remetente = fabrica()
+    regra = RegraAlerta(remetente, Decimal("30"))
+    assert regra.verificar("ops", Decimal("30")) is False
+    assert regra.verificar("ops", Decimal("31")) is True
+    assert remetente.mensagens == [("ops", "acima de 30")]
 
+contrato_remetente(RemetenteColetor)
+
+class RemetenteDuplicador(RemetenteColetor):
+    def enviar(self, destino, mensagem):
+        super().enviar(destino, mensagem)
+        super().enviar(destino, mensagem)
+
+try:
+    contrato_remetente(RemetenteDuplicador)
+except AssertionError:
+    pass
+else:
+    raise AssertionError("LSP: duplicacao nao detectada")
+```
+
+O segundo remetente tem assinatura compatível e viola a cardinalidade declarada. O teste não comprova SMTP, autenticação ou entrega; essas propriedades exigem contratos de adaptação e testes de integração próprios. Uma exceção de rede pode representar resultado desconhecido, não falha definitiva. Revise esses efeitos observáveis e não atributos privados ao refatorar [3]. Uma abstração só compensa quando protege mudanças independentes reais, não quando replica trivialmente uma chamada.
 ## Custos, falhas e excesso de abstração
 
 | Princípio | Mudança visada | Risco do exagero |

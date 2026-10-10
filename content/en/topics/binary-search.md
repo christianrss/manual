@@ -4,7 +4,7 @@ title: "Binary Search: Bounds, Invariants and Monotone Predicates"
 description: "Derive binary search with a partition invariant, implement exact bounds, analyze complexity and explain when the method is invalid."
 category: algorithms
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [complexity-analysis]
 sources:
   - {title: "CP-Algorithms — Binary Search", url: "https://cp-algorithms.com/num_methods/binary_search.html", kind: "technical reference"}
@@ -74,10 +74,39 @@ Unsorted data, nonmonotone predicates, concurrently modified sequences, inconsis
 
 Think of the answer as a boundary in a boolean sequence `P(0),...,P(n-1)`, with all false values before all true values. Maintain `[lo,hi)` with `0≤lo≤hi≤n`, where every index below `lo` is already known false and every index at or above `hi` is known true (with `n` a virtual true sentinel). Initially `lo=0,hi=n`; there are no excluded indices. For midpoint `mid`, if `P(mid)` is false, monotonicity excludes `0..mid`, so `lo=mid+1`. Otherwise `mid..n-1` is true and `hi=mid`. At termination the boundary must equal `lo=hi` [1]. This proves partial correctness; strict shrinking of `hi-lo` proves termination.
 
-## Predicate search instead of memorized templates
+## Capacity search: a complete derivation
 
-For 'smallest feasible capacity', search over a **closed, finite and ordered** integer domain where feasibility is monotone. Let `P(C)` mean 'all work fits into at most D days using capacity C'. If capacity C is feasible, any larger capacity is feasible; lowering capacity may not be. A binary search needs an infeasible/feasible boundary, correct numeric bounds and a sound feasibility implementation. If feasibility costs `O(n)` and integer capacity varies over `R` possibilities, runtime is `O(n log R)`. A correctness failure inside `P` is not repaired by the outer binary search.
+Consider **positive integer** jobs processed in order and divided into at most `d` days. Jobs within one day must be contiguous and indivisible. The minimum daily capacity lies in `[max(jobs), sum(jobs)]`. For a fixed capacity `C`, greedily filling each day with as many consecutive jobs as possible minimizes the number of days: ending a day earlier cannot process a longer prefix. Hence, if `C` is feasible, every larger capacity is feasible [1].
 
+```python
+def minimum_capacity(jobs, days):
+    if not jobs or days < 1 or any(job <= 0 for job in jobs):
+        raise ValueError("positive jobs and days >= 1 required")
+    def feasible(capacity):
+        used, load = 1, 0
+        for job in jobs:
+            if load + job > capacity:
+                used += 1
+                load = 0
+            load += job
+        return used <= days
+
+    lo, hi = max(jobs), sum(jobs)
+    while lo < hi:
+        mid = lo + (hi - lo) // 2
+        if feasible(mid):
+            hi = mid
+        else:
+            lo = mid + 1
+    return lo
+
+assert minimum_capacity([7, 2, 5, 10, 8], 2) == 18
+assert minimum_capacity([7, 2, 5, 10, 8], 3) == 14
+assert minimum_capacity([1, 1, 1], 2) == 2
+assert minimum_capacity([9], 4) == 9
+```
+
+The smallest feasible value stays within `[lo, hi]`, since monotonicity discards only impossible candidates at each step, and the interval strictly shrinks. For `n` jobs and `R = sum(jobs)-max(jobs)+1` candidate integer capacities, time is `O(n log(R+1))` and extra space `O(1)` under constant-cost arithmetic. The proof has **two** obligations: the greedy check correctly decides feasibility, and feasibility is monotone. A correct outer search cannot repair a faulty check.
 ## Arithmetic and real-world constraints
 
 When an indexed collection changes concurrently, even perfectly written loop bounds cannot guarantee results: the monotonic premise may disappear during the search. In fixed-width languages, compute `mid=lo+(hi-lo)//2` to avoid overflow from `lo+hi`. In Python, indices are arbitrary precision but list operations still have costs. An insertion index located in `O(log n)` on an array does not make inserting an element logarithmic: shifting elements may cost `O(n)` [2].

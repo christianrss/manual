@@ -4,7 +4,7 @@ title: "Busca binária: limites, invariantes e predicados monótonos"
 description: "Deduza a busca binária com invariante de partição, implemente limites, analise complexidade e identifique condições de invalidade."
 category: algorithms
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [complexity-analysis]
 sources:
   - {title: "CP-Algorithms — Binary Search", url: "https://cp-algorithms.com/num_methods/binary_search.html", kind: "technical reference"}
@@ -74,10 +74,39 @@ Dados desordenados, predicado não monótono, mudança concorrente da sequência
 
 Interprete a resposta como fronteira numa sequência booleana `P(0),...,P(n-1)`, com todos os valores falsos antes dos verdadeiros. Mantenha `[lo,hi)` com `0≤lo≤hi≤n`, de modo que todo índice abaixo de `lo` já seja conhecido como falso e todo índice a partir de `hi` seja conhecido como verdadeiro (`n` é uma sentinela verdadeira virtual). Inicialmente `lo=0,hi=n`, sem índices excluídos. Para `mid`, se `P(mid)` é falso, monotonicidade elimina `0..mid`, então `lo=mid+1`. Caso contrário, `mid..n-1` é verdadeiro e `hi=mid`. Ao terminar, a fronteira só pode estar em `lo=hi` [1]. Essa é a prova de correção parcial; a redução estrita de `hi-lo` demonstra término.
 
-## Busca em predicados sem decorar modelos
+## Busca por capacidade: derivação completa
 
-Para 'menor capacidade viável', procure num domínio inteiro **finito e ordenado** cuja viabilidade seja monotônica. Seja `P(C)` a afirmação de que todo o trabalho cabe em no máximo D dias com capacidade C. Se C é viável, qualquer capacidade superior também o é; capacidades menores talvez não sejam. É necessário ter limites corretos, uma fronteira inviável/viável e um verificador de viabilidade correto. Se a viabilidade custa `O(n)` e existem `R` capacidades possíveis, o custo é `O(n log R)`. Um erro dentro de `P` não é consertado pela busca externa.
+Considere tarefas de duração inteira **positiva** processadas em ordem e distribuídas em até `d` dias. As tarefas de cada dia são contíguas e indivisíveis. A menor capacidade diária está no intervalo inteiro `[max(tarefas), sum(tarefas)]`. Para uma capacidade `C`, alocar gulosa e consecutivamente o máximo de tarefas por dia minimiza a quantidade de dias: terminar um dia mais cedo não amplia o prefixo já processado. Assim, se `C` é viável, qualquer capacidade maior também é [1].
 
+```python
+def capacidade_minima(tarefas, dias):
+    if not tarefas or dias < 1 or any(t <= 0 for t in tarefas):
+        raise ValueError("tarefas positivas e dias >= 1 obrigatorios")
+    def viavel(capacidade):
+        usados, carga = 1, 0
+        for tarefa in tarefas:
+            if carga + tarefa > capacidade:
+                usados += 1
+                carga = 0
+            carga += tarefa
+        return usados <= dias
+
+    lo, hi = max(tarefas), sum(tarefas)
+    while lo < hi:
+        mid = lo + (hi - lo) // 2
+        if viavel(mid):
+            hi = mid
+        else:
+            lo = mid + 1
+    return lo
+
+assert capacidade_minima([7, 2, 5, 10, 8], 2) == 18
+assert capacidade_minima([7, 2, 5, 10, 8], 3) == 14
+assert capacidade_minima([1, 1, 1], 2) == 2
+assert capacidade_minima([9], 4) == 9
+```
+
+O menor valor viável permanece em `[lo, hi]`, pois em cada iteração a monotonicidade elimina exclusivamente candidatos impossíveis. O comprimento do intervalo diminui estritamente. Para `n` tarefas e `R = sum(tarefas)-max(tarefas)+1` capacidades candidatas, tempo `O(n log(R+1))` e espaço auxiliar `O(1)`, sob aritmética de custo constante. A prova exige **duas** justificativas: o verificador guloso decide viabilidade corretamente e essa viabilidade é monotônica. Uma busca externa correta não corrige um verificador falso.
 ## Aritmética e restrições reais
 
 Se outra thread altera a coleção durante a busca, até invariantes de índices impecáveis podem falhar: a hipótese de monotonicidade desaparece durante a execução. Em linguagens com inteiros de largura fixa, use `mid=lo+(hi-lo)//2` para evitar overflow de `lo+hi`. Python evita esse overflow nos índices, mas não torna as operações gratuitas. Encontrar a posição em `O(log n)` num vetor não implica inserir em tempo logarítmico: o deslocamento custa `O(n)` [2].
