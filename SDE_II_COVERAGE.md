@@ -28,11 +28,11 @@ The employer describes coding, data structures, algorithms, design, maintainable
 - `monotonic-stacks` — next greater, daily temperatures, histogram and amortized analysis.
 - `tree-algorithms` — BFS levels, LCA, diameter and ancestor-bound BST validation.
 
-**Next priority:** publish an end-to-end software project lifecycle and create applied algorithm/system design drills with independent expected outcomes. The formerly pending topics on service boundaries, debugging/profiling, CI/CD and refactoring now have standalone bilingual chapters. This is curriculum coverage, not proof of interview readiness.
+**Newly published:** `software-project-lifecycle` traces a privacy-sensitive export from requirements through review, release, telemetry and postmortem; `algorithm-interview-workshop` derives rooms-by-heap and shortest signed-subarray-by-deque with bounded exhaustive oracles; `system-design-interview-workshop` develops a multi-tenant webhook service with controlled requirement changes and queue recovery. Next: independently solve unfamiliar drills and extend concurrency, failure and code-quality checks. Publication is not proof of interview readiness.
 
 ## P1 — Problem-solving and coding competency
 
-Already published: `recursion-call-stack`, `sorting-algorithms`, `two-pointers-prefix-sums`, `greedy-intervals`, `monotonic-stacks`, `tree-algorithms`, `binary-search`, `sliding-window`, `dynamic-programming`, `backtracking-search`, `graph-traversal`, `shortest-paths`, `strongly-connected-components`, `maximum-flow-matching`.
+Already published: `recursion-call-stack`, `sorting-algorithms`, `two-pointers-prefix-sums`, `greedy-intervals`, `monotonic-stacks`, `tree-algorithms`, `algorithm-interview-workshop`, `binary-search`, `sliding-window`, `dynamic-programming`, `backtracking-search`, `graph-traversal`, `shortest-paths`, `strongly-connected-components`, `maximum-flow-matching`.
 
 Still required: deliberate practice with greedy, monotonic-stack and tree algorithms; rigorous tests over empty input, duplicates, overflow, boundaries and adversarial complexity; language-specific collections, reference semantics and mutation; clear explanation of correctness without pseudocode-only solutions.
 
@@ -47,7 +47,7 @@ Still required: deliberate practice with greedy, monotonic-stack and tree algori
 - `ci-cd-release-engineering` — immutable artifacts, automated gates, cautious canary evaluation, schema expand/migrate/contract and rollback.
 - `refactoring-design-patterns` — behavior-preserving changes, Strategy, Adapter and comparison with Decorator.
 
-**Next engineering chapter:** `software-project-lifecycle` — issue discovery through design, implementation, review, release, operations and technical debt. Also prepare independent engineering exercises.
+**Additional published chapter:** `software-project-lifecycle` — discovery, requirements, design alternatives, vertical slices, state transitions, code review, deployment, operational monitoring and incident learning. Follow-up practice should cover independently implementing a feature from an unfamiliar specification.
 
 ## P1 — System design methodology and worked solutions
 
@@ -66,7 +66,9 @@ Existing: `capacity-estimation`, `caching`, `asynchronous-messaging`, `load-bala
 
 **Additional published EN/PT:** `service-boundaries` — modular monoliths versus microservices, synchronous failure, consistency, events and gradual extraction.
 
-**Practice still required:** justify storage choices under changed workloads; design order cancellation races; scale feeds under skew and privacy requirements. Publication does not substitute for independently solving new design prompts.
+**Additional published chapter:** `system-design-interview-workshop` — original webhook delivery design, changing tenant skew and ordering requirements, quantitative retry/backlog analysis, security, and recovery questions.
+
+**Practice still required:** justify storage choices under changed workloads; design order cancellation races; scale feeds under skew and privacy requirements. Independently solving new design prompts remains essential.
 
 Advanced chapters such as `raft-consensus`, `memory-ordering-atomics` and `formal-model-checking` are **optional enrichment** until the core path is complete.
 
