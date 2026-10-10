@@ -110,6 +110,8 @@ class DescriptorModel:
         description = self._open_description(fd)
         if type(payload) is not bytes:
             raise ValueError("byte payload required")
+        if not payload:
+            return 0  # zero-byte writes do not extend the file
         data = self.files[description.path]
         start = description.offset
         if start > len(data):
