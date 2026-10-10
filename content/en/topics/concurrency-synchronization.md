@@ -4,13 +4,15 @@ title: "Concurrency: Races, Locks, Conditions and Deadlocks"
 description: "Derive synchronization invariants, critical sections, race conditions, condition-variable protocols, deadlocks and bounded queues."
 category: foundations
 difficulty: advanced
-updated: 2026-10-09
-prerequisites: [processes-virtual-memory, testing-maintainability]
+updated: 2026-10-10
+prerequisites: [processes-virtual-memory, cpu-scheduling-fcfs-round-robin, testing-maintainability]
 sources:
   - {title: "Python documentation — threading", url: "https://docs.python.org/3/library/threading.html", kind: "official documentation"}
   - {title: "Operating Systems: Three Easy Pieces — Concurrency", url: "https://pages.cs.wisc.edu/~remzi/OSTEP/", kind: "university textbook"}
 ---
 **Concurrency** means multiple activities can progress with overlapping lifetimes; **parallelism** means executing work at the same instant on different computational resources. A program may be concurrent on one CPU through interleaving, or parallel across cores. Correctness requires defining which shared states must remain consistent regardless of scheduling order. Merely using threads or asynchronous syntax does not establish safety [1][2].
+
+The [CPU scheduling chapter](/en/topics/cpu-scheduling-fcfs-round-robin/) explains how a runnable task receives CPU time. This chapter analyzes whether shared-state invariants survive different valid interleavings; fair scheduling does not make unsynchronized increments correct [1][2].
 
 ## Interleavings and the lost-update race
 

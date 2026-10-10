@@ -19,7 +19,7 @@ The preceding [machine-representation and ISA chapter](/en/topics/machine-repres
 
 Two ordinary applications may use the *same numerical virtual address* without accessing the same physical bytes. Hardware privilege modes, virtual-memory translation and kernel-controlled page-table configuration establish boundaries between them. A process cannot safely write arbitrary kernel memory simply by computing its numerical address: privilege and mapping checks must reject the operation. Process isolation is a security **mechanism**, not a guarantee against all side channels, kernel vulnerabilities or incorrectly shared memory.
 
-An executable on disk is passive; a process has dynamic state including program counter, register values, memory mappings and descriptors. Loading a program constructs an initial process image and arranges for instructions to begin in user mode. Scheduling determines when a runnable thread executes, and context switching saves/restores state so another can run. A switch can involve cache and TLB costs and is not always a cheap single instruction [2].
+An executable on disk is passive; a process has dynamic state including program counter, register values, memory mappings and descriptors. Loading a program constructs an initial process image and arranges for instructions to begin in user mode. Scheduling determines when a runnable thread executes, and context switching saves/restores state so another can run. A switch can involve cache and TLB costs and is not always a cheap single instruction [2]. The [CPU scheduling chapter](/en/topics/cpu-scheduling-fcfs-round-robin/) derives FCFS and Round Robin separately from the context-switch mechanism.
 
 ## Virtual-to-physical address derivation
 

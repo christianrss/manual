@@ -24,7 +24,7 @@ This is a dependency graph: reuse is expected across different learning tracks, 
 | Software quality and design | Clean Code/cohesion/coupling worked primer, OOP, SOLID, patterns, refactoring, tests and LLD | Additional specialized patterns, independent review, assessed refactorings | P0 |
 | System design | Capacity, service boundaries, caching, queues, complete cases | More entry-level-to-intermediate worked reviews and independent evaluations | P0 |
 | Computer architecture | Binary representation, ISA, direct-mapped cache mapping, plus modeled pipeline hazards, forwarding and two-bit prediction | Digital logic, detailed processor implementations, branch target structures, cache coherence, DRAM and quantitative memory hierarchy | P1 |
-| Operating systems and concurrency | Processes, virtual memory, locks, atomics | Scheduling, runtime threading, allocation, file systems and I/O | P1 |
+| Operating systems and concurrency | Processes, virtual memory, independently tested FCFS/Round Robin, locks and atomics | Multicore and priority scheduling, runtime threading, allocation, file systems and I/O | P1 |
 | Computer networks | Network protocols survey | TCP/IP in depth, routing, DNS, HTTP and TLS details | P1 |
 | Cryptography and security | API security and OAuth/PKCE | Cryptographic primitives, key exchange, AEAD, signatures, certificates | P1 |
 | Theory of computation | Asymptotic analysis | Automata, computability, reductions, P, NP and NP-completeness | P2 |
@@ -74,3 +74,7 @@ The new EN/PT chapter `machine-representation-isa-cache` fills the previously em
 ## 2026-10-10 — Pipelining, forwarding and two-bit predictor
 
 Added bilingual `cpu-pipeline-hazards-branch-prediction` to the computer-architecture module and both foundational tracks immediately after machine representation and before processes/virtual memory. The worked model explicitly distinguishes **instruction latency** and **throughput**, derives **RAW hazard timing inequalities**, tests a **single-issue five-stage scheduler**, and checks **pre-update two-bit branch predictions** against a separate transition-table oracle. The simulator has no speculative execution, timing measurements, ISA instruction encoding or multicore coherence. Remaining topics include OS scheduling, real CPU pipelines, performance counters and coherent caches.
+
+## 2026-10-10 — FCFS and Round Robin scheduling
+
+Bilingual `cpu-scheduling-fcfs-round-robin` is placed between processes/virtual memory and concurrency in both core tracks. The single-CPU event-driven models define strict arrivals, positive bursts, idle gaps, and explicit arrival-before-requeue behavior at quantum boundaries. Tests compare exact CPU-owner timelines and three job metrics with an independent tick-by-tick oracle. This proves only those finite checked contracts: no claims about real context switching, priorities, multicore behavior, blocked I/O or unbounded-stream starvation.

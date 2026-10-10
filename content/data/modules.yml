@@ -25,6 +25,7 @@ algorithms:
   - two-pointers-prefix-sums
 operating-systems:
   - processes-virtual-memory
+  - cpu-scheduling-fcfs-round-robin
   - concurrency-synchronization
   - memory-ordering-atomics
   - cpp17-concurrency-implementation
