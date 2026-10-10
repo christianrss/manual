@@ -17,3 +17,5 @@ File descriptors now have a standalone tested bilingual introduction to shared o
 Filesystem foundations now include a bilingual inode/directory/block model and a separate metadata redo-log crash abstraction; independently verified finite sequences do not imply correct Linux/ext4 recovery, real-device durability or a complete filesystem implementation.
 
 A dedicated bilingual IPv4 prefix-routing and positive DNS TTL-cache chapter now precedes the network request overview; its finite reference tests do not certify DNSSEC, resolver correctness, real routing policy or TCP reliability.
+
+TCP fundamentals now include a bilingual independently tested stream-framing decoder and a finite relative-sequence cumulative-ACK example with sender window bounds. No claim of real TCP socket stack, loss recovery, congestion-control implementation, fairness, throughput benchmarks or network packet tracing.

@@ -30,6 +30,8 @@ TCP identifies a connection using network addresses and ports and presents appli
 
 TCP also distinguishes **flow control**, which limits outstanding data according to receiver capacity, from **congestion control**, which protects the shared network against excessive sending. A large receive window does not imply the path can carry unlimited traffic. Conversely, a server can complete a TCP handshake and still reject or time out the subsequent application request.
 
+A dedicated [TCP byte-stream and framing chapter](/en/topics/tcp-byte-stream-framing-flow-control/) now derives application frame decoding, relative sequence offsets, cumulative ACK behavior and simplified sender-window arithmetic. Its finite receiver model is not a kernel TCP stack, congestion simulator or real retransmission test [1].
+
 ## TLS and the trust boundary
 
 TLS 1.3 negotiates cryptographic parameters, authenticates endpoints according to the chosen authentication mechanism and derives session keys that protect subsequent records. A certificate chain and verified hostname are central for typical public HTTPS server authentication; encryption without correct peer authentication does not protect against an active impersonator [2]. Modern TLS handshakes have different cost and reuse characteristics from obsolete versions, and 0-RTT early data can be replayed: it must not be treated as a general safe transport for non-idempotent side effects.

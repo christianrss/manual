@@ -30,6 +30,8 @@ TCP identifica conexões por endereços e portas e oferece **fluxo confiável e 
 
 Separe **controle de fluxo**, que limita dados em trânsito segundo capacidade do receptor, de **controle de congestionamento**, que restringe o envio para proteger a rede compartilhada. Janela de recepção ampla não significa banda infinita. Da mesma forma, completar o handshake TCP não impede o servidor de rejeitar ou exceder o timeout de requisição depois.
 
+O capítulo de [fluxo TCP e enquadramento de mensagens](/pt/topics/tcp-byte-stream-framing-flow-control/) agora deduz frames, sequência relativa, ACK cumulativo e cálculo simplificado de limites de envio. O modelo testado não corresponde à pilha TCP do kernel nem simula retransmissão ou congestionamento real [1].
+
 ## TLS e fronteira de confiança
 
 TLS 1.3 negocia parâmetros criptográficos, autentica participantes conforme o mecanismo escolhido e deriva chaves que protegem os registros posteriores. Para HTTPS público, verificar cadeia de certificados e nome do host é essencial; cifrar dados sem autenticar corretamente a outra ponta não impede um intermediário malicioso de se fazer passar pelo servidor [2]. Handshakes modernos têm custos distintos de versões antigas, e dados antecipados 0-RTT podem ser reproduzidos: não são mecanismo universalmente seguro para efeitos não idempotentes.
