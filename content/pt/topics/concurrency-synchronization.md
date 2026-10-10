@@ -4,13 +4,15 @@ title: "Concorrência: corridas, locks, condições e deadlocks"
 description: "Deduza invariantes de sincronização, seções críticas, condições de corrida, variáveis de condição, deadlocks e filas limitadas."
 category: foundations
 difficulty: advanced
-updated: 2026-10-09
-prerequisites: [processes-virtual-memory, testing-maintainability]
+updated: 2026-10-10
+prerequisites: [processes-virtual-memory, cpu-scheduling-fcfs-round-robin, testing-maintainability]
 sources:
   - {title: "Python documentation — threading", url: "https://docs.python.org/3/library/threading.html", kind: "official documentation"}
   - {title: "Operating Systems: Three Easy Pieces — Concurrency", url: "https://pages.cs.wisc.edu/~remzi/OSTEP/", kind: "university textbook"}
 ---
 **Concorrência** significa que atividades progridem com períodos de vida sobrepostos; **paralelismo** significa executar trabalho no mesmo instante em recursos distintos. Um programa pode ser concorrente com uma CPU por intercalação ou paralelo em vários núcleos. A correção exige definir quais estados compartilhados devem permanecer válidos independentemente da ordem de escalonamento. Criar threads ou usar async não garante segurança [1][2].
+
+O capítulo de [escalonamento](/pt/topics/cpu-scheduling-fcfs-round-robin/) explica como uma tarefa pronta recebe CPU. Este capítulo analisa se os invariantes sobrevivem a diferentes intercalações; justiça de escalonamento não corrige incrementos sem sincronização [1][2].
 
 ## Intercalações e condição de corrida
 

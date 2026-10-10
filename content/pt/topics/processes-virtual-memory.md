@@ -19,7 +19,7 @@ O capítulo anterior sobre [representação e ISA](/pt/topics/machine-representa
 
 Duas aplicações podem usar o *mesmo número de endereço virtual* sem acessar os mesmos bytes físicos. Modos de privilégio do processador, tradução de memória virtual e tabelas configuradas pelo kernel impõem as fronteiras. Um processo não pode escrever memória arbitrária do kernel apenas calculando um endereço: verificações de modo, mapeamento e permissão precisam impedir isso. Isolamento é um **mecanismo** de segurança, não promessa de imunidade a canais laterais, falhas do kernel ou regiões indevidamente compartilhadas.
 
-Um executável em disco é passivo; o processo mantém estado dinâmico: contador de programa, registradores, mapeamentos e descritores. Carregar um programa cria imagem inicial e prepara a execução em modo usuário. Escalonamento define qual thread executa, e troca de contexto salva/restaura estado para outra prosseguir. Cache e TLB podem sofrer impactos, portanto trocar contexto não é sempre uma instrução gratuita [2].
+Um executável em disco é passivo; o processo mantém estado dinâmico: contador de programa, registradores, mapeamentos e descritores. Carregar um programa cria imagem inicial e prepara a execução em modo usuário. Escalonamento define qual thread executa, e troca de contexto salva/restaura estado para outra prosseguir. Cache e TLB podem sofrer impactos, portanto trocar contexto não é sempre uma instrução gratuita [2]. O capítulo de [escalonamento de CPU](/pt/topics/cpu-scheduling-fcfs-round-robin/) deduz FCFS e Round Robin separadamente do mecanismo de troca de contexto.
 
 ## Dedução da tradução virtual para física
 
