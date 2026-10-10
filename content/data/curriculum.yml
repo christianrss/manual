@@ -16,15 +16,15 @@ tracks:
       - title: {en: Algorithmic problem solving, pt: Resolução de problemas algorítmicos}
         articles: [sorting-algorithms, two-pointers-prefix-sums, binary-search, sliding-window, greedy-intervals, monotonic-stacks, tree-algorithms, algorithm-interview-workshop, dynamic-programming, backtracking-search, shortest-paths, strongly-connected-components, maximum-flow-matching]
       - title: {en: Software engineering & object-oriented design, pt: Engenharia de software e design orientado a objetos}
-        articles: [object-oriented-design, solid-dependency-inversion, testing-maintainability, testing-strategies, debugging-profiling, refactoring-design-patterns, ci-cd-release-engineering, software-project-lifecycle, low-level-design]
+        articles: [object-oriented-design, solid-dependency-inversion, testing-maintainability, testing-strategies, maintainable-implementation-workshop, debugging-profiling, refactoring-design-patterns, ci-cd-release-engineering, software-project-lifecycle, low-level-design]
       - title: {en: Runtime, operating systems & correctness, pt: Runtime, sistemas operacionais e correção}
-        articles: [processes-virtual-memory, concurrency-synchronization, memory-ordering-atomics]
+        articles: [processes-virtual-memory, concurrency-synchronization, concurrency-interview-workshop, memory-ordering-atomics]
       - title: {en: System design & distributed architecture, pt: Projeto de sistemas e arquitetura distribuída}
         articles: [capacity-estimation, system-design-process, storage-selection, service-boundaries, caching, database-consistency, database-storage-wal, sql-query-planning, transactional-indexing-isolation, database-replication-failover, data-partitioning-sharding, asynchronous-messaging, load-balancing, rate-limiting, network-protocols, api-security, oauth-pkce-token-security, api-reliability, api-contracts-pagination, system-design-notifications, system-design-order-service, system-design-feed, system-design-interview-workshop, raft-consensus, distributed-observability, url-shortener]
       - title: {en: Engineering judgment & communication, pt: Julgamento técnico e comunicação}
-        articles: [formal-model-checking, production-incident-response, evidence-based-interviews]
+        articles: [formal-model-checking, failure-recovery-workshop, production-incident-response, evidence-based-interviews]
     planned_topics:
       en: >-
-        Priority gaps: repeated independent coding drills, timed architecture variants, concurrency/race exercises, maintainable implementation in another language, and human technical review. Software project lifecycle, an algorithm workshop and a webhook system-design workshop now have EN/PT chapters. Their exercises are independently curated, not promised employer questions.
+        Priority gaps: further independent coding and architecture drills, implementation in another programming language, real multi-process/database fault tests and expert technical review. Deterministic concurrency schedules, transactional-outbox failure injection and maintainable token-bucket implementation now have bilingual workshops. These independent chapters are not employer interview questions.
       pt: >-
-        Lacunas prioritárias: mais exercícios independentes de programação, variações cronometradas de arquitetura, desafios de concorrência, código manutenível em outra linguagem e revisão técnica humana. Ciclo de vida de projetos, oficina de algoritmos e oficina de webhooks agora têm capítulos EN/PT. Os exercícios são independentes, não questões prometidas pelo empregador.
+        Lacunas prioritárias: mais exercícios independentes de algoritmos e arquitetura, implementação em outra linguagem, testes reais de falha com múltiplos processos/bancos e revisão técnica especializada. Oficinas bilíngues de concorrência determinística, outbox sob crash e token bucket manutenível já foram publicadas. Não são questões oficiais do empregador.

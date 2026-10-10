@@ -28,13 +28,13 @@ The employer describes coding, data structures, algorithms, design, maintainable
 - `monotonic-stacks` — next greater, daily temperatures, histogram and amortized analysis.
 - `tree-algorithms` — BFS levels, LCA, diameter and ancestor-bound BST validation.
 
-**Newly published:** `software-project-lifecycle` traces a privacy-sensitive export from requirements through review, release, telemetry and postmortem; `algorithm-interview-workshop` derives rooms-by-heap and shortest signed-subarray-by-deque with bounded exhaustive oracles; `system-design-interview-workshop` develops a multi-tenant webhook service with controlled requirement changes and queue recovery. Next: independently solve unfamiliar drills and extend concurrency, failure and code-quality checks. Publication is not proof of interview readiness.
+**Newly published:** `software-project-lifecycle` traces a privacy-sensitive export from requirements through review, release, telemetry and postmortem; `algorithm-interview-workshop` derives rooms-by-heap and shortest signed-subarray-by-deque with bounded exhaustive oracles; `system-design-interview-workshop` develops a multi-tenant webhook service with controlled requirement changes and queue recovery. New follow-ups published: `concurrency-interview-workshop`, `failure-recovery-workshop`, and `maintainable-implementation-workshop` expand interleaving exploration, crash injection and testable state ownership. Further real multi-process integration and unfamiliar coding drills remain needed. Publication is not proof of interview readiness.
 
 ## P1 — Problem-solving and coding competency
 
 Already published: `recursion-call-stack`, `sorting-algorithms`, `two-pointers-prefix-sums`, `greedy-intervals`, `monotonic-stacks`, `tree-algorithms`, `algorithm-interview-workshop`, `binary-search`, `sliding-window`, `dynamic-programming`, `backtracking-search`, `graph-traversal`, `shortest-paths`, `strongly-connected-components`, `maximum-flow-matching`.
 
-Still required: deliberate practice with greedy, monotonic-stack and tree algorithms; rigorous tests over empty input, duplicates, overflow, boundaries and adversarial complexity; language-specific collections, reference semantics and mutation; clear explanation of correctness without pseudocode-only solutions.
+Still required: repeated unfamiliar problems, timed review of greedy, monotonic-stack and tree algorithms; boundaries, duplicates, overflow, adversarial complexity, language-specific collections and mutation semantics. Published workshops increase coverage but independent reasoning remains essential.
 
 **Chapter contract:** describe input/output, invariant, an algorithm, proof or correctness argument, worst-case and memory, counterexample and executable tests in EN/PT.
 
@@ -47,7 +47,7 @@ Still required: deliberate practice with greedy, monotonic-stack and tree algori
 - `ci-cd-release-engineering` — immutable artifacts, automated gates, cautious canary evaluation, schema expand/migrate/contract and rollback.
 - `refactoring-design-patterns` — behavior-preserving changes, Strategy, Adapter and comparison with Decorator.
 
-**Additional published chapter:** `software-project-lifecycle` — discovery, requirements, design alternatives, vertical slices, state transitions, code review, deployment, operational monitoring and incident learning. Follow-up practice should cover independently implementing a feature from an unfamiliar specification.
+**Additional published chapters:** `software-project-lifecycle` (discovery through operational learning); `concurrency-interview-workshop` (deterministic read/commit interleavings, CAS, lock and barrier tests); `failure-recovery-workshop` (SQLite transaction fault injection, outbox replay, receiver deduplication); `maintainable-implementation-workshop` (token bucket, clock injection, boundary tests, distributed-state limitations). Follow-up practice should implement unfamiliar specifications and verify concurrency against separate processes and real datastores.
 
 ## P1 — System design methodology and worked solutions
 
@@ -68,7 +68,7 @@ Existing: `capacity-estimation`, `caching`, `asynchronous-messaging`, `load-bala
 
 **Additional published chapter:** `system-design-interview-workshop` — original webhook delivery design, changing tenant skew and ordering requirements, quantitative retry/backlog analysis, security, and recovery questions.
 
-**Practice still required:** justify storage choices under changed workloads; design order cancellation races; scale feeds under skew and privacy requirements. Independently solving new design prompts remains essential.
+**Practice still required:** justify storage choices under changed workloads; design order cancellation races; scale feeds under skew and privacy requirements; test durable state using process termination, real databases, and providers. Independently solving unseen design prompts remains essential.
 
 Advanced chapters such as `raft-consensus`, `memory-ordering-atomics` and `formal-model-checking` are **optional enrichment** until the core path is complete.
 
