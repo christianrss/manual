@@ -45,7 +45,23 @@
 <main id="main" class="content" tabindex="-1">{% block content %}{%endblock%}</main>
 {% block toc %}<aside class="toc" aria-label="{{tr.onthispage}}"><p class="toc-heading">{{tr.onthispage}}</p><p class="toc-muted">{{tr.site}}</p><p class="toc-muted">{{tr.updated}} {{updated}}</p></aside>{%endblock%}
 </div>
-<footer class="site-footer"><span class="site-footer-author"><a href="https://me.christiansoftware.org/" rel="author"><img src="https://me.christiansoftware.org/assets/christian-rafael-photo.jpg" alt="Christian Rafael de Souza Silva" width="34" height="34" loading="lazy">Christian Rafael de Souza Silva</a></span><span>© {{year}} Christian Software · Engineering Manual</span><span><a href="/{{lang}}/">{{tr.homepage}}</a> · <a href="https://me.christiansoftware.org/">Portfolio</a> · <a href="/{{lang}}/tracks/">{{tr.tracks}}</a></span></footer>
+<footer class="site-footer">
+  <div class="author-signature" aria-label="{{ 'Assinatura do autor' if lang == 'pt' else 'Author signature' }}">
+    <a class="author-signature-photo" href="https://me.christiansoftware.org/" rel="author" aria-label="{{ 'Perfil do autor' if lang == 'pt' else 'Author profile' }}">
+      <img src="https://me.christiansoftware.org/assets/christian-rafael-photo.jpg" alt="{{ 'Retrato de Christian Rafael de Souza Silva' if lang == 'pt' else 'Portrait of Christian Rafael de Souza Silva' }}" width="46" height="46" loading="lazy" decoding="async">
+    </a>
+    <div class="author-signature-text">
+      <span class="author-signature-label">{{ 'Autoria e edição técnica' if lang == 'pt' else 'Authored and edited by' }}</span>
+      <a class="author-signature-name" href="https://me.christiansoftware.org/" rel="author">Christian Rafael de Souza Silva</a>
+      <span class="author-signature-role">{{ 'Engenheiro de Software · Tecnólogo em Ciência de Dados' if lang == 'pt' else 'Software Engineer · Data Science Technologist' }}</span>
+      <span class="author-signature-education">{{ 'Pós-graduado em Engenharia Eletrônica e Robótica' if lang == 'pt' else 'Postgraduate Degree in Electronic Engineering and Robotics' }}</span>
+    </div>
+  </div>
+  <div class="site-footer-meta">
+    <span>© {{year}} Christian Software · Engineering Manual</span>
+    <nav aria-label="{{ 'Links institucionais' if lang == 'pt' else 'Publication links' }}"><a href="/{{lang}}/">{{tr.homepage}}</a> · <a href="https://me.christiansoftware.org/">{{ 'Portfólio' if lang == 'pt' else 'Portfolio' }}</a> · <a href="/{{lang}}/tracks/">{{tr.tracks}}</a></nav>
+  </div>
+</footer>
 </div>
 </body>
 </html>
