@@ -233,4 +233,4 @@ Um sistema de arquivos ainda precisa implementar resolução de nomes, diretóri
 8. Amplie o modelo com `pread`, sem alterar offset compartilhado, e verifique com oráculo independente para descritores válidos.
 9. Liste pelo menos quatro características de descrições abertas reais ausentes da classe Python, como flags, identidade após rename, acesso e compartilhamento após fork.
 
-**Continuação:** [processos e memória virtual](/pt/topics/processes-virtual-memory/) estabelece recursos e isolamento; [WAL em bancos](/pt/topics/database-storage-wal/) trata log e recuperação. Estes modelos de memória ilustram contratos observáveis, não comprovam confiabilidade ou desempenho de filesystems físicos [1][2][3][4][5].
+**Continuação:** [inodes, blocos e journaling](/pt/topics/inode-directories-journaling-recovery/) aprofunda os metadados do sistema de arquivos; [processos e memória virtual](/pt/topics/processes-virtual-memory/) estabelece isolamento, e [WAL em bancos](/pt/topics/database-storage-wal/) trata recuperação transacional. Estes modelos de memória ilustram contratos observáveis, não comprovam confiabilidade ou desempenho de filesystems físicos [1][2][3][4][5].

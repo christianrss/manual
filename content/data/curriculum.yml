@@ -18,16 +18,16 @@ tracks:
       - title: {en: "Object design, SOLID and maintainability", pt: "Projeto orientado a objetos, SOLID e manutenibilidade"}
         articles: [testing-maintainability, clean-code-cohesion-coupling, object-oriented-design, low-level-design, solid-dependency-inversion, testing-strategies, refactoring-design-patterns, design-pattern-families, debugging-profiling]
       - title: {en: "Runtime, databases, networking and security", pt: "Execução, bancos de dados, redes e segurança"}
-        articles: [machine-representation-isa-cache, cpu-pipeline-hazards-branch-prediction, processes-virtual-memory, heap-allocation-fragmentation, file-descriptors-buffering-fsync, cpu-scheduling-fcfs-round-robin, concurrency-synchronization, mlfq-priority-inheritance, network-protocols, database-consistency, transactional-indexing-isolation, sql-query-planning, database-storage-wal, api-security, oauth-pkce-token-security]
+        articles: [machine-representation-isa-cache, cpu-pipeline-hazards-branch-prediction, processes-virtual-memory, heap-allocation-fragmentation, file-descriptors-buffering-fsync, inode-directories-journaling-recovery, cpu-scheduling-fcfs-round-robin, concurrency-synchronization, mlfq-priority-inheritance, network-protocols, database-consistency, transactional-indexing-isolation, sql-query-planning, database-storage-wal, api-security, oauth-pkce-token-security]
       - title: {en: "System design from requirements to failures", pt: "Projeto de sistemas: dos requisitos às falhas"}
         articles: [capacity-estimation, system-design-process, api-contracts-pagination, storage-selection, service-boundaries, caching, load-balancing, rate-limiting, asynchronous-messaging, database-replication-failover, data-partitioning-sharding, api-reliability, system-design-notifications, url-shortener, system-design-order-service, system-design-feed, system-design-architecture-review]
       - title: {en: "Independent exercises and communication", pt: "Exercícios independentes e comunicação"}
         articles: [algorithm-interview-workshop, maintainable-implementation-workshop, independent-coding-assessment, independent-coding-assessment-ii, system-design-interview-workshop, adaptive-system-design-assessment, evidence-based-interviews]
     planned_topics:
       en: >-
-        Missing dedicated foundational chapters: discrete mathematics, programming language semantics, cache coherence, detailed pipeline implementation and OS filesystem internals/crash consistency, TCP/IP and DNS, TLS and cryptographic primitives, remaining advanced design-pattern coverage and independently proctored timed evaluations. CI does not certify interview readiness.
+        Missing dedicated foundational chapters: discrete mathematics, programming language semantics, cache coherence, detailed pipeline implementation and production filesystem data structures/crash testing, TCP/IP and DNS, TLS and cryptographic primitives, remaining advanced design-pattern coverage and independently proctored timed evaluations. CI does not certify interview readiness.
       pt: >-
-        Faltam capítulos fundamentais próprios: matemática discreta, semântica de linguagens, coerência de cache, implementação detalhada de pipelines e estruturas internas/consistência de sistemas de arquivos, TCP/IP e DNS, TLS e primitivas criptográficas, outros padrões especializados e avaliações inéditas cronometradas. CI não certifica preparação para entrevistas.
+        Faltam capítulos fundamentais próprios: matemática discreta, semântica de linguagens, coerência de cache, implementação detalhada de pipelines e estruturas de filesystems reais e testes de falha física, TCP/IP e DNS, TLS e primitivas criptográficas, outros padrões especializados e avaliações inéditas cronometradas. CI não certifica preparação para entrevistas.
   - id: computer-science-core
     title: {en: "Computer Science — Core Curriculum", pt: "Ciência da Computação — Currículo Fundamental"}
     description:
@@ -42,16 +42,16 @@ tracks:
       - title: {en: "Software design and engineering", pt: "Projeto e engenharia de software"}
         articles: [testing-maintainability, clean-code-cohesion-coupling, object-oriented-design, low-level-design, solid-dependency-inversion, testing-strategies, refactoring-design-patterns, design-pattern-families, debugging-profiling, software-project-lifecycle, ci-cd-release-engineering]
       - title: {en: "Processes, threads, memory and networks", pt: "Processos, threads, memória e redes"}
-        articles: [machine-representation-isa-cache, cpu-pipeline-hazards-branch-prediction, processes-virtual-memory, heap-allocation-fragmentation, file-descriptors-buffering-fsync, cpu-scheduling-fcfs-round-robin, concurrency-synchronization, mlfq-priority-inheritance, memory-ordering-atomics, cpp17-concurrency-implementation, network-protocols]
+        articles: [machine-representation-isa-cache, cpu-pipeline-hazards-branch-prediction, processes-virtual-memory, heap-allocation-fragmentation, file-descriptors-buffering-fsync, inode-directories-journaling-recovery, cpu-scheduling-fcfs-round-robin, concurrency-synchronization, mlfq-priority-inheritance, memory-ordering-atomics, cpp17-concurrency-implementation, network-protocols]
       - title: {en: "Security, storage and distributed systems", pt: "Segurança, armazenamento e sistemas distribuídos"}
         articles: [api-security, oauth-pkce-token-security, database-storage-wal, sql-query-planning, database-consistency, transactional-indexing-isolation, asynchronous-messaging, raft-consensus, network-partition-quorum-models]
       - title: {en: "Architecture and operational judgment", pt: "Arquitetura e julgamento operacional"}
         articles: [capacity-estimation, system-design-process, storage-selection, service-boundaries, production-incident-response, formal-model-checking]
     planned_topics:
       en: >-
-        Not published: discrete logic, computability, P/NP, digital logic, microarchitectural implementation, cache coherence, production allocator internals, advanced multicore scheduling, filesystem layout and crash consistency, packet-level networking, cryptography, P2P and optional blockchain.
+        Not published: discrete logic, computability, P/NP, digital logic, microarchitectural implementation, cache coherence, production allocator internals, advanced multicore scheduling, production filesystem recovery and fault injection, packet-level networking, cryptography, P2P and optional blockchain.
       pt: >-
-        Não publicados: lógica discreta, computabilidade, P/NP, lógica digital, implementação microarquitetural, coerência de cache, alocadores de produção, escalonamento multicore avançado, layout e consistência de sistemas de arquivos, redes por pacotes, criptografia, P2P e blockchain opcional.
+        Não publicados: lógica discreta, computabilidade, P/NP, lógica digital, implementação microarquitetural, coerência de cache, alocadores de produção, escalonamento multicore avançado, recuperação real de filesystems e injeção de falhas, redes por pacotes, criptografia, P2P e blockchain opcional.
   - id: specialized-systems-labs
     title: {en: "Advanced Systems — Optional Laboratories", pt: "Sistemas Avançados — Laboratórios Opcionais"}
     description:
