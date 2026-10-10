@@ -30,7 +30,7 @@ TCP identifies a connection using network addresses and ports and presents appli
 
 TCP also distinguishes **flow control**, which limits outstanding data according to receiver capacity, from **congestion control**, which protects the shared network against excessive sending. A large receive window does not imply the path can carry unlimited traffic. Conversely, a server can complete a TCP handshake and still reject or time out the subsequent application request.
 
-A dedicated [TCP byte-stream and framing chapter](/en/topics/tcp-byte-stream-framing-flow-control/) now derives application frame decoding, relative sequence offsets, cumulative ACK behavior and simplified sender-window arithmetic. Its finite receiver model is not a kernel TCP stack, congestion simulator or real retransmission test [1].
+A dedicated [TCP byte-stream and framing chapter](/en/topics/tcp-byte-stream-framing-flow-control/) now derives application frame decoding, relative sequence offsets, cumulative ACK behavior and simplified sender-window arithmetic. Its finite receiver model is not a kernel TCP stack, congestion simulator or real retransmission test [1]. The [timer and congestion chapter](/en/topics/tcp-rto-retransmission-congestion/) separately models RFC 6298 RTT smoothing and bounded round-level cwnd reactions; it does not implement real ACK-driven TCP recovery.
 
 ## TLS and the trust boundary
 

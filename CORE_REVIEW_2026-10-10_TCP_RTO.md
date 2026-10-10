@@ -1,0 +1,11 @@
+# TCP timeout and congestion-model review — 2026-10-10
+
+This bilingual chapter extends previously published IP/DNS, TCP framing and cumulative ACK foundations. Its two independent Python examples teach distinct mechanisms: retransmission timer estimation and an **aggregated congestion-window sketch**. The latter is not a compliant TCP Reno sender, slow-start/ACK parser, or packet simulator.
+
+**RTO estimator:** follows RFC 6298 first-sample SRTT=R, RTTVAR=R/2, subsequent RTTVAR computed from the **old** smoothed RTT, and recomputation RTO=SRTT+max(G,4*RTTVAR). The example selects a 10-ms granularity, a 1-second floor, a **model-specific** 60-second cap, ambiguous-retransmission sample exclusion (Karn) and exponential timeout backoff. It omits timestamps, outstanding sequence ranges, SYN behavior, actual timer scheduling, RACK/TLP, kernel I/O and specific storage of transmission times.
+
+**Congestion model:** uses integer MSS-segment units, with one abstract successful full-RTT round doubling cwnd up to ssthresh and then adding one, and an explicit timeout resetting cwnd to 1 while setting threshold from FlightSize. This is NOT ACK-by-ACK RFC 5681: it omits appropriate byte counting, fast recovery, pacing, duplicate ACK handling, RTT/RTTVAR interaction and SACK. Receiver window and congestion window are enforced only for additional sends under an independently supplied in-flight count.
+
+**Independent verification:** a Decimal-based numeric oracle checks bounded histories of eligible RTT samples, Karn exclusions and timeouts against the Python float timer in PT and EN. Separate finite-state event histories verify threshold/window transitions; a slot-counting oracle checks new-send allowance. Tests include invalid numeric input and nonmutating failures. The verified finite domain cannot establish socket behavior, fairness, physical throughput or full standards conformance.
+
+References: [RFC 6298](https://www.rfc-editor.org/info/rfc6298), [RFC 5681](https://www.rfc-editor.org/info/rfc5681), [RFC 9293](https://www.rfc-editor.org/info/rfc9293), [RFC 8985](https://www.rfc-editor.org/info/rfc8985). Future work: 32-bit modular sequence comparisons, actual ACK-driven congestion algorithms, loss recovery, delayed ACKs, RACK/TLP, QUIC and packet-trace experiments.
