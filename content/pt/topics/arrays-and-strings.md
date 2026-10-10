@@ -4,7 +4,7 @@ title: "Arrays e strings: representação, custos e percursos corretos"
 description: "Compreenda arrays contíguos, crescimento dinâmico, indexação, slices, Unicode e invariantes de limites com exemplos testados."
 category: foundations
 difficulty: beginner
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [complexity-analysis]
 sources:
   - {title: "Python Tutorial — Data Structures", url: "https://docs.python.org/3/tutorial/datastructures.html", kind: "official language documentation"}
@@ -75,14 +75,19 @@ assert len("é") == 2
 def apenas_letras_ascii(texto):
     partes = []
     for caractere in texto:
-        if "a" <= caractere.lower() <= "z":
-            partes.append(caractere.lower())
+        if "A" <= caractere <= "Z":
+            partes.append(chr(ord(caractere) + 32))
+        elif "a" <= caractere <= "z":
+            partes.append(caractere)
     return "".join(partes)
 
 assert apenas_letras_ascii("A-1 b!") == "ab"
+assert apenas_letras_ascii("İKÅABCz") == "abcz"
+assert apenas_letras_ascii("éΩ") == ""
+assert all("a" <= c <= "z" for c in apenas_letras_ascii("İKⒶAZ"))
 ~~~
 
-A última função trata intencionalmente **somente letras ASCII**, não normalização de identificadores Unicode. Em certos símbolos Unicode, lower() pode gerar múltiplos pontos de código, então aplicações reais precisam definir o alfabeto aceito. Comparações sensíveis à segurança também requerem política sobre símbolos visualmente confundíveis e localização.
+O contrato é **aceitar somente caracteres ASCII de entrada**, não normalizar identificadores Unicode. Verifique o ponto de código original *antes* de converter a caixa: U+0130 (I maiúsculo com ponto) pode produzir vários pontos de código ao passar por `lower()`, e U+212A (sinal de Kelvin) pode se tornar `k`, embora nenhum deles seja ASCII. A implementação anterior verificava o texto convertido e aceitava indevidamente essas entradas; a versão corrigida testa diretamente `A–Z` / `a–z` e converte apenas maiúsculas ASCII. Identificadores Unicode e símbolos visualmente confundíveis exigem política explícita separada [2]. **Não utilize este filtro para senhas, identidade de usuários ou canonicalização criptográfica**.
 
 ## Escolha do algoritmo depende da representação
 

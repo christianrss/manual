@@ -4,7 +4,7 @@ title: "Algorithm Interview Workshop: Interval Rooms and Negative-Sum Windows"
 description: "Practice two original coding problems using a heap and a monotonic deque, with proofs, counterexamples and independent exhaustive tests."
 category: algorithms
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [heaps-priority-queues, two-pointers-prefix-sums, monotonic-stacks]
 sources:
   - {title: "Amazon SDE II Interview Preparation", url: "https://amazon.jobs/content/en/how-we-hire/sde-ii-interview-prep", kind: "official preparation overview"}
@@ -149,6 +149,12 @@ for n in range(6):
 The monotonic deque is designed for this **static one-dimensional prefix-sum problem**. It is not a general data structure for arbitrary online range updates or a substitute for interval scheduling. If updates arrive between queries, more complex structures and different guarantees may be required.
 
 ## Review rubric and extension tasks
+
+**Assess skill separately from reading solved code.** The two implemented problems above teach invariants, but their answers are visible on this page: reproducing them is not an unseen assessment. A defensible mock session uses two original, independently chosen tasks under the official SDE II coding section's **90-minute/two-question** constraint; this allocation is a *practice model*, not a prediction of exact Amazon questions [1]. Record the statement, assumptions and tests before consulting an editorial solution.
+
+Suggested self-assessment budget: 5 minutes to inspect both tasks, 35 minutes per task, and 15 minutes to test and review both solutions. Track input validation, algorithmic correctness, boundary cases, runtime and auxiliary memory. The grader in the repository exposes public fixtures; passing them is evidence only for those fixtures, not unseen inputs. Use [independent assessment I](/en/topics/independent-coding-assessment/) and [independent assessment II](/en/topics/independent-coding-assessment-ii/) as **unsolved starting points**, but rotate truly unfamiliar tasks from independently curated sources for a realistic blind assessment.
+
+
 
 | Criterion | Room allocation | Shortest subarray |
 | --- | --- | --- |

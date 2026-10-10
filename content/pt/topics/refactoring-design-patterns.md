@@ -4,7 +4,7 @@ title: "Refatoração e padrões: Strategy, Adapter e preservação de comportam
 description: "Refatore com testes de contrato; compare Strategy, Adapter e Decorator em Python, com exemplos e limites práticos."
 category: engineering
 difficulty: intermediate
-updated: 2026-10-09
+updated: 2026-10-10
 prerequisites: [object-oriented-design, solid-dependency-inversion, testing-strategies]
 sources:
   - {title: "Martin Fowler — Refactoring Boundary", url: "https://martinfowler.com/bliki/RefactoringBoundary.html", kind: "primary engineering essay"}
@@ -114,6 +114,41 @@ except ValueError:
 ~~~
 
 O exemplo pressupõe API legada em centavos inteiros e taxa fixa de 25 centavos. Em sistema financeiro real, é preciso definir moeda, overflow, falhas e se valor já inclui tarifas. Tradução de tipos não prova que provedor é correto, autorizado ou durável.
+
+## Decorator: acrescentar comportamento mantendo o contrato do cliente
+
+O primeiro exemplo é **Strategy**, pois seleciona políticas de preço. O adaptador de cotação legada demonstra **Adapter**, pois traduz interfaces incompatíveis. Para completar a comparação, **Decorator** envolve um objeto que já possui `total(valor)` e registra chamadas concluídas, expondo o mesmo método. O cliente usa a mesma interface, mas o log acrescenta efeito observável e consumo de memória; portanto a substituição não é transparente para todos os requisitos [2][3].
+
+```python
+class CotacaoRegistrada:
+    def __init__(self, envolvido):
+        self._envolvido = envolvido
+        self.chamadas_bem_sucedidas = []
+
+    def total(self, valor):
+        resultado = self._envolvido.total(valor)
+        self.chamadas_bem_sucedidas.append((valor, resultado))
+        return resultado
+
+registrada = CotacaoRegistrada(AdaptadorLegado(CotacaoLegada()))
+assert registrada.total(Decimal("1.50")) == Decimal("1.75")
+assert registrada.chamadas_bem_sucedidas == [(Decimal("1.50"), Decimal("1.75"))]
+try:
+    registrada.total(Decimal("1.505"))
+except ValueError:
+    pass
+else:
+    raise AssertionError("entrada invalida deveria ser rejeitada")
+assert len(registrada.chamadas_bem_sucedidas) == 1
+```
+
+O registro acontece **após** a delegação bem-sucedida, excluindo chamadas que falham. Se métricas de produção precisarem registrar falhas, a semântica do wrapper deve ser alterada e documentada. Combinar Adapter e Decorator não torna retries seguros automaticamente: repetir uma operação com efeito pode duplicá-lo. Como verificação independente, a regra do desconto também deve ser conferida contra valores esperados externos às duas versões: `member(0.15)` resulta em `0.14` depois de multiplicar por 0,90 e arredondar uma única vez com `ROUND_HALF_UP`. Comparar apenas código antigo e novo pode esconder o mesmo erro nos dois.
+
+```python
+for implementacao in (total_antigo, total_novo):
+    assert implementacao(Decimal("0.15"), "member") == Decimal("0.14")
+    assert implementacao(Decimal("0.05"), "member") == Decimal("0.05")
+```
 
 ## Refatoração incremental e verificação
 
