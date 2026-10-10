@@ -42,6 +42,11 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(core.index('ip-routing-dns-resolution'),core.index('network-protocols'))
         self.assertLess(core.index('network-protocols'),core.index('tcp-byte-stream-framing-flow-control'))
         self.assertLess(core.index('tcp-byte-stream-framing-flow-control'),core.index('tcp-rto-retransmission-congestion'))
+        self.assertLess(core.index('tcp-rto-retransmission-congestion'),core.index('tls13-hkdf-handshake'))
+        self.assertLess(core.index('tls13-hkdf-handshake'),core.index('api-security'))
+        self.assertEqual(load_modules()['tls13-hkdf-handshake'], 'security')
+        for language in ('en', 'pt'):
+            self.assertEqual(load_articles()[language]['tls13-hkdf-handshake']['meta']['prerequisites'], ['network-protocols', 'tcp-byte-stream-framing-flow-control'])
         self.assertEqual(load_modules()['tcp-rto-retransmission-congestion'],'networking')
         for lang in ('en','pt'):
             self.assertEqual(load_articles()[lang]['tcp-rto-retransmission-congestion']['meta']['prerequisites'],['tcp-byte-stream-framing-flow-control'])
@@ -86,5 +91,7 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(cs.index('concurrency-synchronization'),cs.index('mlfq-priority-inheritance'))
         self.assertLess(cs.index('network-protocols'),cs.index('tcp-byte-stream-framing-flow-control'))
         self.assertLess(cs.index('tcp-byte-stream-framing-flow-control'),cs.index('tcp-rto-retransmission-congestion'))
+        self.assertLess(cs.index('tcp-rto-retransmission-congestion'),cs.index('tls13-hkdf-handshake'))
+        self.assertLess(cs.index('tls13-hkdf-handshake'),cs.index('api-security'))
         self.assertLess(cs.index('ip-routing-dns-resolution'),cs.index('network-protocols'))
 if __name__=='__main__':unittest.main()
