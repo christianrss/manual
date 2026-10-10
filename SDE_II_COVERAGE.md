@@ -10,4 +10,6 @@ A bilingual FCFS/Round Robin chapter now precedes concurrency, with exhaustive f
 
 Advanced scheduling now distinguishes MLFQ promotion/aging from transitive lock priority inheritance, with bounded executable tests. It is a model rather than a live Linux scheduler benchmark or real-time guarantee.
 
-A new bilingual introductory allocator model distinguishes external/internal fragmentation and virtual/physical address spaces, with first-fit, best-fit and independent bitmap verification. Production allocator engineering, file descriptors, kernel I/O and real-time/multicore behavior remain beyond the current teaching examples.
+A new bilingual introductory allocator model distinguishes external/internal fragmentation and virtual/physical address spaces, with first-fit, best-fit and independent bitmap verification. Production allocator engineering, actual kernel/filesystem I/O testing and real-time/multicore behavior remain beyond the current teaching examples.
+
+File descriptors now have a standalone tested bilingual introduction to shared open descriptions, offsets and an abstract fsync/crash boundary; file layout, hardware failure testing and complete filesystem crash consistency are not certified by these teaching models.

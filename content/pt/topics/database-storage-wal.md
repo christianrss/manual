@@ -12,7 +12,7 @@ sources:
   - {title: "PostgreSQL — Write-Ahead Logging (WAL)", url: "https://www.postgresql.org/docs/current/wal-intro.html", kind: "official documentation"}
   - {title: "PostgreSQL — Index-Only Scans", url: "https://www.postgresql.org/docs/current/indexes-index-only-scans.html", kind: "official documentation"}
 ---
-Um banco relacional não é apenas um conjunto de tabelas representadas por dicionários. É um **mecanismo de armazenamento** que mantém páginas, metadados de transações, índices e log de recuperação sob concorrência. Conhecer essas estruturas explica por que consultas indexadas podem ser lentas, por que atualizações produzem mais E/S que o esperado e como mudanças confirmadas sobrevivem a quedas. PostgreSQL será a referência concreta; outros bancos diferem nos detalhes [1].
+Um banco relacional não é apenas um conjunto de tabelas representadas por dicionários. É um **mecanismo de armazenamento** que mantém páginas, metadados de transações, índices e log de recuperação sob concorrência. Conhecer essas estruturas explica por que consultas indexadas podem ser lentas, por que atualizações produzem mais E/S que o esperado e como mudanças confirmadas sobrevivem a quedas. PostgreSQL será a referência concreta; outros bancos diferem nos detalhes [1]. O capítulo de [descritores e fsync](/pt/topics/file-descriptors-buffering-fsync/) estabelece a distinção básica entre visibilidade e durabilidade; WAL adiciona ordenação e recuperação de transações em camada superior.
 
 ## Páginas físicas e identidade de tuplas
 

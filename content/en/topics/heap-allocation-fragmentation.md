@@ -189,4 +189,4 @@ Agreement across a finite domain provides evidence for the described model, not 
 7. Explain how the Linux buddy algorithm differs from first-fit in block sizes, search and merging, and why `vmalloc` changes the physical-contiguity requirement.
 8. Design a property test that injects invalid labels and sizes. Prove that rejected operations cannot change the free-list representation or the live allocation table.
 
-**Next:** a dedicated [file-descriptor and I/O chapter](/en/topics/processes-virtual-memory/) should relate kernel objects and open-file descriptions to buffering, offsets and durability; the existing processes chapter is a prerequisite, not a substitute. For another storage layer, [write-ahead logging](/en/topics/database-storage-wal/) develops database recovery semantics [1][2][3].
+**Next:** [File descriptors, buffering and fsync](/en/topics/file-descriptors-buffering-fsync/) now distinguishes kernel open-file descriptions, shared offsets, visibility and durability. For another storage layer, [write-ahead logging](/en/topics/database-storage-wal/) develops database recovery semantics [1][2][3].

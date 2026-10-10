@@ -24,7 +24,11 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(core.index('machine-representation-isa-cache'),core.index('cpu-pipeline-hazards-branch-prediction'))
         self.assertLess(core.index('cpu-pipeline-hazards-branch-prediction'),core.index('processes-virtual-memory'))
         self.assertLess(core.index('processes-virtual-memory'),core.index('heap-allocation-fragmentation'))
-        self.assertLess(core.index('heap-allocation-fragmentation'),core.index('cpu-scheduling-fcfs-round-robin'))
+        self.assertLess(core.index('heap-allocation-fragmentation'),core.index('file-descriptors-buffering-fsync'))
+        self.assertLess(core.index('file-descriptors-buffering-fsync'),core.index('cpu-scheduling-fcfs-round-robin'))
+        self.assertEqual(load_modules()['file-descriptors-buffering-fsync'], 'operating-systems')
+        for lang in ('en', 'pt'):
+            self.assertEqual(load_articles()[lang]['file-descriptors-buffering-fsync']['meta']['prerequisites'],['processes-virtual-memory'])
         self.assertEqual(load_modules()['heap-allocation-fragmentation'],'operating-systems')
         for lang in ('en','pt'):
             self.assertEqual(load_articles()[lang]['heap-allocation-fragmentation']['meta']['prerequisites'],['processes-virtual-memory'])
@@ -58,7 +62,8 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(cs.index('machine-representation-isa-cache'),cs.index('cpu-pipeline-hazards-branch-prediction'))
         self.assertLess(cs.index('cpu-pipeline-hazards-branch-prediction'),cs.index('processes-virtual-memory'))
         self.assertLess(cs.index('processes-virtual-memory'),cs.index('heap-allocation-fragmentation'))
-        self.assertLess(cs.index('heap-allocation-fragmentation'),cs.index('cpu-scheduling-fcfs-round-robin'))
+        self.assertLess(cs.index('heap-allocation-fragmentation'),cs.index('file-descriptors-buffering-fsync'))
+        self.assertLess(cs.index('file-descriptors-buffering-fsync'),cs.index('cpu-scheduling-fcfs-round-robin'))
         self.assertLess(cs.index('cpu-scheduling-fcfs-round-robin'),cs.index('concurrency-synchronization'))
         self.assertLess(cs.index('concurrency-synchronization'),cs.index('mlfq-priority-inheritance'))
 if __name__=='__main__':unittest.main()

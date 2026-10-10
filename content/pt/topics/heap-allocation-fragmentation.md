@@ -189,4 +189,4 @@ A concordância no domínio finito fornece evidência do contrato, não prova de
 7. Explique diferenças de política e tamanho entre alocador buddy e first-fit; indique quando `vmalloc` elimina a necessidade de contiguidade física.
 8. Proponha teste que injete labels e tamanhos inválidos, provando que qualquer operação rejeitada não modifica listas livres nem reservas vivas.
 
-**Continuação:** o próximo tópico de sistemas operacionais deverá cobrir **descritores de arquivos e I/O**, incluindo diferenças entre buffering, offsets e persistência. O capítulo de [processos](/pt/topics/processes-virtual-memory/) dá os conceitos de kernel, e [WAL](/pt/topics/database-storage-wal/) analisa durabilidade em outra camada [1][2][3].
+**Continuação:** [descritores de arquivos, buffering e fsync](/pt/topics/file-descriptors-buffering-fsync/) agora descreve offsets, descrições abertas, I/O e durabilidade. O capítulo de [processos](/pt/topics/processes-virtual-memory/) dá os conceitos de kernel, e [WAL](/pt/topics/database-storage-wal/) analisa durabilidade em outra camada [1][2][3].
