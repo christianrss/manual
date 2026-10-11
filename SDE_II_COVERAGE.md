@@ -31,3 +31,5 @@ Foundations now include finite set counting, arrangements, collision probabiliti
 Networking now includes bilingual IPv4 fragment offsets, MF/DF and classical PMTU feedback models. Independent finite tests do not establish live IPv4/IPv6 conformance, ICMP trust, live measurement or DPLPMTUD.
 
 Finite binary relations now have an independent bilingual introduction to equivalence classes, partitions, partial orders, DAG reachability and topological constraints. A bounded executable model illustrates closure; it does not certify production schedulers, infinite-set results or independently proctored interview competence. Other discrete gaps include number theory, recurrences and computability.
+
+A bilingual cost-recurrence chapter now derives exact recursion-tree sums, proves closed forms by induction and states the hypotheses of the Master theorem and its non-applicable cases. A separate test oracle evaluates recursive models and boundary contracts. More general recurrences with uneven splits, varied costs, and independent timed exercises remain open.
