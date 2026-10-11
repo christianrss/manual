@@ -26,13 +26,19 @@ def article(lang):
     return mod
 
 def expected_layout(size, mtu):
+    # Independently determine byte positions: stop fragmenting as soon as
+    # the entire remainder fits. The FINAL slice need not be 8-byte aligned.
     capacity = mtu - 20
-    if size <= capacity:
-        return [(0, size, False)]
-    aligned = capacity - (capacity % 8)
-    cuts = range(0, size, aligned)
-    return [(start, min(aligned, size - start),
-             start + aligned < size) for start in cuts]
+    output = []
+    cursor = 0
+    while size - cursor > capacity:
+        candidates = [index for index in range(cursor + 1, cursor + capacity + 1)
+                      if index % 8 == 0]
+        boundary = max(candidates)
+        output.append((cursor, boundary - cursor, True))
+        cursor = boundary
+    output.append((cursor, size - cursor, False))
+    return output
 
 def byte_ownership(parts):
     final = [8 * part.offset_units + len(part.payload)
@@ -88,6 +94,12 @@ class IPv4PMTUContracts(unittest.TestCase):
                         self.assertEqual(
                             api.fragment_ipv4(original, mtu, True),
                             (api.Fragment(0, False, original),))
+            # Regression: a 49-byte final payload fits an MTU of 69;
+            # it must not be split into 48+1 merely for alignment.
+            self.assertEqual(
+                [(8 * p.offset_units, len(p.payload), p.more)
+                 for p in api.fragment_ipv4(bytes(97), 69)],
+                [(0, 48, True), (48, 49, False)])
             payload = bytes(i % 256 for i in range(65515))
             self.assertEqual(
                 api.reassemble_ipv4(api.fragment_ipv4(payload, 68)), payload)
