@@ -68,7 +68,7 @@ The first command runs characterization and grader-quality tests; it is intended
 
 Write additional cases before changing the candidate: a different-tenant record newer than all visible records; duplicate IDs in a tenant that is **not** requested; zero timestamps; same-timestamp IDs in reversed input order; invalid status; `offset` beyond the last page; a tuple input; a limit of exactly 100; and privacy fields that must be omitted. Include a test that mutates a returned row and verifies source rows stay unchanged. A test suite is a sampling mechanism, not a proof that every possible input is safe.
 
-## Review findings and exercises
+## Exercises and verification
 
 1. **Trace the old defect:** explain why the first page can be empty even when tenant a has three tickets. Which invariant did pagination violate? **Check:** filtering must precede taking a tenant's page, and total counts pre-page matches.
 2. **Write characterization evidence:** give the legacy result for the sample with limit 1 and the new required result, labeling each distinctly. **Check:** legacy items empty, total 0; required item a2, total 3.
