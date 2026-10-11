@@ -68,7 +68,7 @@ O primeiro comando executa testes de caracterização e de qualidade do corretor
 
 Antes de programar a nova função, crie testes próprios: um ticket de outro cliente com timestamp mais recente que todos os resultados; IDs duplicados num cliente **diferente do consultado**; timestamp zero; empates com IDs em ordem invertida; status inválido; offset após a última página; entrada como tupla; limite exatamente 100; e campos privados que precisam ser removidos. Modifique um item retornado e comprove que o registro-fonte permanece intacto. Testar amostras não demonstra segurança para todas as entradas possíveis.
 
-## Revisão técnica e exercícios
+## Exercícios e verificação
 
 1. **Rastreie a falha antiga:** por que a primeira página fica vazia quando o cliente a possui três tickets? Qual invariante foi violado? **Verificação:** o filtro deve acontecer antes da seleção da página, e total deve refletir todas as correspondências.
 2. **Separe caracterização de especificação:** escreva as duas respostas do exemplo com limite 1. **Verificação:** legado sem itens e total 0; contrato novo com item a2 e total 3.
