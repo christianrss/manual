@@ -130,3 +130,7 @@ Added bilingual ipv4-fragmentation-path-mtu after IP routing and before authorit
 ## Assessment III: applied algorithms and engineering (2026-10-11)
 
 A public bilingual assessment now has two intentionally unsolved, original tasks: bounded contiguous partition penalties and strictly idempotent in-memory event projection. It includes public success/error fixtures, expected algorithmic complexity and review criteria. Correctness evidence depends on solving unseen variants and peer review; open fixtures are **not** private testing, and a returned dictionary is **not** a durable transaction. Published exercises remain educational and are not official employer questions.
+
+## Legacy-code assessment IV: characterization and authorization boundaries (2026-10-11)
+
+The bilingual `legacy-refactoring-assessment` publishes a frozen **synthetic and intentionally defective** tenant-scoped ticket query alongside a separately unsolved corrected contract, a public grader and characterization tests. The learner must distinguish observed legacy behavior from intentionally changed behavior: tenant filtering before pagination, projected public properties, deterministic ties, accurate total counts, input validation and non-mutation. Only the correction candidate may be changed. This is not a deployable authentication service, does not prove live database isolation or eliminate the need for independent code review and unseen assessments.
