@@ -70,11 +70,12 @@ def _check_invalid(function, args, name):
 def evaluate(partitioner=minimum_partition_penalty, projector=apply_idempotent_events):
     passed = 0
     for loads, limit, overhead, expected in PARTITION_CASES:
-        original = list(loads)
-        actual = partitioner(list(loads), limit, overhead)
+        candidate = list(loads)
+        original = list(candidate)
+        actual = partitioner(candidate, limit, overhead)
         if type(actual) is not int or actual != expected:
             raise AssertionError(f"partition({loads}, {limit}, {overhead}): expected {expected}, got {actual!r}")
-        if original != list(loads):
+        if original != candidate:
             raise AssertionError("partition modified input")
         passed += 1
     for args in PARTITION_INVALID:
