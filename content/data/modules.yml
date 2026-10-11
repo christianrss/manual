@@ -7,6 +7,7 @@ foundations:
   - context-free-grammars-parsing
   - lexing-parsing-expression-compiler
   - static-types-lexical-scopes
+  - typed-functions-call-frames-closures
   - complexity-analysis
   - recursion-call-stack
   - recurrence-analysis

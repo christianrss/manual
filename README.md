@@ -61,3 +61,7 @@ The bilingual `lexing-parsing-expression-compiler` article is paired with [execu
 ## Typed language and lexical scoping
 
 The paired `static-types-lexical-scopes` chapter and its [implementation](examples/python/typed_expression_compiler.py) extend the original expression compiler with `let` bindings, types `Int`/`Rat`/`Bool`, lexical scoping and shadowing, and typed conditional bytecode. [Tests](tests/test_typed_expression_compiler_contracts.py) compare runtime behavior with an independent direct AST evaluator and verify rejection of invalid programs. Static checking is performed before VM execution; this is not a trusted bytecode sandbox or a full compiler.
+
+## Typed functions and lexical closures
+
+The bilingual [functions and closures chapter](content/en/topics/typed-functions-call-frames-closures.md) extends the compiler with typed `fn` expressions, `Fn(...) -> T` annotations, lexical capture, higher-order calls and a VM with independent activation frames. The [executable compiler](examples/python/typed_function_compiler.py) and [independent contract tests](tests/test_typed_function_compiler_contracts.py) preserve the earlier lexing modes. No recursive `let`, mutable captured cells, bytecode verifier, host-language evaluation of input strings or sandbox is provided.
