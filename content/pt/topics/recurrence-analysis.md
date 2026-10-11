@@ -89,7 +89,7 @@ def recurrence_work(n, kind):
         "halve-unit": 1,
         "halve-linear": 1,
     }
-    if kind not in branching:
+    if type(kind) is not str or kind not in branching:
         raise ValueError("unknown recurrence family")
     branches = branching[kind]
     nodes, size, total = 1, n, 0
