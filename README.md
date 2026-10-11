@@ -49,3 +49,7 @@ Assessment IV adds a **synthetic, intentionally defective** ticket query in `exa
 ## Independent system-design review: usage metering
 
 The original bilingual `usage-metering-system-design-assessment` provides a hypothetical usage-based billing brief with delayed events, replay, invoice corrections and tenant isolation. Its public [scenario](examples/system-design/usage_metering_scenario.json), [submission rubric](examples/system-design/usage_metering_submission_template.md) and [arithmetic model](examples/python/usage_metering_design_math.py) support reproducible **quantitative checks only**. Architecture answers require human review; nothing here runs a live billing or event-processing service.
+
+## Parsing and formal-language exercises
+
+The paired chapter `context-free-grammars-parsing` follows finite automata and is supported by `examples/python/context_free_parser.py`: a stack recognizer for nested brackets, a recursive syntax-tree parser and an Earley-style fixed-point CFG membership recognizer. `tests/test_context_free_grammars_parsing_contracts.py` checks these against independent finite oracles. The chart algorithm is intentionally educational and does not provide optimized cubic Earley performance, a full compiler, token diagnostics or a packed parse forest.
