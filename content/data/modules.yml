@@ -6,6 +6,7 @@ foundations:
   - formal-languages-finite-automata
   - context-free-grammars-parsing
   - lexing-parsing-expression-compiler
+  - static-types-lexical-scopes
   - complexity-analysis
   - recursion-call-stack
   - recurrence-analysis
