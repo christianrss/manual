@@ -1,7 +1,7 @@
 - id: foundations
   order: 10
   title: {en: "Foundations of Computing", pt: "Fundamentos da Computação"}
-  description: {en: "Mathematical and computational reasoning.", pt: "Raciocínio matemático e computacional."}
+  description: {en: "Proofs, program semantics and computational reasoning.", pt: "Provas, semântica de programação e raciocínio computacional."}
 - id: computer-architecture
   order: 20
   title: {en: "Computer Architecture", pt: "Arquitetura de Computadores"}
