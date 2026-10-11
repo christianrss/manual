@@ -69,3 +69,7 @@ The bilingual [functions and closures chapter](content/en/topics/typed-functions
 ## Mutable closures and recursive function bindings
 
 The paired [mutable cells and recursion chapter](content/en/topics/mutable-cells-recursive-functions.md), [opt-in stateful interface](examples/python/stateful_function_compiler.py), and [independent contracts](tests/test_mutable_recursion_compiler_contracts.py) extend the existing typed-function compiler with shared captured `Cell` references, type-checked mutable variables, and restricted recursive `let rec` function declarations. Earlier compiler APIs retain their original syntax. Instruction/frame budgets are educational, not a sandbox; mutual recursion and general heap or bytecode verification are not provided.
+
+## Verified lexical-slot backend
+
+The bilingual [lexical addressing and bytecode verifier chapter](content/en/topics/lexical-addresses-bytecode-verification.md) adds a distinct [slot compiler, abstract verifier and indexed VM](examples/python/lexical_slot_verifier.py). [Contract tests](tests/test_lexical_bytecode_verifier_contracts.py) compare typed mutable and recursive expressions with the original name-based VM and independent AST interpreter, and reject invalid bytecode. The verifier is restricted to an in-memory, forward-jump bytecode subset and must not be treated as a secure general-purpose execution sandbox.
