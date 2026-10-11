@@ -129,9 +129,14 @@ class ThirdIndependentAssessmentTests(unittest.TestCase):
             if (repr(values), max_size, repr(overhead)) in invalid:
                 raise ValueError("invalid")
             return lookup[(tuple(values), max_size, overhead)]
+        event_lookup = {
+            (tuple(sorted(opening.items())), tuple(events)): expected
+            for opening, events, expected in EVENT_CASES
+        }
         def mutate_projection(balances, events):
+            expected = event_lookup[(tuple(sorted(balances.items())), tuple(events))]
             balances.clear()
-            return {} if not events else {"a": 7}
+            return dict(expected)
         with self.assertRaisesRegex(AssertionError, "mutated inputs"):
             evaluate(fixture_only_partition, mutate_projection)
 
