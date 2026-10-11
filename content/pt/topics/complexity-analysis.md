@@ -5,7 +5,7 @@ description: Aprenda a deduzir custos de tempo e memória por contagens, invaria
 category: foundations
 difficulty: foundational
 updated: 2026-10-10
-prerequisites: []
+prerequisites: [logic-proofs-invariants]
 sources:
 - title: MIT 6.006 — Introduction to Algorithms
   url: https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/

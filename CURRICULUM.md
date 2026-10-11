@@ -4,7 +4,7 @@ Review date: 2026-10-10. This manual is an independent educational reference, no
 
 ## Curriculum, in prerequisite order
 
-1. **Mathematical and computational reasoning:** discrete logic, proofs, number representation, asymptotic complexity, recursion.
+1. **Mathematical and computational reasoning:** discrete logic, proof techniques, program semantics, number representation, asymptotic complexity, recursion.
 2. **Data structures and algorithms:** arrays, lists, stacks, queues, hashing, trees, graphs, sorting, search, dynamic programming, invariants, correctness, edge cases, memory costs.
 3. **Engineering and maintainable code:** object orientation, composition, cohesion, coupling, SOLID, Clean Code as context-dependent practices, design patterns, refactoring, testing and debugging.
 4. **Computer architecture and operating systems:** machine representation, ISA, CPU, pipelines and caches; processes, threads, scheduling, virtual memory, synchronization, file systems and I/O.
@@ -20,14 +20,14 @@ This is a dependency graph: reuse is expected across different learning tracks, 
 
 | Domain | Already published | Not yet adequately covered | Priority |
 | --- | --- | --- | --- |
-| Data structures and algorithms | Arrays, lists, maps, heaps, trees, graph problems, DP, sorting and search | Independent adversarial unseen exercises, additional proof methods | P0 |
+| Data structures and algorithms | Logic/proof obligations, Python program semantics, arrays, lists, maps, heaps, trees, graph problems, DP, sorting and search | Broader discrete mathematics, independent adversarial unseen exercises and additional proof methods | P0 |
 | Software quality and design | Clean Code/cohesion/coupling worked primer, OOP, SOLID, patterns, refactoring, tests and LLD | Additional specialized patterns, independent review, assessed refactorings | P0 |
 | System design | Capacity, service boundaries, caching, queues, complete cases | More entry-level-to-intermediate worked reviews and independent evaluations | P0 |
 | Computer architecture | Binary representation, ISA, direct-mapped cache mapping, plus modeled pipeline hazards, forwarding and two-bit prediction | Digital logic, detailed processor implementations, branch target structures, cache coherence, DRAM and quantitative memory hierarchy | P1 |
 | Operating systems and concurrency | Processes, virtual memory, first-fit/best-fit arena allocation and coalescing, file descriptors/open descriptions, abstract fsync/crash boundaries, inode/block allocation and metadata redo recovery models, FCFS/Round Robin, introductory MLFQ and priority donation, locks and atomics | Real multicore kernel scheduling, actual buffered-device experiments, production memory allocators, real filesystem formats and tested crash consistency | P1 |
 | Computer networks | Network overview, IPv4 longest-prefix, positive DNS TTL cache, NXDOMAIN/NODATA keys, CNAME TTL bounds and authoritative delegation concepts, TCP frames/cumulative ACKs, independently tested RTO smoothing/backoff and illustrative congestion rounds | Real TCP modular sequence wrap, sender retransmission and ACK-driven congestion algorithms, full DNSSEC validation and authoritative referral implementation, advanced HTTP and full TLS interoperability | P1 |
 | Cryptography and security | API security, OAuth/PKCE, TLS 1.3 handshake concepts and RFC-tested HKDF-SHA256/TLS label encoding | AEAD/nonce use, signatures, complete PKI/certificate validation, real TLS interoperability | P1 |
-| Theory of computation | Asymptotic analysis | Automata, computability, reductions, P, NP and NP-completeness | P2 |
+| Theory of computation | Logic, proof and invariants primer; asymptotic analysis | Automata, computability, reductions, P, NP and NP-completeness | P2 |
 | P2P and blockchain | Distributed quorum and consensus (different subject) | Peer discovery, overlays, Byzantine threat model, blockchain trade-offs | P3 |
 | Specialized labs | PostgreSQL and RabbitMQ experiments | Elective only; never a substitute for fundamentals | P3 |
 
@@ -114,3 +114,7 @@ Added complete PT/EN `tls13-hkdf-handshake` to the security module and both core
 ## 2026-10-10 — DNS authority, negative answers and aliases
 
 Published bilingual `dns-authoritative-negative-cname` immediately after IPv4 routing/positive DNS cache and before the end-to-end network protocol path in Amazon SDE II and CS core. Implements **two separate finite teaching contracts**: NXDOMAIN versus NODATA with RFC 2308 SOA TTL expiry and scope, plus CNAME-chain traversal with terminal RRset TTL bounds, cycle and hop protections. Independent test oracles compare negative-cache event histories and alias chains against separately represented expectations. RFCs 1034, 1035, 2308, 4035 and 8767 anchor delegation, negative caching, DNSSEC boundary and serve-stale discussion. This is **not** a recursive resolver, DNS packet parser, bailiwick security policy or cryptographic DNSSEC validator; real authoritative/recursive query experiments and security validation remain gaps.
+
+## 2026-10-10: Proof and programming-language foundations
+
+The new bilingual chapters `logic-proofs-invariants` and `programming-semantics-contracts` precede asymptotic analysis and arrays in both core tracks. Their executable models derive universal versus existential obligations, induction, partial/total correctness, aliasing, short-circuit evaluation and error contracts. `complexity-analysis` now requires proof techniques, and `arrays-and-strings` requires both complexity analysis and program semantics. This closes an *introductory* gap, not the broader mathematics, programming-language theory, compiler, type-system or independent evaluation gaps. The registry, bilingual tracks and editorial gates remain authoritative.

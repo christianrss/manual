@@ -5,7 +5,7 @@ description: "Derive time and space complexity from loops, recurrences and invar
 category: foundations
 difficulty: foundational
 updated: 2026-10-10
-prerequisites: []
+prerequisites: [logic-proofs-invariants]
 sources:
   - {title: 'MIT 6.006 — Introduction to Algorithms', url: 'https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/', kind: university course}
   - {title: 'MIT 6.046J — Design and Analysis of Algorithms', url: 'https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/', kind: university course}

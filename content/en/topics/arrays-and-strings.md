@@ -5,7 +5,7 @@ description: "Understand contiguous arrays, dynamic growth, indexing, slices, Un
 category: foundations
 difficulty: beginner
 updated: 2026-10-10
-prerequisites: [complexity-analysis]
+prerequisites: [complexity-analysis, programming-semantics-contracts]
 sources:
   - {title: "Python Tutorial — Data Structures", url: "https://docs.python.org/3/tutorial/datastructures.html", kind: "official language documentation"}
   - {title: "Python Standard Library — Unicode HOWTO", url: "https://docs.python.org/3/howto/unicode.html", kind: "official language documentation"}
