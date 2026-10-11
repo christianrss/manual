@@ -60,15 +60,18 @@ KEYWORDS = frozenset(("let", "in", "if", "then", "else", "true", "false",
                       "Int", "Rat", "Bool"))
 
 
-def tokenize(source, *, extended=False, functions=False):
+def tokenize(source, *, extended=False, functions=False, stateful=False):
     """Produce ASCII tokens with [start,end) offsets.
 
     extended=True adds identifiers, typed-binding keywords, ':' '=' and '<'.
     functions=True additionally enables 'fn', 'Fn', '->', '=>' and ','.
+    stateful=True additionally enables 'var', 'set', 'rec' and requires functions.
     The default arithmetic language retains its original exact contract.
     """
     if functions and not extended:
         raise ValueError("function syntax requires extended lexer mode")
+    if stateful and not functions:
+        raise ValueError("stateful syntax requires function mode")
     if type(source) is not str:
         raise TypeError("source must be a string")
     if len(source) > MAX_SOURCE:
@@ -105,7 +108,8 @@ def tokenize(source, *, extended=False, functions=False):
                 position += 1
             text = source[start:position]
             tokens.append(Token(text if text in KEYWORDS or
-                                (functions and text in ("fn", "Fn")) else "IDENT",
+                                (functions and text in ("fn", "Fn")) or
+                                (stateful and text in ("var", "set", "rec")) else "IDENT",
                                 text, start, position))
         else:
             raise CompileError("unexpected character", position)

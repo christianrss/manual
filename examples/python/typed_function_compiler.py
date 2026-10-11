@@ -1,8 +1,8 @@
 """Typed first-class functions, lexical closures and an explicit call-frame VM.
 
-Source-language subset: immutable let, fn(parameters) -> Type => expression,
-function types Fn(Type,...) -> Type and calls. Previous arithmetic/typed
-lexer modes are unchanged. No eval/exec, recursion binding or mutable cells.
+Source-language core: immutable let, typed fn, first-class calls and closures.
+Opt-in stateful mode adds var/set and let rec. Earlier lexing and semantics
+remain unchanged. No eval/exec, native I/O or unbounded recursion guarantees.
 """
 from dataclasses import dataclass, field
 from fractions import Fraction
@@ -42,6 +42,34 @@ class Call:
 
 
 @dataclass(frozen=True)
+class Var:
+    identifier: str
+    declared: object
+    initializer: object
+    body: object
+    start: int
+    end: int
+
+
+@dataclass(frozen=True)
+class SetVar:
+    identifier: str
+    expression: object
+    start: int
+    end: int
+
+
+@dataclass(frozen=True)
+class LetRec:
+    identifier: str
+    declared: object
+    initializer: object
+    body: object
+    start: int
+    end: int
+
+
+@dataclass(frozen=True)
 class Code:
     parameters: tuple
     instructions: tuple
@@ -57,6 +85,14 @@ class Program:
 class Closure:
     code: Code
     captured: tuple
+
+
+@dataclass
+class Cell:
+    """Heap-like shared cell; immutable captures retain object identity."""
+    value: object = None
+    writable: bool = False
+    initialized: bool = False
 
 
 @dataclass
@@ -76,9 +112,10 @@ def format_type(typ):
 
 
 class _Parser:
-    def __init__(self, tokens):
+    def __init__(self, tokens, *, stateful=False):
         self.tokens = tokens
         self.index = 0
+        self.stateful = stateful
 
     def peek(self):
         return self.tokens[self.index]
@@ -130,6 +167,9 @@ class _Parser:
             node = self.expression(0, depth + 1)
             self.require(")")
         elif first.kind == "let":
+            recursive = self.stateful and self.peek().kind == "rec"
+            if recursive:
+                self.take()
             name = self.require("IDENT")
             self.require(":")
             declared = self.annotation(depth + 1)
@@ -137,8 +177,24 @@ class _Parser:
             initializer = self.expression(0, depth + 1)
             self.require("in")
             body = self.expression(0, depth + 1)
-            node = Let(name.text, declared, initializer, body,
+            node_type = LetRec if recursive else Let
+            node = node_type(name.text, declared, initializer, body,
+                             first.start, body.end)
+        elif self.stateful and first.kind == "var":
+            name = self.require("IDENT")
+            self.require(":")
+            declared = self.annotation(depth + 1)
+            self.require("=")
+            initializer = self.expression(0, depth + 1)
+            self.require("in")
+            body = self.expression(0, depth + 1)
+            node = Var(name.text, declared, initializer, body,
                        first.start, body.end)
+        elif self.stateful and first.kind == "set":
+            name = self.require("IDENT")
+            self.require("=")
+            expression = self.expression(0, depth + 1)
+            node = SetVar(name.text, expression, first.start, expression.end)
         elif first.kind == "if":
             condition = self.expression(0, depth + 1)
             self.require("then")
@@ -198,8 +254,11 @@ class _Parser:
         return node
 
 
-def parse_functions(source):
-    return _Parser(tokenize(source, extended=True, functions=True)).parse()
+def parse_functions(source, *, stateful=False):
+    return _Parser(
+        tokenize(source, extended=True, functions=True, stateful=stateful),
+        stateful=stateful,
+    ).parse()
 
 
 def typecheck_functions(node):
@@ -214,7 +273,7 @@ def typecheck_functions(node):
         if isinstance(n, Name):
             if n.identifier not in environment:
                 raise TypeCheckError("unbound name " + n.identifier, n.start)
-            return environment[n.identifier]
+            return environment[n.identifier][0]
         if isinstance(n, Unary):
             typ = check(n.operand, environment, depth + 1)
             if typ not in ("Int", "Rat"):
@@ -239,17 +298,36 @@ def typecheck_functions(node):
             if yes != no:
                 raise TypeCheckError("if branches must have equal types", n.start)
             return yes
-        if isinstance(n, Let):
+        if isinstance(n, (Let, Var)):
             actual = check(n.initializer, environment, depth + 1)
             if actual != n.declared:
                 raise TypeCheckError("binding annotation mismatch", n.start)
             inner = dict(environment)
-            inner[n.identifier] = actual
+            inner[n.identifier] = (actual, isinstance(n, Var))
             return check(n.body, inner, depth + 1)
+        if isinstance(n, LetRec):
+            if not isinstance(n.declared, FunctionType) or not isinstance(n.initializer, Lambda):
+                raise TypeCheckError("let rec requires an annotated function literal", n.start)
+            inner = dict(environment)
+            inner[n.identifier] = (n.declared, False)
+            actual = check(n.initializer, inner, depth + 1)
+            if actual != n.declared:
+                raise TypeCheckError("recursive function type mismatch", n.start)
+            return check(n.body, inner, depth + 1)
+        if isinstance(n, SetVar):
+            binding = environment.get(n.identifier)
+            if binding is None:
+                raise TypeCheckError("unbound assignment target", n.start)
+            if not binding[1]:
+                raise TypeCheckError("assignment to immutable binding", n.start)
+            actual = check(n.expression, environment, depth + 1)
+            if actual != binding[0]:
+                raise TypeCheckError("assignment type mismatch", n.start)
+            return actual
         if isinstance(n, Lambda):
             inner = dict(environment)
             for name, typ in n.parameters:
-                inner[name] = typ
+                inner[name] = (typ, False)
             inferred = check(n.body, inner, depth + 1)
             if inferred != n.result_annotation:
                 raise TypeCheckError("function return type mismatch", n.start)
@@ -270,8 +348,8 @@ def typecheck_functions(node):
     return check(node, {}, 0)
 
 
-def compile_functions(source):
-    root = parse_functions(source)
+def compile_functions(source, *, stateful=False):
+    root = parse_functions(source, stateful=stateful)
     result_type = typecheck_functions(root)
 
     def compile_code(expression, parameters=()):
@@ -296,12 +374,23 @@ def compile_functions(source):
                 generate(node.right)
                 emit({"+": "ADD", "-": "SUB", "*": "MUL",
                       "/": "DIV", "<": "LT"}[node.op], None, node.start)
-            elif isinstance(node, Let):
+            elif isinstance(node, (Let, Var)):
                 generate(node.initializer)
                 emit("ENTER", None, node.start)
-                emit("BIND", node.identifier, node.start)
+                emit("BIND_VAR" if isinstance(node, Var) else "BIND",
+                     node.identifier, node.start)
                 generate(node.body)
                 emit("LEAVE", None, node.end)
+            elif isinstance(node, LetRec):
+                emit("ENTER", None, node.start)
+                emit("DECLARE_REC", node.identifier, node.start)
+                generate(node.initializer)
+                emit("INIT_REC", node.identifier, node.start)
+                generate(node.body)
+                emit("LEAVE", None, node.end)
+            elif isinstance(node, SetVar):
+                generate(node.expression)
+                emit("STORE", node.identifier, node.start)
             elif isinstance(node, If):
                 generate(node.condition)
                 branch = emit("JUMP_IF_FALSE", None, node.start)
@@ -356,16 +445,49 @@ def run_functions(program, *, max_steps=MAX_STEPS, max_frames=MAX_FRAMES):
         elif op == "LOAD":
             for scope in reversed(frame.scopes):
                 if arg in scope:
-                    stack.append(scope[arg])
+                    found = scope[arg]
+                    if isinstance(found, Cell):
+                        if not found.initialized:
+                            raise ValueError("invalid bytecode: uninitialized cell")
+                        stack.append(found.value)
+                    else:
+                        stack.append(found)
                     break
             else:
                 raise ValueError("invalid bytecode: missing binding")
         elif op == "ENTER":
             frame.scopes.append({})
-        elif op == "BIND":
+        elif op in ("BIND", "BIND_VAR"):
             if not stack or arg in frame.scopes[-1]:
                 raise ValueError("invalid bytecode: binding failure")
-            frame.scopes[-1][arg] = stack.pop()
+            value = stack.pop()
+            frame.scopes[-1][arg] = (Cell(value, True, True)
+                                      if op == "BIND_VAR" else value)
+        elif op == "DECLARE_REC":
+            if arg in frame.scopes[-1]:
+                raise ValueError("invalid bytecode: duplicate recursive binding")
+            frame.scopes[-1][arg] = Cell(None, False, False)
+        elif op == "INIT_REC":
+            target = frame.scopes[-1].get(arg)
+            if not stack or not isinstance(target, Cell) or target.initialized:
+                raise ValueError("invalid bytecode: recursive initialization")
+            value = stack.pop()
+            if not isinstance(value, Closure):
+                raise ValueError("invalid bytecode: recursive initializer")
+            target.value = value
+            target.initialized = True
+        elif op == "STORE":
+            if not stack:
+                raise ValueError("invalid bytecode: assignment underflow")
+            for scope in reversed(frame.scopes):
+                if arg in scope:
+                    cell = scope[arg]
+                    if not isinstance(cell, Cell) or not cell.writable or not cell.initialized:
+                        raise ValueError("invalid bytecode: immutable assignment")
+                    cell.value = stack[-1]  # assignment is an expression
+                    break
+            else:
+                raise ValueError("invalid bytecode: unknown assignment target")
         elif op == "LEAVE":
             if len(frame.scopes) <= frame.base_scopes:
                 raise ValueError("invalid bytecode: scope underflow")
@@ -436,8 +558,8 @@ def run_functions(program, *, max_steps=MAX_STEPS, max_frames=MAX_FRAMES):
     raise ValueError("invalid bytecode: no result")
 
 
-def evaluate_functions(source, **limits):
-    program = compile_functions(source)
+def evaluate_functions(source, *, stateful=False, **limits):
+    program = compile_functions(source, stateful=stateful)
     return program.result_type, run_functions(program, **limits)
 
 
