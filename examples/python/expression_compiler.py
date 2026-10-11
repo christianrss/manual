@@ -56,8 +56,16 @@ class Binary:
     end: int
 
 
-def tokenize(source):
-    """Produce ASCII tokens and one EOF marker with [start,end) offsets."""
+KEYWORDS = frozenset(("let", "in", "if", "then", "else", "true", "false",
+                      "Int", "Rat", "Bool"))
+
+
+def tokenize(source, *, extended=False):
+    """Produce ASCII tokens with [start,end) offsets.
+
+    extended=True adds identifiers, typed-binding keywords, ':' '=' and '<'.
+    The default arithmetic language retains its original exact contract.
+    """
     if type(source) is not str:
         raise TypeError("source must be a string")
     if len(source) > MAX_SOURCE:
@@ -76,9 +84,21 @@ def tokenize(source):
             if position - start > MAX_DIGITS:
                 raise CompileError("integer literal too long", start)
             tokens.append(Token("INT", source[start:position], start, position))
-        elif char in "+-*/()":
+        elif char in "+-*/()" or (extended and char in ":=<"):
             position += 1
             tokens.append(Token(char, char, start, position))
+        elif extended and (("a" <= char <= "z") or ("A" <= char <= "Z")
+                           or char == "_"):
+            position += 1
+            while position < len(source):
+                c = source[position]
+                if not (("a" <= c <= "z") or ("A" <= c <= "Z")
+                        or ("0" <= c <= "9") or c == "_"):
+                    break
+                position += 1
+            text = source[start:position]
+            tokens.append(Token(text if text in KEYWORDS else "IDENT",
+                                text, start, position))
         else:
             raise CompileError("unexpected character", position)
         if len(tokens) > MAX_TOKENS:
