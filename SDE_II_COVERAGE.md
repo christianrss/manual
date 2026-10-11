@@ -27,3 +27,5 @@ An independent TLS 1.3 article now illustrates handshake authentication and **RF
 DNS now has a dedicated bilateral article for RFC 2308 negative-cache keys and SOA TTL, authoritative delegation concepts and CNAME chain bounds, with independent finite tests. No DNSSEC verification, live iterative resolver, glue/bailiwick policy or full DNS wire parser is claimed.
 
 Foundations now include finite set counting, arrangements, collision probabilities, expected distinct categories and Bayes using exact rational examples and independent finite enumeration oracles. Advanced discrete structures, complete statistics and independently assessed exercises remain future work.
+
+Networking now includes bilingual IPv4 fragment offsets, MF/DF and classical PMTU feedback models. Independent finite tests do not establish live IPv4/IPv6 conformance, ICMP trust, live measurement or DPLPMTUD.

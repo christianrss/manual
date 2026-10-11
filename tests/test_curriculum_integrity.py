@@ -67,6 +67,11 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(core.index('ip-routing-dns-resolution'),core.index('dns-authoritative-negative-cname'))
         self.assertLess(core.index('dns-authoritative-negative-cname'),core.index('network-protocols'))
         self.assertEqual(load_modules()['ip-routing-dns-resolution'],'networking')
+        self.assertEqual(load_modules()['ipv4-fragmentation-path-mtu'],'networking')
+        self.assertLess(core.index('ip-routing-dns-resolution'),core.index('ipv4-fragmentation-path-mtu'))
+        self.assertLess(core.index('ipv4-fragmentation-path-mtu'),core.index('dns-authoritative-negative-cname'))
+        for lang in ('en', 'pt'):
+            self.assertEqual(load_articles()[lang]['ipv4-fragmentation-path-mtu']['meta']['prerequisites'], ['ip-routing-dns-resolution'])
         self.assertEqual(load_modules()['dns-authoritative-negative-cname'],'networking')
         for lang in ('en','pt'):
             self.assertEqual(load_articles()[lang]['dns-authoritative-negative-cname']['meta']['prerequisites'], ['ip-routing-dns-resolution'])
@@ -106,6 +111,7 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(cs.index('tcp-byte-stream-framing-flow-control'),cs.index('tcp-rto-retransmission-congestion'))
         self.assertLess(cs.index('tcp-rto-retransmission-congestion'),cs.index('tls13-hkdf-handshake'))
         self.assertLess(cs.index('tls13-hkdf-handshake'),cs.index('api-security'))
-        self.assertLess(cs.index('ip-routing-dns-resolution'),cs.index('dns-authoritative-negative-cname'))
+        self.assertLess(cs.index('ip-routing-dns-resolution'),cs.index('ipv4-fragmentation-path-mtu'))
+        self.assertLess(cs.index('ipv4-fragmentation-path-mtu'),cs.index('dns-authoritative-negative-cname'))
         self.assertLess(cs.index('dns-authoritative-negative-cname'),cs.index('network-protocols'))
 if __name__=='__main__':unittest.main()

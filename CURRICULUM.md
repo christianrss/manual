@@ -122,3 +122,7 @@ The new bilingual chapters `logic-proofs-invariants` and `programming-semantics-
 ## 2026-10-10 — Sets, counting and exact probability
 
 Published bilingual `discrete-counting-probability` after logic and programming semantics and before complexity analysis in Amazon SDE II and CS core. Independent verifiers enumerate finite subsets, combinations, permutations, Cartesian collision spaces, expected distinct outcomes and conditional/Bayes weighted outcomes against exact rational formulas. References: MIT 6.042J, Stanford CS109 and Python standard documentation. Mathematical arguments are distinct from finite tests, which cannot prove unbounded identities or real-world random distributions. Full discrete mathematics, computability, number theory, statistics and unseen evaluations remain gaps.
+
+## 2026-10-11 — IPv4 fragmentation and Path MTU
+
+Added bilingual ipv4-fragmentation-path-mtu after IP routing and before authoritative DNS in both main tracks. It derives MF/DF flags, eight-byte fragment offsets, strict single-datagram reassembly, and ideal iterative classical PMTUD. Independent byte-coverage and per-hop oracle tests validate finite models. Scope excludes IP header serialization/options, multi-flow identification, live ICMP, re-fragmentation, full IPv6 fragments and DPLPMTUD. Standards: RFCs 791, 1191, 8200, 8201 and 8899.
