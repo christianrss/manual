@@ -4,7 +4,7 @@ Review date: 2026-10-10. This manual is an independent educational reference, no
 
 ## Curriculum, in prerequisite order
 
-1. **Mathematical and computational reasoning:** discrete logic, proof techniques, program semantics, number representation, asymptotic complexity, recursion.
+1. **Mathematical and computational reasoning:** discrete logic, proof techniques, program semantics, sets, counting, probability, number representation, asymptotic complexity, recursion.
 2. **Data structures and algorithms:** arrays, lists, stacks, queues, hashing, trees, graphs, sorting, search, dynamic programming, invariants, correctness, edge cases, memory costs.
 3. **Engineering and maintainable code:** object orientation, composition, cohesion, coupling, SOLID, Clean Code as context-dependent practices, design patterns, refactoring, testing and debugging.
 4. **Computer architecture and operating systems:** machine representation, ISA, CPU, pipelines and caches; processes, threads, scheduling, virtual memory, synchronization, file systems and I/O.
@@ -20,7 +20,7 @@ This is a dependency graph: reuse is expected across different learning tracks, 
 
 | Domain | Already published | Not yet adequately covered | Priority |
 | --- | --- | --- | --- |
-| Data structures and algorithms | Logic/proof obligations, Python program semantics, arrays, lists, maps, heaps, trees, graph problems, DP, sorting and search | Broader discrete mathematics, independent adversarial unseen exercises and additional proof methods | P0 |
+| Data structures and algorithms | Logic/proof obligations, Python semantics, finite sets, combinatorial counting, exact conditional probability/expectation, arrays, lists, maps, heaps, trees, graph problems, DP, sorting and search | Advanced number theory, recurrences, computability and independent adversarial unseen exercises | P0 |
 | Software quality and design | Clean Code/cohesion/coupling worked primer, OOP, SOLID, patterns, refactoring, tests and LLD | Additional specialized patterns, independent review, assessed refactorings | P0 |
 | System design | Capacity, service boundaries, caching, queues, complete cases | More entry-level-to-intermediate worked reviews and independent evaluations | P0 |
 | Computer architecture | Binary representation, ISA, direct-mapped cache mapping, plus modeled pipeline hazards, forwarding and two-bit prediction | Digital logic, detailed processor implementations, branch target structures, cache coherence, DRAM and quantitative memory hierarchy | P1 |
@@ -118,3 +118,7 @@ Published bilingual `dns-authoritative-negative-cname` immediately after IPv4 ro
 ## 2026-10-10: Proof and programming-language foundations
 
 The new bilingual chapters `logic-proofs-invariants` and `programming-semantics-contracts` precede asymptotic analysis and arrays in both core tracks. Their executable models derive universal versus existential obligations, induction, partial/total correctness, aliasing, short-circuit evaluation and error contracts. `complexity-analysis` now requires proof techniques, and `arrays-and-strings` requires both complexity analysis and program semantics. This closes an *introductory* gap, not the broader mathematics, programming-language theory, compiler, type-system or independent evaluation gaps. The registry, bilingual tracks and editorial gates remain authoritative.
+
+## 2026-10-10 — Sets, counting and exact probability
+
+Published bilingual `discrete-counting-probability` after logic and programming semantics and before complexity analysis in Amazon SDE II and CS core. Independent verifiers enumerate finite subsets, combinations, permutations, Cartesian collision spaces, expected distinct outcomes and conditional/Bayes weighted outcomes against exact rational formulas. References: MIT 6.042J, Stanford CS109 and Python standard documentation. Mathematical arguments are distinct from finite tests, which cannot prove unbounded identities or real-world random distributions. Full discrete mathematics, computability, number theory, statistics and unseen evaluations remain gaps.

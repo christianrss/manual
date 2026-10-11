@@ -5,7 +5,7 @@ description: Aprenda a deduzir custos de tempo e memória por contagens, invaria
 category: foundations
 difficulty: foundational
 updated: 2026-10-10
-prerequisites: [logic-proofs-invariants]
+prerequisites: [logic-proofs-invariants, discrete-counting-probability]
 sources:
 - title: MIT 6.006 — Introduction to Algorithms
   url: https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/
@@ -14,6 +14,8 @@ sources:
   url: https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/
   kind: university course
 ---
+O capítulo de [contagem e probabilidade exata](/pt/topics/discrete-counting-probability/) demonstra espaços finitos e hipóteses necessários para calcular **custos esperados**; isso não equivale a executar um benchmark.
+
 A análise assintótica descreve como o custo de um algoritmo cresce quando aumenta o tamanho da entrada. Não é um cronômetro: comparamos funções de custo sob um modelo explícito de operações, tamanho `n` e memória adicional. Um algoritmo rápido em um teste pequeno pode crescer mal em produção. Ao escolher uma estrutura de dados, explicite se mede tempo, espaço auxiliar ou comunicação. O material de algoritmos do MIT apresenta essa disciplina como ferramenta de demonstração, não como uma tabela de respostas [1].
 
 ## Definições e hipóteses
