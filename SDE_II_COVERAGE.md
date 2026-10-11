@@ -1,6 +1,6 @@
 # SDE II — Current scope and evidence
 
-Reviewed 2026-10-10. See [CURRICULUM.md](CURRICULUM.md) for the audited prerequisite map, coverage gaps and review gates. See [the live track](https://manual.christiansoftware.org/en/tracks/amazon-sde-ii/) for the published reading path.
+Reviewed 2026-10-11. See [CURRICULUM.md](CURRICULUM.md) for the audited prerequisite map, coverage gaps and review gates. See [the live track](https://manual.christiansoftware.org/en/tracks/amazon-sde-ii/) for the published reading path.
 
 The core focuses on correctness, data structures, algorithms, maintainable implementation, databases, design and independent assessments. New bilingual prerequisites teach propositional and quantified logic, counterexamples, proof by induction, loop invariants and termination, plus Python's aliasing, mutation, short-circuit evaluation and explicit error contracts. This is an introductory semantics treatment, not a programming-languages or verification course. The core Clean Code/cohesion/coupling chapter is now published as a prerequisite for object design. Builder, Facade and Observer now have tested bilingual examples in addition to Strategy, Adapter and Decorator; remaining specialist patterns and independent evaluation still require further work. Existing broker failover experiments are **electives**, not mandatory SDE II prerequisites. Introductory machine representation and a separately tested five-stage **teaching pipeline** are published; realistic CPU implementation, cache coherence, authenticated cryptographic protocol implementation/PKI, language theory and transport-layer/network security remain **not fully covered**. Successful builds do not establish independent readiness.
 
@@ -29,3 +29,5 @@ DNS now has a dedicated bilateral article for RFC 2308 negative-cache keys and S
 Foundations now include finite set counting, arrangements, collision probabilities, expected distinct categories and Bayes using exact rational examples and independent finite enumeration oracles. Advanced discrete structures, complete statistics and independently assessed exercises remain future work.
 
 Networking now includes bilingual IPv4 fragment offsets, MF/DF and classical PMTU feedback models. Independent finite tests do not establish live IPv4/IPv6 conformance, ICMP trust, live measurement or DPLPMTUD.
+
+Finite binary relations now have an independent bilingual introduction to equivalence classes, partitions, partial orders, DAG reachability and topological constraints. A bounded executable model illustrates closure; it does not certify production schedulers, infinite-set results or independently proctored interview competence. Other discrete gaps include number theory, recurrences and computability.

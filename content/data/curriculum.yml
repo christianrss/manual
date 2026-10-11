@@ -1,5 +1,5 @@
 version: 2
-updated: 2026-10-10
+updated: 2026-10-11
 tracks:
   - id: amazon-sde-ii
     title: {en: "Amazon SDE II — Core Interview Path", pt: "Amazon SDE II — Formação Central"}
@@ -12,7 +12,7 @@ tracks:
       - https://amazon.jobs/content/en/how-we-hire/interview-prep/software-development-topics
     sections:
       - title: {en: "Computational foundations and data structures", pt: "Fundamentos computacionais e estruturas de dados"}
-        articles: [logic-proofs-invariants, programming-semantics-contracts, discrete-counting-probability, complexity-analysis, arrays-and-strings, recursion-call-stack, linked-lists, stacks-queues, hash-tables, binary-trees-bst, heaps-priority-queues, graph-traversal, tries-prefix-search, disjoint-set-union]
+        articles: [logic-proofs-invariants, programming-semantics-contracts, discrete-counting-probability, discrete-relations-orders, complexity-analysis, arrays-and-strings, recursion-call-stack, linked-lists, stacks-queues, hash-tables, binary-trees-bst, heaps-priority-queues, graph-traversal, tries-prefix-search, disjoint-set-union]
       - title: {en: "Algorithm design and coding", pt: "Projeto de algoritmos e programação"}
         articles: [sorting-algorithms, binary-search, two-pointers-prefix-sums, sliding-window, monotonic-stacks, tree-algorithms, shortest-paths, greedy-intervals, backtracking-search, dynamic-programming]
       - title: {en: "Object design, SOLID and maintainability", pt: "Projeto orientado a objetos, SOLID e manutenibilidade"}
@@ -25,9 +25,9 @@ tracks:
         articles: [algorithm-interview-workshop, maintainable-implementation-workshop, independent-coding-assessment, independent-coding-assessment-ii, system-design-interview-workshop, adaptive-system-design-assessment, evidence-based-interviews]
     planned_topics:
       en: >-
-        Remaining foundational gaps: deeper discrete mathematics beyond finite counting/probability (relations, number theory, recurrences), language compilation and type systems, cache coherence, detailed pipeline implementation and production filesystem data structures/crash testing, fully ACK-driven TCP retransmission/congestion algorithms, real authoritative DNS resolution and DNSSEC validation, AEAD/nonce safety, PKI/signatures and certificate validation in full TLS implementations, remaining advanced design-pattern coverage and independently proctored timed evaluations. CI does not certify interview readiness.
+        Remaining foundational gaps: deeper discrete mathematics beyond finite counting/probability (number theory, recurrences), language compilation and type systems, cache coherence, detailed pipeline implementation and production filesystem data structures/crash testing, fully ACK-driven TCP retransmission/congestion algorithms, real authoritative DNS resolution and DNSSEC validation, AEAD/nonce safety, PKI/signatures and certificate validation in full TLS implementations, remaining advanced design-pattern coverage and independently proctored timed evaluations. CI does not certify interview readiness.
       pt: >-
-        Lacunas fundamentais restantes: matemática discreta além de contagem/probabilidade finitas (relações, teoria dos números e recorrências), compilação e sistemas de tipos, coerência de cache, implementação detalhada de pipelines e estruturas de filesystems reais e testes de falha física, retransmissão/congestionamento TCP completos por ACK, resolução DNS autoritativa real e validação DNSSEC, AEAD e nonces, PKI/assinaturas e validação real de certificados, outros padrões especializados e avaliações inéditas cronometradas. CI não certifica preparação para entrevistas.
+        Lacunas fundamentais restantes: matemática discreta além de contagem/probabilidade finitas (teoria dos números e recorrências), compilação e sistemas de tipos, coerência de cache, implementação detalhada de pipelines e estruturas de filesystems reais e testes de falha física, retransmissão/congestionamento TCP completos por ACK, resolução DNS autoritativa real e validação DNSSEC, AEAD e nonces, PKI/assinaturas e validação real de certificados, outros padrões especializados e avaliações inéditas cronometradas. CI não certifica preparação para entrevistas.
   - id: computer-science-core
     title: {en: "Computer Science — Core Curriculum", pt: "Ciência da Computação — Currículo Fundamental"}
     description:
@@ -38,7 +38,7 @@ tracks:
       - https://pages.cs.wisc.edu/~remzi/OSTEP/
     sections:
       - title: {en: "Mathematics, algorithms and implementation", pt: "Matemática, algoritmos e implementação"}
-        articles: [logic-proofs-invariants, programming-semantics-contracts, discrete-counting-probability, complexity-analysis, recursion-call-stack, arrays-and-strings, linked-lists, stacks-queues, sorting-algorithms, binary-search, hash-tables, heaps-priority-queues, binary-trees-bst, graph-traversal, dynamic-programming]
+        articles: [logic-proofs-invariants, programming-semantics-contracts, discrete-counting-probability, discrete-relations-orders, complexity-analysis, recursion-call-stack, arrays-and-strings, linked-lists, stacks-queues, sorting-algorithms, binary-search, hash-tables, heaps-priority-queues, binary-trees-bst, graph-traversal, dynamic-programming]
       - title: {en: "Software design and engineering", pt: "Projeto e engenharia de software"}
         articles: [testing-maintainability, clean-code-cohesion-coupling, object-oriented-design, low-level-design, solid-dependency-inversion, testing-strategies, refactoring-design-patterns, design-pattern-families, debugging-profiling, software-project-lifecycle, ci-cd-release-engineering]
       - title: {en: "Processes, threads, memory and networks", pt: "Processos, threads, memória e redes"}
