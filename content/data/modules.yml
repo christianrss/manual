@@ -3,6 +3,7 @@ foundations:
   - programming-semantics-contracts
   - discrete-counting-probability
   - discrete-relations-orders
+  - formal-languages-finite-automata
   - complexity-analysis
   - recursion-call-stack
   - recurrence-analysis
