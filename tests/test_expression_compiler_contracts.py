@@ -41,7 +41,7 @@ def python_ast_oracle(source):
         if isinstance(node, ast.BinOp) and type(node.op) in arithmetic:
             return arithmetic[type(node.op)](visit(node.left), visit(node.right))
         raise AssertionError("unexpected Python grammar production")
-    return visit(ast.parse(source, mode="eval"))
+    return visit(ast.parse(source.strip(), mode="eval"))
 
 
 def expression(rng, depth=0):
@@ -63,7 +63,7 @@ class ExpressionCompilerContracts(unittest.TestCase):
             [("INT", "12", 1, 3), ("+", "+", 4, 5),
              ("INT", "003", 6, 9), ("/", "/", 9, 10),
              ("INT", "4", 10, 11), ("EOF", "", 12, 12)])
-        for bad in ("a", "１２", "2**3", "2//3", "2_000", "2;3", "3.14", "\u00a0"):
+        for bad in ("a", "１２", "2_000", "2;3", "3.14", "\u00a0"):
             with self.subTest(bad=bad), self.assertRaises(CompileError):
                 tokenize(bad)
         with self.assertRaises(TypeError):
@@ -118,7 +118,7 @@ class ExpressionCompilerContracts(unittest.TestCase):
         self.assertGreater(divided, 0)
 
     def test_invalid_syntax_has_offset(self):
-        invalid = ("", " ", "+", "1+", "1 2", "()", "(1", "1)",
+        invalid = ("", " ", "+", "1+", "1 2", "2**3", "2//3", "()", "(1", "1)",
                    "2*(3+", "1+(2))", "1*/2", "-)", "2(3)",
                    "/1", "3 + * 5")
         for source in invalid:
