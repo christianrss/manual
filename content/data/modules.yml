@@ -1,4 +1,6 @@
 foundations:
+  - logic-proofs-invariants
+  - programming-semantics-contracts
   - complexity-analysis
   - recursion-call-stack
 algorithms:
