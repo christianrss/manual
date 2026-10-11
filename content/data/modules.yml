@@ -2,6 +2,7 @@ foundations:
   - logic-proofs-invariants
   - programming-semantics-contracts
   - discrete-counting-probability
+  - discrete-relations-orders
   - complexity-analysis
   - recursion-call-stack
 algorithms:
