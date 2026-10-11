@@ -19,6 +19,12 @@ class CurriculumIntegrityTests(unittest.TestCase):
         core=[x for s in tracks[0]['sections'] for x in s['articles']]
         labs=[x for s in tracks[2]['sections'] for x in s['articles']]
         self.assertFalse(set(core)&set(labs))
+        self.assertLess(core.index('programming-semantics-contracts'),core.index('discrete-counting-probability'))
+        self.assertLess(core.index('discrete-counting-probability'),core.index('complexity-analysis'))
+        self.assertEqual(load_modules()['discrete-counting-probability'], 'foundations')
+        for lang in ('en','pt'):
+            self.assertEqual(set(load_articles()[lang]['discrete-counting-probability']['meta']['prerequisites']), {'logic-proofs-invariants','programming-semantics-contracts'})
+            self.assertIn('discrete-counting-probability',load_articles()[lang]['complexity-analysis']['meta']['prerequisites'])
         self.assertLess(core.index('complexity-analysis'),core.index('system-design-process'))
         self.assertLess(core.index('object-oriented-design'),core.index('system-design-process'))
         self.assertLess(core.index('machine-representation-isa-cache'),core.index('cpu-pipeline-hazards-branch-prediction'))
@@ -86,6 +92,8 @@ class CurriculumIntegrityTests(unittest.TestCase):
         cs=[ident for section in load_tracks()[1]['sections'] for ident in section['articles']]
         self.assertLess(cs.index('refactoring-design-patterns'), cs.index('design-pattern-families'))
         self.assertLess(cs.index('capacity-estimation'), cs.index('system-design-process'))
+        self.assertLess(cs.index('programming-semantics-contracts'),cs.index('discrete-counting-probability'))
+        self.assertLess(cs.index('discrete-counting-probability'),cs.index('complexity-analysis'))
         self.assertLess(cs.index('machine-representation-isa-cache'),cs.index('cpu-pipeline-hazards-branch-prediction'))
         self.assertLess(cs.index('cpu-pipeline-hazards-branch-prediction'),cs.index('processes-virtual-memory'))
         self.assertLess(cs.index('processes-virtual-memory'),cs.index('heap-allocation-fragmentation'))

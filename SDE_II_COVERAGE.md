@@ -25,3 +25,5 @@ A dedicated PT/EN TCP RTO lesson now derives RFC 6298 smoothing and Karn/backoff
 An independent TLS 1.3 article now illustrates handshake authentication and **RFC 9846** labels with **RFC 5869** SHA-256 HKDF public vectors and separate reference tests. This does not cover actual certificate verification, AEAD, key agreement, secure random generation or production TLS integration.
 
 DNS now has a dedicated bilateral article for RFC 2308 negative-cache keys and SOA TTL, authoritative delegation concepts and CNAME chain bounds, with independent finite tests. No DNSSEC verification, live iterative resolver, glue/bailiwick policy or full DNS wire parser is claimed.
+
+Foundations now include finite set counting, arrangements, collision probabilities, expected distinct categories and Bayes using exact rational examples and independent finite enumeration oracles. Advanced discrete structures, complete statistics and independently assessed exercises remain future work.

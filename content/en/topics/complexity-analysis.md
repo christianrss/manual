@@ -5,11 +5,13 @@ description: "Derive time and space complexity from loops, recurrences and invar
 category: foundations
 difficulty: foundational
 updated: 2026-10-10
-prerequisites: [logic-proofs-invariants]
+prerequisites: [logic-proofs-invariants, discrete-counting-probability]
 sources:
   - {title: 'MIT 6.006 — Introduction to Algorithms', url: 'https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/', kind: university course}
   - {title: 'MIT 6.046J — Design and Analysis of Algorithms', url: 'https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/', kind: university course}
 ---
+The [discrete counting and probability chapter](/en/topics/discrete-counting-probability/) derives the finite sample spaces and assumptions needed for **expected** cost analysis, which is distinct from observing a benchmark.
+
 An algorithm is not efficient merely because it runs quickly on one input. Analysis asks how resources grow with the input, under an explicitly stated model of computation. In the standard RAM model, elementary arithmetic, comparisons and indexed access are commonly treated as constant-cost operations; this approximation is not appropriate for arbitrarily large integers, external memory or networking [1].
 
 ## Definitions and assumptions
