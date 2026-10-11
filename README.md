@@ -57,3 +57,7 @@ The paired chapter `context-free-grammars-parsing` follows finite automata and i
 ## Toy compiler from lexing to bytecode
 
 The bilingual `lexing-parsing-expression-compiler` article is paired with [executable source](examples/python/expression_compiler.py) and [independent contract tests](tests/test_expression_compiler_contracts.py). It turns a deliberately restricted arithmetic language into tokens, an immutable AST and stack bytecode, then executes exact rational arithmetic. The implementation does not use host-language `eval` or provide typed variables, native code, arbitrary-language execution or a general security sandbox.
+
+## Typed language and lexical scoping
+
+The paired `static-types-lexical-scopes` chapter and its [implementation](examples/python/typed_expression_compiler.py) extend the original expression compiler with `let` bindings, types `Int`/`Rat`/`Bool`, lexical scoping and shadowing, and typed conditional bytecode. [Tests](tests/test_typed_expression_compiler_contracts.py) compare runtime behavior with an independent direct AST evaluator and verify rejection of invalid programs. Static checking is performed before VM execution; this is not a trusted bytecode sandbox or a full compiler.
