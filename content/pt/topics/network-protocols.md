@@ -12,7 +12,7 @@ sources:
   - {title: "RFC 9114 — HTTP/3", url: "https://www.rfc-editor.org/info/rfc9114", kind: "internet standard"}
   - {title: "RFC 8305 — Happy Eyeballs Version 2", url: "https://www.rfc-editor.org/info/rfc8305", kind: "internet standard"}
 ---
-O capítulo de [roteamento IP e DNS](/pt/topics/ip-routing-dns-resolution/) deduz seleção por prefixo, responsabilidades de resolução e cache positivo com TTL, preparando esta visão ponta a ponta.
+O capítulo de [roteamento IP e DNS](/pt/topics/ip-routing-dns-resolution/) deduz seleção por prefixo e TTL positivo. [DNS autoritativo, cache negativo e CNAME](/pt/topics/dns-authoritative-negative-cname/) aprofunda essas regras antes desta visão ponta a ponta.
 
 Uma requisição web atravessa protocolos com garantias diferentes. **DNS** ajuda a descobrir destinos; **IP** encaminha pacotes; **TCP** fornece fluxo confiável e ordenado de bytes; **TLS** protege uma conexão contra interceptação e adulteração sob suas hipóteses de autenticação; **HTTP** define semântica de requisições e respostas. Misturar essas camadas leva a diagnósticos errados, como acreditar que uma conexão TCP aceita garante aplicação saudável [1][2].
 

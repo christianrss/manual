@@ -1,0 +1,11 @@
+# DNS negative answers and CNAME — editorial and test record (2026-10-10)
+
+Scope: bilingual RFC-driven study of authoritative zone delegation, glue and bailiwick, NXDOMAIN/NODATA scope, SOA negative TTL, positive CNAME chain lifetimes, and conceptual DNSSEC/serve-stale boundaries. Integrates into both foundational curricula after introductory IP/DNS, not a production resolver or RFC-conformant wire implementation.
+
+**Explicit code contracts:** class IN only; ASCII subset names normalized to lowercase with final dot; NXDOMAIN keyed by name and NODATA keyed by name/type; negative duration `min(SOA TTL, SOA MINIMUM)` with zero remaining lifetime invalid on the exact expiry boundary. Contradictory entries are invalidated conservatively in the toy cache, without representing actual resolver policy. Another function follows preloaded local CNAME and A/AAAA RRsets, rejects CNAME coexistence with ordinary RRsets, detects cycles and hop-limit violations, and bounds positive answer lifetime by the minimum participating TTL. It cannot infer authoritative NXDOMAIN from missing offline data.
+
+**Independent tests:** `tests/test_dns_negative_cname_contracts.py` uses arithmetic TTL expectations over 6,300 finite point queries **per language** (2 outcome types × 3 stored types × 2 name spellings × 3 query types × 5 SOA TTL × 5 minimum × 7 lookup times). Generated chains cover 3,279 positive TTL paths per language including no alias and six-hop chains; negative/conflict, wrong type, invalid names, cycles, duplicate normalized owners, missing records and hard hop limits have explicit checks. These bounded oracles cannot certify remote referral reliability or security.
+
+**Sources:** [RFC 1034](https://www.rfc-editor.org/info/rfc1034), [RFC 1035](https://www.rfc-editor.org/info/rfc1035), [RFC 2308](https://www.rfc-editor.org/info/rfc2308), [RFC 4035](https://www.rfc-editor.org/info/rfc4035), [RFC 8767](https://www.rfc-editor.org/info/rfc8767).
+
+Remaining: DNS wire-format parsing, trusted recursive resolution, real authoritative referrals, bailiwick enforcement, DNSSEC signatures/NSEC validation, negative-caching edge cases involving CNAME targets, serve-stale policy, EDNS/TCP fallback and live network experiments.

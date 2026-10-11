@@ -39,7 +39,8 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(core.index('cpu-scheduling-fcfs-round-robin'),core.index('concurrency-synchronization'))
         self.assertEqual(load_modules()['cpu-scheduling-fcfs-round-robin'],'operating-systems')
         self.assertLess(core.index('concurrency-synchronization'),core.index('mlfq-priority-inheritance'))
-        self.assertLess(core.index('ip-routing-dns-resolution'),core.index('network-protocols'))
+        self.assertLess(core.index('ip-routing-dns-resolution'),core.index('dns-authoritative-negative-cname'))
+        self.assertLess(core.index('dns-authoritative-negative-cname'),core.index('network-protocols'))
         self.assertLess(core.index('network-protocols'),core.index('tcp-byte-stream-framing-flow-control'))
         self.assertLess(core.index('tcp-byte-stream-framing-flow-control'),core.index('tcp-rto-retransmission-congestion'))
         self.assertLess(core.index('tcp-rto-retransmission-congestion'),core.index('tls13-hkdf-handshake'))
@@ -57,8 +58,12 @@ class CurriculumIntegrityTests(unittest.TestCase):
         for lang in ('en','pt'):
             meta=load_articles()[lang]['mlfq-priority-inheritance']['meta']
             self.assertEqual(set(meta['prerequisites']), {'cpu-scheduling-fcfs-round-robin','concurrency-synchronization'})
-        self.assertLess(core.index('ip-routing-dns-resolution'),core.index('network-protocols'))
+        self.assertLess(core.index('ip-routing-dns-resolution'),core.index('dns-authoritative-negative-cname'))
+        self.assertLess(core.index('dns-authoritative-negative-cname'),core.index('network-protocols'))
         self.assertEqual(load_modules()['ip-routing-dns-resolution'],'networking')
+        self.assertEqual(load_modules()['dns-authoritative-negative-cname'],'networking')
+        for lang in ('en','pt'):
+            self.assertEqual(load_articles()[lang]['dns-authoritative-negative-cname']['meta']['prerequisites'], ['ip-routing-dns-resolution'])
         for lang in ('en','pt'):
             self.assertIn('ip-routing-dns-resolution',load_articles()[lang]['network-protocols']['meta']['prerequisites'])
         self.assertEqual(load_modules()['machine-representation-isa-cache'],'computer-architecture')
@@ -93,5 +98,6 @@ class CurriculumIntegrityTests(unittest.TestCase):
         self.assertLess(cs.index('tcp-byte-stream-framing-flow-control'),cs.index('tcp-rto-retransmission-congestion'))
         self.assertLess(cs.index('tcp-rto-retransmission-congestion'),cs.index('tls13-hkdf-handshake'))
         self.assertLess(cs.index('tls13-hkdf-handshake'),cs.index('api-security'))
-        self.assertLess(cs.index('ip-routing-dns-resolution'),cs.index('network-protocols'))
+        self.assertLess(cs.index('ip-routing-dns-resolution'),cs.index('dns-authoritative-negative-cname'))
+        self.assertLess(cs.index('dns-authoritative-negative-cname'),cs.index('network-protocols'))
 if __name__=='__main__':unittest.main()
