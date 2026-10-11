@@ -60,12 +60,15 @@ KEYWORDS = frozenset(("let", "in", "if", "then", "else", "true", "false",
                       "Int", "Rat", "Bool"))
 
 
-def tokenize(source, *, extended=False):
+def tokenize(source, *, extended=False, functions=False):
     """Produce ASCII tokens with [start,end) offsets.
 
     extended=True adds identifiers, typed-binding keywords, ':' '=' and '<'.
+    functions=True additionally enables 'fn', 'Fn', '->', '=>' and ','.
     The default arithmetic language retains its original exact contract.
     """
+    if functions and not extended:
+        raise ValueError("function syntax requires extended lexer mode")
     if type(source) is not str:
         raise TypeError("source must be a string")
     if len(source) > MAX_SOURCE:
@@ -84,7 +87,11 @@ def tokenize(source, *, extended=False):
             if position - start > MAX_DIGITS:
                 raise CompileError("integer literal too long", start)
             tokens.append(Token("INT", source[start:position], start, position))
-        elif char in "+-*/()" or (extended and char in ":=<"):
+        elif functions and source.startswith(("->", "=>"), position):
+            position += 2
+            text = source[start:position]
+            tokens.append(Token(text, text, start, position))
+        elif char in "+-*/()" or (extended and char in ":=<") or (functions and char == ","):
             position += 1
             tokens.append(Token(char, char, start, position))
         elif extended and (("a" <= char <= "z") or ("A" <= char <= "Z")
@@ -97,7 +104,8 @@ def tokenize(source, *, extended=False):
                     break
                 position += 1
             text = source[start:position]
-            tokens.append(Token(text if text in KEYWORDS else "IDENT",
+            tokens.append(Token(text if text in KEYWORDS or
+                                (functions and text in ("fn", "Fn")) else "IDENT",
                                 text, start, position))
         else:
             raise CompileError("unexpected character", position)
