@@ -43,3 +43,5 @@ Initial chapters are the foundation, not a claim to a complete interview syllabu
 ## Original independent practice assessments
 
 The repository includes three public, unsolved Python assessments. For assessment III, implement the functions in `examples/python/unsolved_drills_3.py` and run `python examples/python/drill_grader_3.py`. The fixtures are publicly visible; they are not hidden tests or reference implementations. Assessment III combines dynamic programming and idempotent state-transition contracts; it does not implement persistent transactions or distributed exactly-once delivery.
+
+Assessment IV adds a **synthetic, intentionally defective** ticket query in `examples/python/legacy_ticket_search.py`, an unsolved corrected contract in `examples/python/refactor_ticket_search.py`, and `python examples/python/ticket_search_grader.py`. The legacy implementation is for characterization only: do not deploy or copy it for authorization. The sample requires server-side authenticated tenant identity outside its in-memory function.
