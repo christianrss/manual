@@ -35,6 +35,7 @@ operating-systems:
   - cpp17-concurrency-implementation
 networking:
   - ip-routing-dns-resolution
+  - dns-authoritative-negative-cname
   - network-protocols
   - tcp-byte-stream-framing-flow-control
   - tcp-rto-retransmission-congestion

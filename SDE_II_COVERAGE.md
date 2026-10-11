@@ -23,3 +23,5 @@ TCP fundamentals now include a bilingual independently tested stream-framing dec
 A dedicated PT/EN TCP RTO lesson now derives RFC 6298 smoothing and Karn/backoff using an independent decimal-state reference, alongside a clearly labeled non-RFC-conformant aggregate congestion-window teaching sketch; complete ACK-driven retransmission and congestion-control implementations are not covered.
 
 An independent TLS 1.3 article now illustrates handshake authentication and **RFC 9846** labels with **RFC 5869** SHA-256 HKDF public vectors and separate reference tests. This does not cover actual certificate verification, AEAD, key agreement, secure random generation or production TLS integration.
+
+DNS now has a dedicated bilateral article for RFC 2308 negative-cache keys and SOA TTL, authoritative delegation concepts and CNAME chain bounds, with independent finite tests. No DNSSEC verification, live iterative resolver, glue/bailiwick policy or full DNS wire parser is claimed.

@@ -12,7 +12,7 @@ sources:
   - {title: "RFC 9114 — HTTP/3", url: "https://www.rfc-editor.org/info/rfc9114", kind: "internet standard"}
   - {title: "RFC 8305 — Happy Eyeballs Version 2", url: "https://www.rfc-editor.org/info/rfc8305", kind: "internet standard"}
 ---
-The [IP routing and DNS chapter](/en/topics/ip-routing-dns-resolution/) derives longest-prefix routing, resolver roles and positive TTL cache contracts before this end-to-end request walkthrough.
+The [IP routing and DNS chapter](/en/topics/ip-routing-dns-resolution/) derives longest-prefix forwarding and positive TTL caches. [DNS authority, negative caching and CNAME chains](/en/topics/dns-authoritative-negative-cname/) extends those contracts before this end-to-end request walkthrough.
 
 A web request crosses several protocols with distinct guarantees. **DNS** helps discover network endpoints; **IP** routes packets; **TCP** provides a reliable ordered byte stream; **TLS** protects a connection against interception and tampering under its authentication assumptions; **HTTP** specifies application-level request and response semantics. Confusing these layers produces incorrect diagnoses, such as treating a successful TCP connection as proof that the application is healthy [1][2].
 
