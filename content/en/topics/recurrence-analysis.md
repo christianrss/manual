@@ -67,7 +67,7 @@ For `T(n)=2T(n/2)+1`, `p=1` and the constant work is polynomially smaller than `
 
 ## When the theorem does not settle the answer
 
-`T(n)=T(n-1)+n` is not a constant-factor shrink, so the Master theorem does not apply. Expansion gives `T(n)=1+2+...+n=n(n+1)/2=Θ(n²)`. The recursion depth is `n), not `log n`, even though there is only one recursive branch.
+`T(n)=T(n-1)+n` is not a constant-factor shrink, so the Master theorem does not apply. Expansion gives `T(n)=1+2+...+n=n(n+1)/2=Θ(n²)`. The recursion depth is `n`, not `log n`, even though there is only one recursive branch.
 
 The basic cases above also do not directly classify `T(n)=2T(n/2)+n/log₂n` for powers of two `n>=2` and `T(1)=1`. With `k=log₂n`, the nonrecursive work summed across level `i` equals `n/(k-i)`. Therefore the total is `n+n(1+1/2+...+1/k)=n(1+H_k)`, where `H_k=Θ(log k)` is a harmonic number. The result is `Θ(n log log n)` for growing `n`. It lies between linear and `n log n`. A memorized three-row table misses this case; level-by-level summation does not [2].
 
@@ -89,7 +89,7 @@ def recurrence_work(n, kind):
         "halve-unit": 1,
         "halve-linear": 1,
     }
-    if kind not in branching:
+    if type(kind) is not str or kind not in branching:
         raise ValueError("unknown recurrence family")
     branches = branching[kind]
     nodes, size, total = 1, n, 0
