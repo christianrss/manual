@@ -1,7 +1,7 @@
 ---
 id: discrete-counting-probability
 title: "Discrete Mathematics: Sets, Counting and Exact Probability"
-description: "Prove counting identities, distinguish arrangements and combinations, derive conditional probability, Bayes and expected values using exact fractions and tested enumerations."
+description: "Learn counting identities, combinations, conditional probability, Bayes and expectation with exact fractions and independently tested examples."
 category: foundations
 difficulty: foundational
 updated: 2026-10-10
