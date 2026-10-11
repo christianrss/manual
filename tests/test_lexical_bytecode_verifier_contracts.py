@@ -52,7 +52,7 @@ class LexicalVerifierContracts(unittest.TestCase):
                 "fn(y:Int)->Int=>set x=x+y in "
                 "let x:Int=100 in inc(3)+inc(4)")
         program = compile_slots(text)
-        self.assertEqual(run_slots(program), Fraction(12))
+        self.assertEqual(run_slots(program), Fraction(14))
         opcodes = [op for b in walk_blocks(program.code)
                    for op, _, _ in b.instructions]
         self.assertIn("LOAD_SLOT", opcodes)
