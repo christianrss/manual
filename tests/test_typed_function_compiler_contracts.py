@@ -236,7 +236,7 @@ class TypedFunctionContracts(unittest.TestCase):
             self.assertEqual(item["meta"]["prerequisites"],
                              ["static-types-lexical-scopes"])
             for marker in ("typed_function_compiler.py", "compile_functions",
-                           "run_functions", "Fn(", "Closure"):
+                           "run_functions", "Fn(", "CLOSURE"):
                 self.assertIn(marker, item["body"])
             matches=re.findall(r"(?ms)^~~~python\n(.*?)^~~~[ \t]*$",
                                item["body"])
