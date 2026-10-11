@@ -64,6 +64,23 @@ def earley_accepts(grammar, start, word):
     return accepted_item in chart[n]
 
 
+def pushdown_accepts(word):
+    """Deterministic stack recognizer for two balanced bracket types.
+
+    A valid empty word is accepted. Characters outside ()[] raise ValueError.
+    """
+    if type(word) is not str or any(c not in "()[]" for c in word):
+        raise ValueError("word must use the ()[] alphabet")
+    opened = []
+    closing = {")": "(", "]": "["}
+    for symbol in word:
+        if symbol in "([":
+            opened.append(symbol)
+        elif not opened or opened.pop() != closing[symbol]:
+            return False
+    return not opened
+
+
 def parse_balanced(word):
     """Return a structural tree for S -> '(' S ')' S | epsilon.
 
