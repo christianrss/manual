@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "case": "usage-metering-system-design-review",
+  "baseline": {
+    "events_per_day": 2400000,
+    "bytes_per_event": 2048,
+    "peak_multiplier": 40,
+    "raw_retention_days": 28,
+    "measured_worker_events_per_second": 250,
+    "target_worker_utilization_percent": 60,
+    "failed_worker_replicas": 1,
+    "expected_peak_event_rate_ceiling": 1112,
+    "expected_raw_retained_bytes": 137625600000,
+    "expected_ideal_worker_replicas": 9
+  },
+  "outage": {
+    "steady_arrivals_per_second": 1200,
+    "stopped_processing_seconds": 600,
+    "initial_backlog_events": 0,
+    "restored_service_capacity_per_second": 1800,
+    "expected_backlog_events": 720000,
+    "expected_drain_seconds": 1200
+  },
+  "changes": [
+    {
+      "id": "delayed-events",
+      "constraint": "Up to 5 percent of events can arrive 72 hours after event time. Explain preliminary versus finalized usage and correction policies."
+    },
+    {
+      "id": "retry-conflict",
+      "constraint": "A source retries IDs, sometimes with conflicting payloads. Require deterministic detection of conflict, bounded deduplication retention and replay reconciliation."
+    },
+    {
+      "id": "noisy-tenant",
+      "constraint": "A single tenant drives 70 percent of ingest for 30 minutes. Analyze fairness, admission and shared-partition hotspots."
+    },
+    {
+      "id": "reconciliation",
+      "constraint": "Previously invoiced periods can receive verified corrections. State audit invariants and which authority can update a finalized bill."
+    }
+  ]
+}
