@@ -28,7 +28,7 @@ O analisador léxico percorre a string caractere por caractere. Ele ignora espa�
 
 **Invariante de leitura:** antes de cada iteração, o prefixo anterior ao cursor foi particionado em tokens válidos e espaços permitidos; nada posterior ao cursor foi consumido. A leitura de todos os dígitos consecutivos impede que `123` seja tratado como três inteiros separados. Um caractere inválido faz a leitura falhar na posição correspondente, em vez de ser descartado e possivelmente alterar o significado da expressão. A separação entre análise léxica e sintática é uma das bases da organização de compiladores [1].
 
-São rejeitadas as entradas `2**3`, `0x10`, `1.5`, `2_000` e os dígitos não ASCII. Erro lexical não equivale a erro gramatical: todos os caracteres de `"1+"` são tokens válidos, mas falta o operando da soma. Separar essas etapas fornece diagnósticos mais precisos do que simplesmente passar a string ao `eval` da linguagem hospedeira.
+O lexer rejeita `0x10`, `1.5`, `2_000` e dígitos não ASCII. Por outro lado, `2**3` e `2//3` contêm operadores lexicalmente válidos, mas o **parser** rejeita essas sequências por não formarem expressões válidas. Erro lexical não equivale a erro gramatical: todos os caracteres de `"1+"` são tokens válidos, mas falta o operando da soma. Separar essas etapas fornece diagnósticos mais precisos do que simplesmente passar a string ao `eval` da linguagem hospedeira.
 
 ## Parser de precedência e AST imutável
 
@@ -91,7 +91,7 @@ assert evaluate("1/3+1/6") == Fraction(1, 2)
 assert evaluate("10-3-2") == Fraction(5)
 ~~~
 
-Os [testes independentes](https://github.com/christianrss/manual/blob/main/tests/test_expression_compiler_contracts.py) utilizam `ast.parse` do CPython e um **visitante restrito**, implementado separadamente, para obter resultados de referência. As strings de entrada nunca são entregues a `eval` ou `exec`; o oráculo interpreta apenas constantes inteiras e os operadores aritméticos autorizados [4]. Expressões geradas com semente determinística exercitam parênteses, prefixos, precedência, associatividade e divisão. A VM e o interpretador de AST precisam concordar com o oráculo nos casos definidos e reconhecer divisões por zero.
+O lexer didático permite inteiros decimais com zeros iniciais, como `00012`; a gramática do Python rejeita esse literal, portanto o oráculo independente exclui deliberadamente esse caso de diferença gramatical, sem declará-lo um defeito do compilador. Os [testes independentes](https://github.com/christianrss/manual/blob/main/tests/test_expression_compiler_contracts.py) utilizam `ast.parse` do CPython e um **visitante restrito**, implementado separadamente, para obter resultados de referência. As strings de entrada nunca são entregues a `eval` ou `exec`; o oráculo interpreta apenas constantes inteiras e os operadores aritméticos autorizados [4]. Expressões geradas com semente determinística exercitam parênteses, prefixos, precedência, associatividade e divisão. A VM e o interpretador de AST precisam concordar com o oráculo nos casos definidos e reconhecer divisões por zero.
 
 Outros casos testam posições dos tokens, mensagens de erro, cadeias aditivas extensas e o comportamento da altura da pilha. Esses testes oferecem evidência mais forte que meia dúzia de exemplos manuais, mas continuam **finitos**. A correção da tradução pode ser argumentada por indução sobre os nós: um literal deixa seu valor na pilha; o código de uma subárvore deixa seu valor; e a instrução do operador consome os operandos previstos para deixar o resultado semântico correspondente.
 
