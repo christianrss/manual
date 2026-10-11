@@ -4,8 +4,6 @@ This models idealized event rates and raw data, not infrastructure capacity,
 billing correctness, a queue, SLO conformance, or a production recommendation.
 Inputs represent counts, bytes, seconds and abstract worker throughput.
 """
-from math import ceil
-
 SECONDS_PER_DAY = 86_400
 BYTES_PER_GIB = 1024 ** 3
 
@@ -19,7 +17,7 @@ def peak_ingest_rate(events_per_day, peak_multiplier):
     if (type(events_per_day) is not int or events_per_day < 0
             or type(peak_multiplier) is not int or peak_multiplier < 1):
         raise ValueError("invalid daily count or peak multiplier")
-    return ceil(events_per_day * peak_multiplier / SECONDS_PER_DAY)
+    return -(-(events_per_day * peak_multiplier) // SECONDS_PER_DAY)
 
 
 def raw_retained_bytes(events_per_day, bytes_per_event, retention_days):
@@ -50,7 +48,7 @@ def drain_seconds(pending_events, arrivals_per_second, service_per_second):
             or type(service_per_second) is not int
             or service_per_second <= arrivals_per_second):
         raise ValueError("a positive recovery margin is required")
-    return ceil(pending_events / (service_per_second - arrivals_per_second))
+    return -(-pending_events // (service_per_second - arrivals_per_second))
 
 
 def ideal_worker_replicas(peak_rate, measured_worker_rate, target_pct, failed=1):
@@ -68,7 +66,7 @@ def ideal_worker_replicas(peak_rate, measured_worker_rate, target_pct, failed=1)
     allowed = measured_worker_rate * target_pct // 100
     if allowed <= 0:
         raise ValueError("zero usable per-worker rate at target utilization")
-    return ceil(peak_rate / allowed) + failed
+    return -(-peak_rate // allowed) + failed
 
 
 if __name__ == "__main__":
