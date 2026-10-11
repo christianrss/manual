@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "examples" / "python"))
 from model import load_articles, load_modules, load_tracks
 from context_free_parser import (
-    earley_accepts, parse_balanced, BALANCED_GRAMMAR, ANBN_GRAMMAR,
+    earley_accepts, parse_balanced, pushdown_accepts, BALANCED_GRAMMAR, ANBN_GRAMMAR,
 )
 
 TOPIC = "context-free-grammars-parsing"
@@ -61,6 +61,24 @@ class ContextFreeContracts(unittest.TestCase):
                     else:
                         with self.assertRaises(ValueError):
                             parse_balanced(word)
+
+    def test_pushdown_two_types_independent_reduction_oracle(self):
+        # Delete adjacent matched pairs until none remain: no simulated stack.
+        for n in range(8):
+            for word in words("()[]", n):
+                reduced = word
+                while True:
+                    next_reduced = reduced.replace("()", "").replace("[]", "")
+                    if next_reduced == reduced:
+                        break
+                    reduced = next_reduced
+                self.assertEqual(pushdown_accepts(word), reduced == "",
+                                 (n, word))
+        for invalid in (None, "a", "([]) ", 7):
+            with self.assertRaises(ValueError):
+                pushdown_accepts(invalid)
+        self.assertFalse(pushdown_accepts("([)]"))
+        self.assertTrue(pushdown_accepts("([][()])"))
 
     def test_nonregular_anbn_against_counting_oracle(self):
         for n in range(10):
