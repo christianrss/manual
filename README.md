@@ -53,3 +53,7 @@ The original bilingual `usage-metering-system-design-assessment` provides a hypo
 ## Parsing and formal-language exercises
 
 The paired chapter `context-free-grammars-parsing` follows finite automata and is supported by `examples/python/context_free_parser.py`: a stack recognizer for nested brackets, a recursive syntax-tree parser and an Earley-style fixed-point CFG membership recognizer. `tests/test_context_free_grammars_parsing_contracts.py` checks these against independent finite oracles. The chart algorithm is intentionally educational and does not provide optimized cubic Earley performance, a full compiler, token diagnostics or a packed parse forest.
+
+## Toy compiler from lexing to bytecode
+
+The bilingual `lexing-parsing-expression-compiler` article is paired with [executable source](examples/python/expression_compiler.py) and [independent contract tests](tests/test_expression_compiler_contracts.py). It turns a deliberately restricted arithmetic language into tokens, an immutable AST and stack bytecode, then executes exact rational arithmetic. The implementation does not use host-language `eval` or provide typed variables, native code, arbitrary-language execution or a general security sandbox.
