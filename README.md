@@ -39,3 +39,7 @@ Initial chapters are the foundation, not a claim to a complete interview syllabu
 ## Curriculum governance
 
 [CURRICULUM.md](CURRICULUM.md) is the editorial contract: prerequisite graph, quality gates, Amazon SDE II priority and explicit unpublished foundations. `content/data/modules.yml` classifies chapters. Track separation preserves the full technical archive while preventing specialized infrastructure labs from substituting for core CS material.
+
+## Original independent practice assessments
+
+The repository includes three public, unsolved Python assessments. For assessment III, implement the functions in `examples/python/unsolved_drills_3.py` and run `python examples/python/drill_grader_3.py`. The fixtures are publicly visible; they are not hidden tests or reference implementations. Assessment III combines dynamic programming and idempotent state-transition contracts; it does not implement persistent transactions or distributed exactly-once delivery.
