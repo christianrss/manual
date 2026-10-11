@@ -5,6 +5,7 @@ foundations:
   - discrete-relations-orders
   - complexity-analysis
   - recursion-call-stack
+  - recurrence-analysis
 algorithms:
   - arrays-and-strings
   - backtracking-search
