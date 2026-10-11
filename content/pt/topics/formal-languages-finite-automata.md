@@ -1,7 +1,7 @@
 ---
 id: formal-languages-finite-automata
 title: "Linguagens Formais e Autômatos Finitos: AFD, AFN, Fecho Épsilon e Determinização"
-description: "Desenvolva o modelo computacional por trás da análise léxica, demonstre a equivalência AFD/AFN, implemente a determinização com épsilon e verifique com oráculo independente."
+description: "Fundamentos de AFD e AFN: linguagens regulares, fecho épsilon, determinização, provas e testes independentes em Python."
 category: foundations
 difficulty: intermediate
 updated: 2026-10-11
