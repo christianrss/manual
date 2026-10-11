@@ -20,7 +20,7 @@ This is a dependency graph: reuse is expected across different learning tracks, 
 
 | Domain | Already published | Not yet adequately covered | Priority |
 | --- | --- | --- | --- |
-| Data structures and algorithms | Logic/proof obligations, Python semantics, finite sets, combinatorial counting, exact conditional probability/expectation, equivalence relations, partitions and finite partial orders, arrays, lists, maps, heaps, trees, graph problems, DP, sorting and search | Advanced number theory, uneven-split and higher-order recurrences, computability and independent adversarial unseen exercises | P0 |
+| Data structures and algorithms | Logic/proof obligations, Python semantics, finite sets, combinatorial counting, exact conditional probability/expectation, equivalence relations, partitions and finite partial orders, arrays, lists, maps, heaps, trees, graph problems, DP, sorting and search | Advanced number theory, uneven-split and higher-order recurrences, computability and independently proctored unseen exercises and non-public testing infrastructure | P0 |
 | Software quality and design | Clean Code/cohesion/coupling worked primer, OOP, SOLID, patterns, refactoring, tests and LLD | Additional specialized patterns, independent review, assessed refactorings | P0 |
 | System design | Capacity, service boundaries, caching, queues, complete cases | More entry-level-to-intermediate worked reviews and independent evaluations | P0 |
 | Computer architecture | Binary representation, ISA, direct-mapped cache mapping, plus modeled pipeline hazards, forwarding and two-bit prediction | Digital logic, detailed processor implementations, branch target structures, cache coherence, DRAM and quantitative memory hierarchy | P1 |
@@ -126,3 +126,7 @@ Published bilingual `discrete-counting-probability` after logic and programming 
 ## 2026-10-11 — IPv4 fragmentation and Path MTU
 
 Added bilingual ipv4-fragmentation-path-mtu after IP routing and before authoritative DNS in both main tracks. It derives MF/DF flags, eight-byte fragment offsets, strict single-datagram reassembly, and ideal iterative classical PMTUD. Independent byte-coverage and per-hop oracle tests validate finite models. Scope excludes IP header serialization/options, multi-flow identification, live ICMP, re-fragmentation, full IPv6 fragments and DPLPMTUD. Standards: RFCs 791, 1191, 8200, 8201 and 8899.
+
+## Assessment III: applied algorithms and engineering (2026-10-11)
+
+A public bilingual assessment now has two intentionally unsolved, original tasks: bounded contiguous partition penalties and strictly idempotent in-memory event projection. It includes public success/error fixtures, expected algorithmic complexity and review criteria. Correctness evidence depends on solving unseen variants and peer review; open fixtures are **not** private testing, and a returned dictionary is **not** a durable transaction. Published exercises remain educational and are not official employer questions.
