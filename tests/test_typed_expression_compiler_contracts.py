@@ -88,9 +88,15 @@ class TypedCompilerContracts(unittest.TestCase):
         ])
         self.assertEqual(tokens[1].text, "x_2")
         self.assertEqual(tokens[-1].start, len("let x_2: Int = 2 in if x_2 < 3 then true else false"))
-        for malformed in ("x$", "π", "let_é", "100_000"):
+        for malformed in ("x$", "π", "let_é"):
             with self.assertRaises(CompileError):
                 tokenize(malformed, extended=True)
+        # An integer followed immediately by an identifier can tokenize,
+        # but it cannot form one legal expression.
+        self.assertEqual([t.kind for t in tokenize("100_000", extended=True)],
+                         ["INT", "IDENT", "EOF"])
+        with self.assertRaises(CompileError):
+            compile_typed("100_000")
 
     def test_typejudgments_and_runtime_expected_results(self):
         for source, typ, value in EXAMPLES:
