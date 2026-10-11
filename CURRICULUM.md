@@ -20,7 +20,7 @@ This is a dependency graph: reuse is expected across different learning tracks, 
 
 | Domain | Already published | Not yet adequately covered | Priority |
 | --- | --- | --- | --- |
-| Data structures and algorithms | Logic/proof obligations, Python semantics, finite sets, combinatorial counting, exact conditional probability/expectation, equivalence relations, partitions and finite partial orders, arrays, lists, maps, heaps, trees, graph problems, DP, sorting and search | Advanced number theory, recurrences, computability and independent adversarial unseen exercises | P0 |
+| Data structures and algorithms | Logic/proof obligations, Python semantics, finite sets, combinatorial counting, exact conditional probability/expectation, equivalence relations, partitions and finite partial orders, arrays, lists, maps, heaps, trees, graph problems, DP, sorting and search | Advanced number theory, uneven-split and higher-order recurrences, computability and independent adversarial unseen exercises | P0 |
 | Software quality and design | Clean Code/cohesion/coupling worked primer, OOP, SOLID, patterns, refactoring, tests and LLD | Additional specialized patterns, independent review, assessed refactorings | P0 |
 | System design | Capacity, service boundaries, caching, queues, complete cases | More entry-level-to-intermediate worked reviews and independent evaluations | P0 |
 | Computer architecture | Binary representation, ISA, direct-mapped cache mapping, plus modeled pipeline hazards, forwarding and two-bit prediction | Digital logic, detailed processor implementations, branch target structures, cache coherence, DRAM and quantitative memory hierarchy | P1 |
