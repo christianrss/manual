@@ -73,28 +73,28 @@ The contract above intentionally mutates an explicitly supplied list but allocat
 Preconditions should specify invalid-input behavior. For a positive divisor, a function may reject zero with ValueError, while a different API may return an error-result object. Allowing a raw ZeroDivisionError to escape could be acceptable internally but not under a public contract that guarantees structured validation errors. Exceptions are control-flow and interface behavior; they must be considered alongside successful values [3].
 
 ~~~python
-def divide_nonnegative(total, count):
+def divide_by_positive_count(total, count):
     if type(total) not in (int, float) or type(count) is not int:
         raise TypeError("expected numeric total and integer count")
     if count <= 0:
         raise ValueError("count must be positive")
     return total / count
 
-assert divide_nonnegative(9, 3) == 3.0
+assert divide_by_positive_count(9, 3) == 3.0
 for bad in (0, -1):
     try:
-        divide_nonnegative(9, bad)
+        divide_by_positive_count(9, bad)
         raise AssertionError("should reject invalid count")
     except ValueError:
         pass
 try:
-    divide_nonnegative(9, "3")
+    divide_by_positive_count(9, "3")
     raise AssertionError("should reject wrong type")
 except TypeError:
     pass
 ~~~
 
-This example only enforces count positivity and basic types. Its name is deliberately *not* a promise to reject a negative total, despite a tempting inference from the word "nonnegative"; a better API name would be divide_by_positive_count. Avoid leaving a name and its precondition inconsistent. IEEE floating-point NaN and infinities, overflow in other languages, exact rational arithmetic and precision requirements demand separate explicit policies.
+This example only enforces count positivity and basic types. Its name promises a positive count, not a nonnegative total. Do not infer requirements that the implementation or the documented contract do not actually enforce. Avoid leaving a name and its precondition inconsistent. IEEE floating-point NaN and infinities, overflow in other languages, exact rational arithmetic and precision requirements demand separate explicit policies.
 
 ## Invariants and substitution across interfaces
 
