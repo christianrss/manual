@@ -5,6 +5,7 @@ foundations:
   - discrete-relations-orders
   - formal-languages-finite-automata
   - context-free-grammars-parsing
+  - lexing-parsing-expression-compiler
   - complexity-analysis
   - recursion-call-stack
   - recurrence-analysis
