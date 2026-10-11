@@ -145,7 +145,8 @@ class ContextFreeContracts(unittest.TestCase):
             self.assertEqual(article["meta"]["prerequisites"],
                 ["formal-languages-finite-automata", "recursion-call-stack"])
             for token in ("context_free_parser", "earley_accepts",
-                          "parse_balanced", "a^n", "stack"):
+                          "parse_balanced", "a^n",
+                          "stack" if lang == "en" else "pilha"):
                 self.assertIn(token, article["body"])
             bodies.append(article["body"])
         for track in load_tracks()[:2]:
