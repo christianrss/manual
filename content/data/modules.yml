@@ -4,6 +4,7 @@ foundations:
   - discrete-counting-probability
   - discrete-relations-orders
   - formal-languages-finite-automata
+  - context-free-grammars-parsing
   - complexity-analysis
   - recursion-call-stack
   - recurrence-analysis
