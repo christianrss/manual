@@ -10,6 +10,14 @@ Three bilingual foundational chapters now close concrete gaps: `programming-cont
 
 The next editorial reviews should prioritize conceptual sequence, correctness of basic examples, modularization and data structures over database failover, consensus, VM implementation, or specialized infrastructure. Automated passing tests establish executable contracts only, not curriculum mastery or peer-reviewed completeness.
 
+## Fundamentals: algorithmic reasoning and modular programming (2026-10-12)
+
+The core course now explicitly derives one algorithm from an exhaustive reference through a mathematical prefix invariant and an independent small-input oracle. `algorithmic-problem-solving-method` is placed after control flow, proofs and complexity but before array interview patterns. The result is a repeatable way of reasoning from contracts to implementation, not an additional advanced case study.
+
+`modular-programming-interfaces` teaches function boundaries, module names, explicit effects and testable procedural composition **before** object-oriented design, SOLID or patterns. The worked example is intentionally independent of databases, messaging, networking and framework selection.
+
+Publishing sequence: first make input/output behavior, invariants and module responsibilities clear; then use more complex systems to demonstrate the concepts. New specialized infrastructure articles are not the current priority. Tests of included code check specified behavior but are not a substitute for independent curricular review.
+
 ## Curriculum, in prerequisite order
 
 1. **Mathematical and computational reasoning:** discrete logic, proof techniques, program semantics, sets, counting, probability, number representation, asymptotic complexity, recursion.
