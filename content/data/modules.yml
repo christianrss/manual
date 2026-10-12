@@ -4,6 +4,7 @@ foundations:
   - programming-control-flow-functions
   - data-types-bytes-and-representation
   - program-memory-references-lifetimes
+  - c-pointers-arrays-object-lifetimes
   - discrete-counting-probability
   - discrete-relations-orders
   - number-theory-divisibility-euclid
@@ -144,5 +145,6 @@ interview-practice:
   - usage-metering-system-design-assessment
 computer-architecture:
   - digital-logic-gates-binary-adders
+  - sequential-logic-registers-state-machines
   - machine-representation-isa-cache
   - cpu-pipeline-hazards-branch-prediction
