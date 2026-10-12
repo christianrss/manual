@@ -30,6 +30,7 @@ foundations:
   - recurrence-analysis
 algorithms:
   - abstract-data-types-representation-invariants
+  - resizable-arrays-capacity-amortized-cost
   - arrays-and-strings
   - backtracking-search
   - binary-search
@@ -155,4 +156,5 @@ computer-architecture:
   - digital-logic-gates-binary-adders
   - sequential-logic-registers-state-machines
   - machine-representation-isa-cache
+  - cpu-datapath-fetch-decode-execute
   - cpu-pipeline-hazards-branch-prediction
