@@ -2,6 +2,14 @@
 
 Review date: 2026-10-12. This manual is an independent educational reference, not official Amazon material or a guarantee of hiring.
 
+## Foundations-first editorial policy (2026-10-12)
+
+The main Amazon learning sequence must teach the **meaning and mechanics** of a concept before specialized implementations. Its baseline begins with control flow, functions, contracts, array reasoning, complexity, algorithm patterns and object/module design, then introduces relational keys and SQL, HTTP client-server semantics and a minimal requirements-to-data system-design method. Advanced failure-injection laboratories and complex distributed case studies are **optional applications**, not evidence that the corresponding fundamentals are taught.
+
+Three bilingual foundational chapters now close concrete gaps: `programming-control-flow-functions` (branching, functions, scope and a proved linear loop), `relational-model-sql-basics` (relations, keys, normalization, joins and integrity), and `http-client-server-fundamentals` (requests, responses, methods, idempotence and statuses). Both tracks incorporate these before deeper topics. The Amazon track moves system-design case studies out of the main introductory sequence; canonical URLs remain intact.
+
+The next editorial reviews should prioritize conceptual sequence, correctness of basic examples, modularization and data structures over database failover, consensus, VM implementation, or specialized infrastructure. Automated passing tests establish executable contracts only, not curriculum mastery or peer-reviewed completeness.
+
 ## Curriculum, in prerequisite order
 
 1. **Mathematical and computational reasoning:** discrete logic, proof techniques, program semantics, sets, counting, probability, number representation, asymptotic complexity, recursion.
