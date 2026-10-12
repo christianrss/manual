@@ -51,6 +51,52 @@ O código define uma soma direta da esquerda para a direita e uma soma compensad
 
 Um segundo exemplo compara o racional exato representado pelo float 0.1 com a fração matemática um décimo. Não são iguais; reorganizar um laço de somatório não consegue eliminar o erro inicial de representação.
 
+~~~python
+import math
+from fractions import Fraction
+
+def check_float(value):
+    if type(value) is not float or not math.isfinite(value):
+        raise ValueError("finite Python floats only")
+    return value
+
+def naive_sum(values):
+    total = 0.0
+    for item in values:
+        value = check_float(item)
+        total += value
+        if not math.isfinite(total):
+            raise OverflowError("nonfinite intermediate sum")
+    return total
+
+def neumaier_sum(values):
+    total = 0.0
+    correction = 0.0
+    for item in values:
+        value = check_float(item)
+        next_total = total + value
+        if not math.isfinite(next_total):
+            raise OverflowError("nonfinite intermediate sum")
+        if abs(total) >= abs(value):
+            correction += (total - next_total) + value
+        else:
+            correction += (value - next_total) + total
+        if not math.isfinite(correction):
+            raise OverflowError("nonfinite correction")
+        total = next_total
+    result = total + correction
+    if not math.isfinite(result):
+        raise OverflowError("nonfinite final sum")
+    return result
+
+values = [1e16, 1.0, -1e16]
+assert naive_sum(values) == 0.0
+assert neumaier_sum(values) == 1.0
+assert math.fsum(values) == 1.0
+assert sum((Fraction.from_float(v) for v in values)) == 1
+assert Fraction.from_float(0.1) != Fraction(1, 10)
+~~~
+
 ## Invariante de laço e limites
 
 Na soma direta, o estado acumulado após i iterações é o resultado das adições de ponto flutuante, da esquerda para a direita, nos primeiros i valores. É descrição exata do programa implementado, não da soma matemática real.
