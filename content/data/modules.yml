@@ -10,6 +10,8 @@ foundations:
   - typed-functions-call-frames-closures
   - mutable-cells-recursive-functions
   - lexical-addresses-bytecode-verification
+  - versioned-bytecode-serialization
+  - tracing-garbage-collection-reachability
   - complexity-analysis
   - recursion-call-stack
   - recurrence-analysis
