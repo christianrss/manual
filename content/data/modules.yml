@@ -77,6 +77,8 @@ security:
   - oauth-pkce-token-security
 databases:
   - relational-model-sql-basics
+  - sqlite-parameterized-crud-transactions
+  - sqlite-schema-migrations-user-version
   - database-consistency
   - database-replication-failover
   - database-storage-wal
