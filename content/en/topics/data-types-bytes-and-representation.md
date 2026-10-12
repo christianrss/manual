@@ -38,7 +38,7 @@ Alternatives include integer counts of the smallest defined unit (for example ce
 
 ## Text is not a raw byte sequence
 
-A Unicode string is a sequence of code points in Python, whereas bytes stores integers in the range 0..255. UTF-8 encodes Unicode text as a variable-length byte sequence [4]. Therefore `len("Ação")` is four code points, while `len("Ação".encode("utf-8"))` is five bytes because "ç" requires more than one UTF-8 byte. A user-perceived grapheme can even contain multiple code points, so neither count automatically gives the number of visual characters.
+A Unicode string is a sequence of code points in Python, whereas bytes stores integers in the range 0..255. UTF-8 encodes Unicode text as a variable-length byte sequence [4]. Therefore `len("Ação")` is four code points, while `len("Ação".encode("utf-8"))` is six bytes because "ç" requires more than one UTF-8 byte. A user-perceived grapheme can even contain multiple code points, so neither count automatically gives the number of visual characters.
 
 Use `str.encode("utf-8")` to obtain bytes and `bytes.decode("utf-8", errors="strict")` to restore text. Invalid byte sequences can be rejected rather than silently replaced. Some systems normalize Unicode text before comparing identifiers; that policy is separate from UTF-8 encoding. Never cut a UTF-8 sequence at an arbitrary byte offset and assume the result still decodes.
 
@@ -46,7 +46,7 @@ Use `str.encode("utf-8")` to obtain bytes and `bytes.decode("utf-8", errors="str
 
 Define a minimal teaching format for a labeled unsigned counter. Its wire representation is: one byte N, followed by exactly N UTF-8 bytes for a nonempty label, followed by a two-byte unsigned count in little-endian order. Require 1 ≤ N ≤ 255 and 0 ≤ count ≤ 65535. The decoder must consume **the entire record**: accepting extra bytes would make the interpretation ambiguous when the caller assumes there is only one record.
 
-For label "Ação", UTF-8 uses five bytes, so the first byte must be 5. For the count 513, the final bytes are 1 and 2. A valid record is therefore eight bytes total: one length byte, five text bytes and two count bytes. The encoder and decoder must agree on both length and endianness. This is deliberately a small representation exercise, not a production protocol: it has no version field, authentication, checksum or framing across multiple records.
+For label "Ação", UTF-8 uses six bytes, so the first byte must be 6. For the count 513, the final bytes are 1 and 2. A valid record is therefore nine bytes total: one length byte, six text bytes and two count bytes. The encoder and decoder must agree on both length and endianness. This is deliberately a small representation exercise, not a production protocol: it has no version field, authentication, checksum or framing across multiple records.
 
 ~~~python
 def encode_record(label, count):
@@ -72,7 +72,7 @@ def decode_record(data):
     return (label, count)
 
 example = encode_record("Ação", 513)
-assert example[0] == len("Ação".encode("utf-8")) == 5
+assert example[0] == len("Ação".encode("utf-8")) == 6
 assert example[-2:] == bytes([1, 2])
 assert decode_record(example) == ("Ação", 513)
 assert decode_record(encode_record("max", 65535)) == ("max", 65535)
