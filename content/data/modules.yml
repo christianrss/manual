@@ -3,6 +3,8 @@ foundations:
   - programming-semantics-contracts
   - programming-control-flow-functions
   - data-types-bytes-and-representation
+  - floating-point-error-compensated-summation
+  - online-mean-variance-welford
   - program-memory-references-lifetimes
   - python-error-contracts-resource-cleanup
   - python-files-utf8-json-validation
