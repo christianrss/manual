@@ -54,6 +54,59 @@ This is an exception-safety guarantee, not a promise that overflow can always be
 
 After receiving at least one valid observation, summary returns count, mean, population variance and sample variance or None. Repeated summary calls do not modify state; this is useful when observing a stream while data collection continues.
 
+~~~python
+import math
+
+class OnlineMoments:
+    def __init__(self):
+        self.count = 0
+        self.mean = 0.0
+        self.m2 = 0.0
+
+    def add(self, value):
+        if type(value) is not float or not math.isfinite(value):
+            raise ValueError("finite Python float required")
+        next_count = self.count + 1
+        delta = value - self.mean
+        next_mean = self.mean + delta / next_count
+        delta2 = value - next_mean
+        next_m2 = self.m2 + delta * delta2
+        if not all(math.isfinite(v) for v in
+                   (delta, next_mean, delta2, next_m2)):
+            raise OverflowError("nonfinite numerical intermediate")
+        self.count = next_count
+        self.mean = next_mean
+        self.m2 = next_m2
+
+    def summary(self):
+        if self.count == 0:
+            raise ValueError("no observations")
+        return {
+            "count": self.count,
+            "mean": self.mean,
+            "population_variance": self.m2 / self.count,
+            "sample_variance":
+                self.m2 / (self.count - 1) if self.count > 1 else None,
+        }
+
+acc = OnlineMoments()
+for x in (1e12 + 0.25, 1e12 + 0.5, 1e12 + 0.75):
+    acc.add(x)
+result = acc.summary()
+assert result["count"] == 3
+assert result["mean"] == 1e12 + 0.5
+assert math.isclose(result["population_variance"], 1 / 24,
+                    rel_tol=1e-14)
+assert result["sample_variance"] == 1 / 16
+try:
+    acc.add(float("nan"))
+except ValueError:
+    pass
+else:
+    raise AssertionError("NaN accepted")
+assert acc.summary() == result
+~~~
+
 ## Verify using exact rational arithmetic
 
 Python fractions can represent each finite input float exactly with Fraction.from_float [4]. For small test sequences, calculate the exact rational mean and squared deviations from those represented input values, then convert the final rational reference to float for comparison.
