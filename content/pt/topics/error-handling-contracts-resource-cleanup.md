@@ -38,6 +38,55 @@ O parser valida a estrutura textual e devolve a estação e o valor inteiro. Um 
 
 O exemplo também incluirá verificações independentes de limites permitidos, texto não numérico, tipos inadequados e campos ausentes. Não inventa medições faltantes nem tenta deduzir uma estação a partir de identificador inválido.
 
+~~~python
+import io
+
+class ReadingError(ValueError):
+    """Invalid temperature reading."""
+
+def parse_reading(text):
+    if type(text) is not str:
+        raise TypeError("record must be text")
+    fields = text.strip().split(",")
+    if len(fields) != 2:
+        raise ReadingError("expected STATION,CENTIDEGREES")
+    station, value_text = (field.strip() for field in fields)
+    if (not 2 <= len(station) <= 8 or not station.isascii()
+            or not station.isalpha() or not station.isupper()):
+        raise ReadingError("station must be uppercase ASCII letters")
+    try:
+        value = int(value_text)
+    except ValueError as exc:
+        raise ReadingError("temperature must be an integer") from exc
+    if not -4000 <= value <= 8500:
+        raise ReadingError("temperature outside permitted range")
+    return station, value
+
+def sum_by_station(records):
+    totals = {}
+    for line_no, record in enumerate(records, 1):
+        try:
+            station, value = parse_reading(record)
+        except ReadingError as exc:
+            raise ReadingError(f"record {line_no}: {exc}") from exc
+        totals[station] = totals.get(station, 0) + value
+    return dict(sorted(totals.items()))
+
+with io.StringIO("SP,120\nSP,150\nRJ,-50\n") as stream:
+    assert sum_by_station(stream) == {"RJ": -50, "SP": 270}
+assert stream.closed
+
+bad_stream = io.StringIO("SP,120\nRJ,invalid\n")
+try:
+    with bad_stream:
+        sum_by_station(bad_stream)
+except ReadingError as exc:
+    assert "record 2" in str(exc)
+else:
+    raise AssertionError("invalid input accepted")
+assert bad_stream.closed
+~~~
+
 ## Demonstre a propriedade de segurança diante de erros
 
 Após processar i registros aceitos, o dicionário local de totais contém a soma dos valores de cada estação exatamente nesses primeiros i registros. Esse é o invariante do laço. Inicialmente o mapeamento está vazio, e acrescentar a próxima medição válida preserva a afirmação. Ao terminar normalmente, o dicionário retornado satisfaz a pós-condição para toda a entrada.
