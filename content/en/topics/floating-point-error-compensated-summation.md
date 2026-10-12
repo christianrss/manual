@@ -51,6 +51,52 @@ The sample defines a direct left-to-right sum and a Neumaier compensated sum wit
 
 A second example compares the exact rational value represented by the float 0.1 with the intended mathematical fraction one tenth. These are not equal; no rearrangement of a summation loop can eliminate that initial representation error.
 
+~~~python
+import math
+from fractions import Fraction
+
+def check_float(value):
+    if type(value) is not float or not math.isfinite(value):
+        raise ValueError("finite Python floats only")
+    return value
+
+def naive_sum(values):
+    total = 0.0
+    for item in values:
+        value = check_float(item)
+        total += value
+        if not math.isfinite(total):
+            raise OverflowError("nonfinite intermediate sum")
+    return total
+
+def neumaier_sum(values):
+    total = 0.0
+    correction = 0.0
+    for item in values:
+        value = check_float(item)
+        next_total = total + value
+        if not math.isfinite(next_total):
+            raise OverflowError("nonfinite intermediate sum")
+        if abs(total) >= abs(value):
+            correction += (total - next_total) + value
+        else:
+            correction += (value - next_total) + total
+        if not math.isfinite(correction):
+            raise OverflowError("nonfinite correction")
+        total = next_total
+    result = total + correction
+    if not math.isfinite(result):
+        raise OverflowError("nonfinite final sum")
+    return result
+
+values = [1e16, 1.0, -1e16]
+assert naive_sum(values) == 0.0
+assert neumaier_sum(values) == 1.0
+assert math.fsum(values) == 1.0
+assert sum((Fraction.from_float(v) for v in values)) == 1
+assert Fraction.from_float(0.1) != Fraction(1, 10)
+~~~
+
 ## A loop invariant and its limitations
 
 For naive addition, the accumulated state after i iterations is the result of left-to-right floating additions on the first i input floats. This is an exact description of the implemented computation, not of the mathematical real-number sum.
