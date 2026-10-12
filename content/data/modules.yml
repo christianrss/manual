@@ -90,6 +90,8 @@ distributed-systems:
   - rate-limiting
 engineering:
   - modular-programming-interfaces
+  - error-handling-contracts-resource-cleanup
+  - file-io-json-schema-safe-updates
   - git-version-control-commits-branches
   - build-dependency-graphs-gnu-make
   - clean-code-cohesion-coupling
