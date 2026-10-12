@@ -4,6 +4,8 @@ foundations:
   - programming-control-flow-functions
   - data-types-bytes-and-representation
   - program-memory-references-lifetimes
+  - python-error-contracts-resource-cleanup
+  - python-files-utf8-json-validation
   - c-pointers-arrays-object-lifetimes
   - c-compilation-object-files-linking
   - discrete-counting-probability
