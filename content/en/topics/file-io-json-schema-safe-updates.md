@@ -46,6 +46,100 @@ If serialization or validation fails, the previous file is not opened for overwr
 
 Using the same directory keeps the temporary file on the destination filesystem under normal directory behavior and avoids relying on cross-filesystem rename. On supported POSIX systems, a successful rename replacement is atomic at the namespace level. This is not a promise of durability after power loss.
 
+~~~python
+import json
+import os
+import tempfile
+from pathlib import Path
+
+FIELDS = {"id", "title", "completed"}
+
+def validate_notes(notes):
+    if type(notes) is not list:
+        raise ValueError("expected a list of notes")
+    seen = set()
+    result = []
+    for note in notes:
+        if type(note) is not dict or set(note) != FIELDS:
+            raise ValueError("note fields must match the schema")
+        note_id, title, completed = (note["id"], note["title"],
+                                     note["completed"])
+        if type(note_id) is not int or not 1 <= note_id <= 1_000_000:
+            raise ValueError("id must be a positive bounded integer")
+        if note_id in seen:
+            raise ValueError("duplicate note id")
+        if (type(title) is not str or not 1 <= len(title) <= 80
+                or title != title.strip()):
+            raise ValueError("invalid title")
+        if type(completed) is not bool:
+            raise ValueError("completed must be Boolean")
+        seen.add(note_id)
+        result.append({"id": note_id, "title": title,
+                       "completed": completed})
+    return result
+
+def unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate JSON object key")
+        result[key] = value
+    return result
+
+def reject_constant(value):
+    raise ValueError("nonstandard JSON constant")
+
+def load_notes(path):
+    with Path(path).open("r", encoding="utf-8") as handle:
+        content = handle.read(100_001)
+    if len(content) > 100_000:
+        raise ValueError("document exceeds character limit")
+    try:
+        data = json.loads(content, object_pairs_hook=unique_object,
+                          parse_constant=reject_constant)
+    except json.JSONDecodeError as exc:
+        raise ValueError("invalid JSON syntax") from exc
+    return validate_notes(data)
+
+def save_notes(path, notes):
+    target = Path(path)
+    checked = validate_notes(notes)
+    payload = json.dumps(checked, ensure_ascii=False,
+                         allow_nan=False, indent=2) + "\n"
+    if len(payload) > 100_000:
+        raise ValueError("document exceeds character limit")
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", newline="\n",
+            prefix=".notes-", suffix=".tmp",
+            dir=target.parent, delete=False
+        ) as handle:
+            temporary = Path(handle.name)
+            handle.write(payload)
+        os.replace(temporary, target)
+        temporary = None
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+with tempfile.TemporaryDirectory() as folder:
+    path = Path(folder) / "notes.json"
+    notes = [{"id": 1, "title": "Ação", "completed": False},
+             {"id": 2, "title": "Review", "completed": True}]
+    save_notes(path, notes)
+    previous = path.read_bytes()
+    assert load_notes(path) == notes
+    try:
+        save_notes(path, [{"id": True, "title": "Bad",
+                           "completed": False}])
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("invalid schema accepted")
+    assert path.read_bytes() == previous
+~~~
+
 ## Worked example and negative cases
 
 The accompanying executable code defines a schema validator, a JSON reader and a writer that uses a temporary file. Its own assertions write two records, read them back and reject an invalid title before modifying the existing file.
