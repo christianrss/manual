@@ -38,7 +38,7 @@ Alternativas incluem contagem inteira da menor unidade definida, como centavos, 
 
 ## Texto não é sequência de bytes brutos
 
-String Unicode no Python é sequência de pontos de código; bytes contém inteiros de 0 a 255. UTF-8 codifica texto Unicode com quantidade variável de bytes [4]. Assim, `len("Ação")` vale quatro pontos de código, mas `len("Ação".encode("utf-8"))` vale cinco bytes, pois "ç" exige mais de um byte. Um grafema percebido pelo usuário pode conter múltiplos pontos de código. Logo, nenhuma das contagens necessariamente representa quantidade de caracteres visuais.
+String Unicode no Python é sequência de pontos de código; bytes contém inteiros de 0 a 255. UTF-8 codifica texto Unicode com quantidade variável de bytes [4]. Assim, `len("Ação")` vale quatro pontos de código, mas `len("Ação".encode("utf-8"))` vale seis bytes, pois "ç" exige mais de um byte. Um grafema percebido pelo usuário pode conter múltiplos pontos de código. Logo, nenhuma das contagens necessariamente representa quantidade de caracteres visuais.
 
 Use `str.encode("utf-8")` para gerar bytes e `bytes.decode("utf-8", errors="strict")` para recuperar texto. Sequências de bytes inválidas podem ser rejeitadas em vez de substituídas silenciosamente. Alguns sistemas normalizam Unicode antes de comparar identificadores, mas isso é política diferente da codificação UTF-8. Não corte uma sequência UTF-8 em offset arbitrário de byte e pressuponha que continuará válida.
 
@@ -46,7 +46,7 @@ Use `str.encode("utf-8")` para gerar bytes e `bytes.decode("utf-8", errors="stri
 
 Defina formato didático para contador com rótulo. Seu registro possui: um byte N, seguido de exatamente N bytes UTF-8 de rótulo não vazio, seguido de contador unsigned de dois bytes little-endian. Exija 1 ≤ N ≤ 255 e 0 ≤ contador ≤ 65535. O decodificador deve consumir **todo o registro**; aceitar bytes adicionais gera interpretação ambígua quando o chamador espera somente um registro.
 
-Para "Ação", UTF-8 utiliza cinco bytes, portanto o primeiro byte será 5. Para contador 513, os bytes finais serão 1 e 2. O registro completo possui oito bytes: um de tamanho, cinco de texto e dois de contador. Encoder e decoder precisam concordar sobre comprimento e endianness. É exercício de representação, não protocolo produtivo: não inclui versão, autenticação, checksum nem framing de múltiplos registros.
+Para "Ação", UTF-8 utiliza seis bytes, portanto o primeiro byte será 6. Para contador 513, os bytes finais serão 1 e 2. O registro completo possui nove bytes: um de tamanho, seis de texto e dois de contador. Encoder e decoder precisam concordar sobre comprimento e endianness. É exercício de representação, não protocolo produtivo: não inclui versão, autenticação, checksum nem framing de múltiplos registros.
 
 ~~~python
 def encode_record(label, count):
@@ -72,7 +72,7 @@ def decode_record(data):
     return (label, count)
 
 example = encode_record("Ação", 513)
-assert example[0] == len("Ação".encode("utf-8")) == 5
+assert example[0] == len("Ação".encode("utf-8")) == 6
 assert example[-2:] == bytes([1, 2])
 assert decode_record(example) == ("Ação", 513)
 assert decode_record(encode_record("max", 65535)) == ("max", 65535)
