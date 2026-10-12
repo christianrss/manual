@@ -47,6 +47,12 @@ P0/P1/P2/P3 are **editorial priorities**, not official Amazon weightings. Count 
 
 Editorial states: `draft` → `review requested` → `examples verified` → `technically reviewed`. Existing chapters are **published**, not automatically reviewed. A second independent human review is required before claiming reference-grade status.
 
+## Domain and reservation modeling focus
+
+The core now includes three additional bilingual chapters. Domain aggregates distinguish identity from immutable values and local invariants from distributed authority. Factory Method and Abstract Factory are compared against simple constructor selection, including tests for format-family compatibility and explicit invalid inputs. A ticket-reservation case derives contention, idempotent holds, expiration and authoritative confirmation, with an in-memory model whose limitations are documented.
+
+These chapters follow object design, architecture boundaries and the existing system-design prerequisites. The dedicated regression suite verifies local state and parser contracts. It does **not** certify lock correctness across multiple processes, PostgreSQL reservation concurrency, payment reconciliation, or independently evaluated interview performance. Such demonstrations remain future practical assessment work.
+
 ## Primary objective: Amazon SDE II
 
 The updated track puts introductory reasoning and data structures before algorithms and software design, followed by runtime, system-design cases and independent practice. Compiler construction, bytecode verification and garbage collection remain fully accessible but are grouped under an **optional advanced appendix**, rather than interrupting the entry-level coding sequence. This does not mean they are unimportant to computer science; they are less direct prerequisites for the targeted interview sequence.
