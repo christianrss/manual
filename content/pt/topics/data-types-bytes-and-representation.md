@@ -38,7 +38,7 @@ Alternativas incluem contagem inteira da menor unidade definida, como centavos, 
 
 ## Texto não é sequência de bytes brutos
 
-String Unicode no Python é sequência de pontos de código; bytes contém inteiros de 0 a 255. UTF-8 codifica texto Unicode com quantidade variável de bytes [4]. Assim, `len("Ação")` vale quatro pontos de código, mas `len("Ação".encode("utf-8"))` vale seis bytes, pois "ç" exige mais de um byte. Um grafema percebido pelo usuário pode conter múltiplos pontos de código. Logo, nenhuma das contagens necessariamente representa quantidade de caracteres visuais.
+String Unicode no Python é sequência de pontos de código; bytes contém inteiros de 0 a 255. UTF-8 codifica texto Unicode com quantidade variável de bytes [4]. Assim, `len("Ação")` vale quatro pontos de código, mas `len("Ação".encode("utf-8"))` vale seis bytes, pois "ç" e "ã" ocupam dois bytes UTF-8 cada. Um grafema percebido pelo usuário pode conter múltiplos pontos de código. Logo, nenhuma das contagens necessariamente representa quantidade de caracteres visuais.
 
 Use `str.encode("utf-8")` para gerar bytes e `bytes.decode("utf-8", errors="strict")` para recuperar texto. Sequências de bytes inválidas podem ser rejeitadas em vez de substituídas silenciosamente. Alguns sistemas normalizam Unicode antes de comparar identificadores, mas isso é política diferente da codificação UTF-8. Não corte uma sequência UTF-8 em offset arbitrário de byte e pressuponha que continuará válida.
 
