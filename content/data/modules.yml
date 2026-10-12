@@ -5,6 +5,7 @@ foundations:
   - data-types-bytes-and-representation
   - program-memory-references-lifetimes
   - c-pointers-arrays-object-lifetimes
+  - c-compilation-object-files-linking
   - discrete-counting-probability
   - discrete-relations-orders
   - number-theory-divisibility-euclid
@@ -47,6 +48,7 @@ algorithms:
   - tries-prefix-search
   - two-pointers-prefix-sums
 operating-systems:
+  - process-cli-arguments-environment-exit-status
   - processes-virtual-memory
   - heap-allocation-fragmentation
   - file-descriptors-buffering-fsync
