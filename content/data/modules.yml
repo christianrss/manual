@@ -15,6 +15,7 @@ foundations:
   - tracing-garbage-collection-reachability
   - integrated-vm-mark-sweep-gc
   - complexity-analysis
+  - algorithmic-problem-solving-method
   - recursion-call-stack
   - recurrence-analysis
 algorithms:
@@ -78,6 +79,7 @@ distributed-systems:
   - caching
   - rate-limiting
 engineering:
+  - modular-programming-interfaces
   - clean-code-cohesion-coupling
   - object-oriented-design
   - solid-dependency-inversion
