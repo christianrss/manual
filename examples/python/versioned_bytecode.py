@@ -80,7 +80,10 @@ def _slot(value, *, decode=False, depth=0):
             raise WireFormatError("invalid slot record")
         return SlotInfo(value[0],_typ(value[1],decode=True,depth=depth+1),
                         value[2],value[3],value[4])
-    if not isinstance(value,SlotInfo):
+    if (not isinstance(value,SlotInfo) or type(value.name) is not str or
+        not re.fullmatch("[A-Za-z_][A-Za-z0-9_]{0,79}",value.name) or
+        any(type(x) is not bool for x in
+            (value.writable,value.recursive,value.initialized))):
         raise WireFormatError("invalid slot")
     return [value.name,_typ(value.typ,depth=depth+1),
             value.writable,value.recursive,value.initialized]
@@ -146,7 +149,15 @@ def _block(value, *, decode=False, depth=0, counts=None, seen=None):
             if type(arg) is not tuple or len(arg) != 2:
                 raise WireFormatError("invalid address")
             payload = list(arg)
+        elif op in ("PUSH_INT","CALL","JUMP","JUMP_IF_FALSE","INIT_REC_SLOT"):
+            payload = _integer(arg,nonnegative=op!="PUSH_INT")
+        elif op == "PUSH_BOOL":
+            if type(arg) is not bool:
+                raise WireFormatError("invalid bool immediate")
+            payload = arg
         else:
+            if arg is not None:
+                raise WireFormatError("unexpected instruction argument")
             payload = arg
         ops.append([op,payload,_integer(offset,nonnegative=True)])
     counts[1] += len(ops)
