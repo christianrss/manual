@@ -8,7 +8,7 @@ The main Amazon learning sequence must teach the **meaning and mechanics** of a 
 
 The bilingual foundational sequence now includes `programming-control-flow-functions`, `data-types-bytes-and-representation`, `programming-semantics-contracts`, `complexity-analysis`, `algorithmic-problem-solving-method` and `abstract-data-types-representation-invariants` before specialized algorithms. It also teaches relational SQL and HTTP semantics before advanced persistence and APIs. Both tracks preserve prerequisites and the Amazon track reserves complex system-design case studies for optional later work; canonical URLs remain unchanged.
 
-The next editorial reviews should prioritize conceptual sequence, correctness of basic examples, modularization and data structures over database failover, consensus, VM implementation, or specialized infrastructure. Automated passing tests establish executable contracts only, not curriculum mastery or peer-reviewed completeness.
+The sequence now also includes introductory Boolean combinational circuits before CPU representations, and reference aliasing/copy-on-write before object design. These clarify how bits become arithmetic and how program names map to shared objects without requiring hardware simulators or memory-management laboratories. The next editorial reviews should prioritize conceptual sequence, correctness of basic examples, modularization and data structures over database failover, consensus, VM implementation, or specialized infrastructure. Automated passing tests establish executable contracts only, not curriculum mastery or peer-reviewed completeness.
 
 ## Fundamentals: algorithmic reasoning and modular programming (2026-10-12)
 
