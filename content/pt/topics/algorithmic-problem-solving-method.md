@@ -17,7 +17,7 @@ Algoritmo não é somente código que devolve a resposta esperada num exemplo. �
 
 Dada uma sequência ordenada de preços diários, encontre um dia de compra e um dia **posterior** de venda que maximizem lucro estritamente positivo. Comprar e vender no mesmo dia é proibido. Os preços são inteiros não negativos em unidades hipotéticas; impostos, conversão monetária, taxas e venda a descoberto ficam de fora. Caso não exista lucro positivo, devolva None. Em empates de lucro máximo, selecione primeiro o menor índice de compra e depois o menor índice de venda. O retorno é uma tripla de índices e lucro.
 
-A especificação elimina ambiguidades. Numa sequência decrescente não existe operação lucrativa válida; não se deve devolver lucro negativo só porque a venda pode acontecer. Preços iguais não geram lucro positivo. Zero é preço permitido. Inteiros evitam imprecisões binárias desnecessárias neste exemplo, mas aplicações financeiras reais exigem políticas de precisão, moeda e limites de magnitude.
+A especificação elimina ambiguidades. Numa sequência decrescente não existe operação lucrativa válida; não se deve devolver lucro negativo só porque a venda pode acontecer. Preços iguais não geram lucro positivo. Zero é preço permitido. Inteiros evitam imprecisões binárias desnecessárias neste exemplo, mas aplicações financeiras reais exigem políticas de precisão, moeda e limites de magnitude. Em Python, bool é subclasse de int; por isso o exemplo executável rejeita preços booleanos verificando o tipo exato [3].
 
 ## Transforme exemplos em afirmações matemáticas
 
