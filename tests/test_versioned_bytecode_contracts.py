@@ -9,13 +9,14 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/"scripts"))
+sys.path.insert(0,str(ROOT/"tests"))
 from model import load_articles,load_modules,load_tracks
 from examples.python.lexical_slot_verifier import compile_slots,run_slots,BytecodeError
 from examples.python.versioned_bytecode import (
     dump_bytecode,load_bytecode,evaluate_wire,WireFormatError,
     MAGIC,VERSION,MAX_BYTES,
 )
-from tests.test_mutable_recursion_compiler_contracts import CASES, direct_eval
+from test_mutable_recursion_compiler_contracts import CASES, direct_eval
 from examples.python.stateful_function_compiler import parse_stateful
 
 TOPIC="versioned-bytecode-serialization"
