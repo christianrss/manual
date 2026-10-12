@@ -88,6 +88,8 @@ distributed-systems:
   - rate-limiting
 engineering:
   - modular-programming-interfaces
+  - git-version-control-commits-branches
+  - build-dependency-graphs-gnu-make
   - clean-code-cohesion-coupling
   - object-oriented-design
   - solid-dependency-inversion
