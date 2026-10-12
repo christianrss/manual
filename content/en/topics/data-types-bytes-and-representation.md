@@ -38,7 +38,7 @@ Alternatives include integer counts of the smallest defined unit (for example ce
 
 ## Text is not a raw byte sequence
 
-A Unicode string is a sequence of code points in Python, whereas bytes stores integers in the range 0..255. UTF-8 encodes Unicode text as a variable-length byte sequence [4]. Therefore `len("Ação")` is four code points, while `len("Ação".encode("utf-8"))` is six bytes because "ç" requires more than one UTF-8 byte. A user-perceived grapheme can even contain multiple code points, so neither count automatically gives the number of visual characters.
+A Unicode string is a sequence of code points in Python, whereas bytes stores integers in the range 0..255. UTF-8 encodes Unicode text as a variable-length byte sequence [4]. Therefore `len("Ação")` is four code points, while `len("Ação".encode("utf-8"))` is six bytes because both "ç" and "ã" require two UTF-8 bytes. A user-perceived grapheme can even contain multiple code points, so neither count automatically gives the number of visual characters.
 
 Use `str.encode("utf-8")` to obtain bytes and `bytes.decode("utf-8", errors="strict")` to restore text. Invalid byte sequences can be rejected rather than silently replaced. Some systems normalize Unicode text before comparing identifiers; that policy is separate from UTF-8 encoding. Never cut a UTF-8 sequence at an arbitrary byte offset and assume the result still decodes.
 
