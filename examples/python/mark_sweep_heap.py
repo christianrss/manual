@@ -53,10 +53,10 @@ class HeapModel:
         """Allocate a vertex pointing only to existing objects."""
         if kind not in KINDS:
             raise ValueError("unsupported object kind")
-        if len(self.objects) >= self.capacity:
-            raise MemoryError("bounded heap is full")
         links = self._addresses(references)
         self._check_present(links)
+        if len(self.objects) >= self.capacity:
+            raise MemoryError("bounded heap is full")
         address = self.next_id
         self.next_id += 1
         self.objects[address] = HeapObject(kind, links)
