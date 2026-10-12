@@ -5,7 +5,7 @@ description: "Learn branches, loops, functions, scope and invariants by tracing 
 category: foundations
 difficulty: foundational
 updated: 2026-10-12
-prerequisites: [programming-semantics-contracts]
+prerequisites: []
 sources:
   - {title: "Python tutorial — Control flow tools", url: "https://docs.python.org/3/tutorial/controlflow.html", kind: "official programming tutorial"}
   - {title: "Python language reference — Compound statements", url: "https://docs.python.org/3/reference/compound_stmts.html", kind: "official language reference"}
