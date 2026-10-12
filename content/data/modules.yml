@@ -1,6 +1,7 @@
 foundations:
   - logic-proofs-invariants
   - programming-semantics-contracts
+  - programming-control-flow-functions
   - discrete-counting-probability
   - discrete-relations-orders
   - formal-languages-finite-automata
@@ -49,6 +50,7 @@ operating-systems:
   - memory-ordering-atomics
   - cpp17-concurrency-implementation
 networking:
+  - http-client-server-fundamentals
   - ip-routing-dns-resolution
   - ipv4-fragmentation-path-mtu
   - dns-authoritative-negative-cname
@@ -60,6 +62,7 @@ security:
   - api-security
   - oauth-pkce-token-security
 databases:
+  - relational-model-sql-basics
   - database-consistency
   - database-replication-failover
   - database-storage-wal
