@@ -86,8 +86,10 @@ class FoundationsFirstTests(unittest.TestCase):
         for track in load_tracks()[:2]:
             sections = track["sections"]
             flattened = [a for section in sections for a in section["articles"]]
-            self.assertLess(flattened.index("programming-semantics-contracts"),
-                            flattened.index("programming-control-flow-functions"))
+            self.assertLess(flattened.index("programming-control-flow-functions"),
+                            flattened.index("logic-proofs-invariants"))
+            self.assertLess(flattened.index("programming-control-flow-functions"),
+                            flattened.index("programming-semantics-contracts"))
             for slug in ("relational-model-sql-basics", "http-client-server-fundamentals"):
                 self.assertIn(slug, flattened)
                 self.assertLess(flattened.index("programming-control-flow-functions"),
