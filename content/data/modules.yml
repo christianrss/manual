@@ -78,12 +78,14 @@ engineering:
   - clean-code-cohesion-coupling
   - object-oriented-design
   - solid-dependency-inversion
+  - architecture-dependency-boundaries
   - testing-maintainability
   - testing-strategies
   - maintainable-implementation-workshop
   - debugging-profiling
   - refactoring-design-patterns
   - design-pattern-families
+  - state-command-design-patterns
   - ci-cd-release-engineering
   - software-project-lifecycle
   - low-level-design
@@ -93,6 +95,7 @@ engineering:
 system-design:
   - capacity-estimation
   - system-design-process
+  - system-design-read-write-models
   - system-design-architecture-review
   - system-design-feed
   - system-design-notifications

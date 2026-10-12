@@ -1,6 +1,6 @@
 # Engineering Manual — Curriculum and Editorial Governance
 
-Review date: 2026-10-11. This manual is an independent educational reference, not official Amazon material or a guarantee of hiring.
+Review date: 2026-10-12. This manual is an independent educational reference, not official Amazon material or a guarantee of hiring.
 
 ## Curriculum, in prerequisite order
 
@@ -48,6 +48,17 @@ P0/P1/P2/P3 are **editorial priorities**, not official Amazon weightings. Count 
 Editorial states: `draft` → `review requested` → `examples verified` → `technically reviewed`. Existing chapters are **published**, not automatically reviewed. A second independent human review is required before claiming reference-grade status.
 
 ## Primary objective: Amazon SDE II
+
+The updated track puts introductory reasoning and data structures before algorithms and software design, followed by runtime, system-design cases and independent practice. Compiler construction, bytecode verification and garbage collection remain fully accessible but are grouped under an **optional advanced appendix**, rather than interrupting the entry-level coding sequence. This does not mean they are unimportant to computer science; they are less direct prerequisites for the targeted interview sequence.
+
+Three new bilingual chapters cover distinct gaps without duplicating existing work:
+
+- **Architecture dependency boundaries:** compare layered and hexagonal code dependencies, derive a modular-monolith choice and enforce permissible module imports with executable counterexamples.
+- **State and Command:** distinguish lifecycle polymorphism from encapsulated requests, specify invalid transitions and version conflicts, and separate retry safety from durable idempotent success.
+- **Read/write system-design models:** distinguish authoritative writes from optionally stale query projections, define versioned replay, compute backlog, and examine durable recovery and read-your-writes.
+
+These are *published-source candidates* until release validation and live deployment are verified. Their in-memory Python checks do not establish transaction or network semantics. Further independent evaluation and human review remain required.
+
 
 The dedicated track prioritizes applied data structures and algorithms, syntactically valid coding without an IDE, correctness and edge cases, maintainable object design, system design and evidence-based communication. No core chapter depends on RabbitMQ quorum or PostgreSQL fencing experiments.
 
