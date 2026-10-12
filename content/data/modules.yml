@@ -12,6 +12,7 @@ foundations:
   - lexical-addresses-bytecode-verification
   - versioned-bytecode-serialization
   - tracing-garbage-collection-reachability
+  - integrated-vm-mark-sweep-gc
   - complexity-analysis
   - recursion-call-stack
   - recurrence-analysis
