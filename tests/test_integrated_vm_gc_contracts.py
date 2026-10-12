@@ -79,6 +79,20 @@ class IntegratedGCContracts(unittest.TestCase):
         self.assertGreater(output.collections,1)
         self.assertEqual(output.live_objects,0)
 
+    def test_full_heap_collection_preserves_popped_initializer_closure(self):
+        # A temporary immediately-invoked closure is now garbage. The next
+        # closure initializer has been popped off the operand stack exactly
+        # when BIND_SLOT needs a new cell. Only a temporary root protects it.
+        source = ("let tmp:Int=(fn()->Int=>1)() in "
+                  "var x:Int=2 in "
+                  "var f:Fn()->Int=fn()->Int=>x in f()")
+        result=run_managed(compile_slots(source),capacity=3,gc_interval=1000)
+        self.assertEqual(result.value,Fraction(2))
+        self.assertEqual(result.live_objects,0)
+        self.assertGreaterEqual(result.collections,2)
+        self.assertEqual(result.allocated_objects,result.reclaimed)
+        self.assertGreaterEqual(result.allocated_objects,4)
+
     def test_small_heap_budget_and_collection(self):
         source=("var x:Int=1 in let inc:Fn()->Int="
                 "fn()->Int=>set x=x+1 in inc()+inc()")
