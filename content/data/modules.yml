@@ -3,6 +3,7 @@ foundations:
   - programming-semantics-contracts
   - programming-control-flow-functions
   - data-types-bytes-and-representation
+  - program-memory-references-lifetimes
   - discrete-counting-probability
   - discrete-relations-orders
   - formal-languages-finite-automata
@@ -140,5 +141,6 @@ interview-practice:
   - adaptive-system-design-assessment
   - usage-metering-system-design-assessment
 computer-architecture:
+  - digital-logic-gates-binary-adders
   - machine-representation-isa-cache
   - cpu-pipeline-hazards-branch-prediction
