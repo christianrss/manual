@@ -79,6 +79,7 @@ engineering:
   - object-oriented-design
   - solid-dependency-inversion
   - architecture-dependency-boundaries
+  - domain-modeling-aggregates-invariants
   - testing-maintainability
   - testing-strategies
   - maintainable-implementation-workshop
@@ -86,6 +87,7 @@ engineering:
   - refactoring-design-patterns
   - design-pattern-families
   - state-command-design-patterns
+  - factory-method-abstract-factory
   - ci-cd-release-engineering
   - software-project-lifecycle
   - low-level-design
@@ -100,6 +102,7 @@ system-design:
   - system-design-feed
   - system-design-notifications
   - system-design-order-service
+  - system-design-ticket-reservations
   - url-shortener
   - service-boundaries
   - storage-selection
