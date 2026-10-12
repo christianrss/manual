@@ -70,7 +70,7 @@ class NumberTheoryFoundationsTests(unittest.TestCase):
                     for exponent in range(0, 21):
                         self.assertEqual(power(base, exponent, modulus),
                                          pow(base, exponent, modulus))
-            for invalid in ((1, 0, 7), (1, -1, 7), (1, 3, 1),
+            for invalid in ((1, 0, 0), (1, -1, 7), (1, 3, 1),
                             (1, 3, True), (1.0, 3, 7), (2, False, 7)):
                 with self.assertRaises(ValueError):
                     power(*invalid)
