@@ -6,6 +6,8 @@ foundations:
   - program-memory-references-lifetimes
   - discrete-counting-probability
   - discrete-relations-orders
+  - number-theory-divisibility-euclid
+  - modular-arithmetic-inverses-exponentiation
   - formal-languages-finite-automata
   - context-free-grammars-parsing
   - lexing-parsing-expression-compiler
