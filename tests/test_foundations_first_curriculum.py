@@ -101,6 +101,11 @@ class FoundationsFirstTests(unittest.TestCase):
         self.assertIn("system-design-ticket-reservations", optional["articles"])
         self.assertNotIn("system-design-order-service", core_design["articles"])
         self.assertIn("system-design-order-service", optional["articles"])
+        flattened = [slug for section in amazon["sections"] for slug in section["articles"]]
+        self.assertLess(flattened.index("data-partitioning-sharding"),
+                        flattened.index("usage-metering-system-design-assessment"))
+        self.assertLess(amazon["sections"].index(core_design),
+                        amazon["sections"].index(optional))
 
 if __name__ == "__main__":
     unittest.main()
