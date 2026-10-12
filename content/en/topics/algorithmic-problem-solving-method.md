@@ -17,7 +17,7 @@ An algorithm is not merely code that happens to produce an answer for a sample. 
 
 Given an ordered sequence of daily prices, find one purchase day and one **later** sale day that maximize strictly positive profit. Buying and selling on the same day is forbidden. Prices are nonnegative integers representing hypothetical units; taxes, currency conversion, fees and short selling are excluded. If no positive trade exists, return None. If several trades have the same maximum profit, choose the pair with the earliest purchase day and then earliest sale day. The return value is a triple of indices and profit.
 
-This formulation immediately answers several ambiguous questions. A decreasing input has no valid profitable trade; negative profit must not be returned just because a trade is possible. Equal prices do not constitute a positive trade. Zero prices are valid. Integers avoid unnecessary floating-point comparison issues in this example, but do not imply that financial applications should use unlimited integer money without domain-specific limits.
+This formulation immediately answers several ambiguous questions. A decreasing input has no valid profitable trade; negative profit must not be returned just because a trade is possible. Equal prices do not constitute a positive trade. Zero prices are valid. Integers avoid unnecessary floating-point comparison issues in this example, but do not imply that financial applications should use unlimited integer money without domain-specific limits. In Python, bool is a subclass of int, which is why the executable example explicitly rejects Boolean prices with an exact type check [3].
 
 ## Make examples into mathematical claims
 
