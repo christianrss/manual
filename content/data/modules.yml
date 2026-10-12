@@ -2,6 +2,7 @@ foundations:
   - logic-proofs-invariants
   - programming-semantics-contracts
   - programming-control-flow-functions
+  - data-types-bytes-and-representation
   - discrete-counting-probability
   - discrete-relations-orders
   - formal-languages-finite-automata
@@ -19,6 +20,7 @@ foundations:
   - recursion-call-stack
   - recurrence-analysis
 algorithms:
+  - abstract-data-types-representation-invariants
   - arrays-and-strings
   - backtracking-search
   - binary-search
