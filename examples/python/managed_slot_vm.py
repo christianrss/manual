@@ -72,8 +72,8 @@ class _ManagedRuntime:
         roots = list(temporary)
         for frame in self.frames:
             for scope in frame.scopes:
-                roots.extend(self._refs(scope))
-            roots.extend(self._refs(frame.stack))
+                roots.extend(scope)
+            roots.extend(frame.stack)
         return self._refs(roots)
 
     def collect(self, temporary=()):
