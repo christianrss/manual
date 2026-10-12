@@ -64,7 +64,7 @@ class BasicHardwareLanguageTests(unittest.TestCase):
                                           reset=reset, enable=enable):
                             self.assertEqual(counter(state, width, reset, enable),
                                              expected)
-            for bad in ((0, 1, False, False), (1, 1, 0, False),
+            for bad in ((0, 0, False, False), (1, 1, 0, False),
                         (-1, 1, False, False), (0, 2, True, 1)):
                 with self.assertRaises(ValueError):
                     counter(*bad)
